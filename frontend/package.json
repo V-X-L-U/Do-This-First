@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
+    "eslint-config-prettier": "^8.3.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-scripts": "5.0.1",
@@ -16,7 +17,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prepare": "husky install",
+    "prepare": "cd .. && husky install",
     "lint": "eslint --ext .js, --fix .",
     "format": "prettier --write . --ignore-unknown"
   },
@@ -41,6 +42,21 @@
   "devDependencies": {
     "husky": "^8.0.1",
     "lint-staged": "^12.4.1",
-    "prettier": "2.6.2"
+    "prettier": "2.6.2",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jest": "^26.0.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.2.0",
+    "eslint-plugin-react": "^7.28.0"
+  },
+  "lint-staged": {
+    "**/*.js": [
+      "yarn lint",
+      "yarn format"
+    ],
+    "**/*.json": [
+      "yarn format"
+    ]
   }
 }
