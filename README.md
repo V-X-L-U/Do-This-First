@@ -9,7 +9,7 @@ Most of us have things to do every day. Sometimes, these tasks must be done in a
 1. Clone the repository
 
     ``` sh
-    git clone <link to repo>
+    git clone https://github.com/V-X-L-U/Do-This-First.git
     ```
 
 2. Install dependencies (make sure you are the root of the repository)
