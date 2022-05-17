@@ -1,8 +1,8 @@
-# Do This First
+# DoThisFirst
 
 ## Introduction
 
-Most of us have things to do every day. Sometimes, these tasks must be done in a certain order. **Do This First** is a to-do app that supports dependent tasks i.e., tasks that need other tasks to be first completed.
+Most of us have things to do every day. Sometimes, these tasks must be done in a certain order. **DoThisFirst** is a to-do app that supports dependent tasks i.e., tasks that need other tasks to be first completed.
 
 ## Installation
 
