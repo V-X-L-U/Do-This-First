@@ -23,14 +23,15 @@ Most of us have things to do every day. Sometimes, these tasks must be done in a
 
 ## Running the App
 
-1. Run the client (make sure you are at the root of the repository)
+1. Run the server (make sure you are at the root of the repository)
 
     ``` sh
-    cd frontend
+    cd backend
     yarn start
     ```
+Note (for developers): In addition, please provide your IP to be whitelisted on Mongo. Otherwise, your client will refuse to connect.
 
-2. Run the server (make sure you are at the root of the repository)
+2. Run the client (make sure you are at the root of the repository)
 
     ``` sh
     cd frontend
