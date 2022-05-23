@@ -16,8 +16,6 @@ app.use(
 );
 app.use(express.json()); // Allows us to accept JSON data in the body
 
-var router = express.Router();
-
 app.get("/", (req, res) => {
   res.send("API is running...");
   console.log("API is running...");
