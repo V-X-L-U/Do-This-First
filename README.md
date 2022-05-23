@@ -21,15 +21,16 @@ Most of us have things to do every day. Sometimes, these tasks must be done in a
     yarn install
     ```
 
-## Running the App
+## Running the App (development)
 
-1. Run the server (make sure you are at the root of the repository)
+1. Request and add the `.env` to the `backend/` route.
+2. Provide your IP to be whitelisted on Mongo. Otherwise, your client will refuse to connect.
+3. Run the server (make sure you are at the root of the repository)
 
     ``` sh
     cd backend
     yarn start
     ```
-Note (for developers): In addition, please provide your IP to be whitelisted on Mongo. Otherwise, your client will refuse to connect.
 
 2. Run the client (make sure you are at the root of the repository)
 
