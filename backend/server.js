@@ -2,6 +2,7 @@ const express = require("express");
 const connectDB = require("./config/db");
 const cors = require("cors");
 
+const testRouter = require("./routes/mongooseTestRoute");
 const app = express();
 
 // loads .env variables into process.env
@@ -21,6 +22,8 @@ app.get("/", (req, res) => {
   console.log("API is running...");
 });
 
+// testRouter further routes for all URLs starting with /api
+app.use("/api", testRouter);
 
 let server;
 if (process.env.NODE_ENV !== "test") {
