@@ -9,14 +9,18 @@ const createTask = asyncHandler(async (req, res) => {
         res.status(201).json(result);
     }).catch((err) => {
         if (err.name == "ValidationError") {
+            const errorMessage = "Invalid data for a task";
             // 400 --> server won't/can't process request due to a perceived
             // client error
-            res.status(400);
-            throw new Error("Invalid payload for create task");
+            res.status(400).json({ message: errorMessage });
         }
 
+        const errorMessage = "Unable to create task";
         // 500 --> something went wrong server-side
-        res.status(500);
-        throw new Error("Server unable to create task");
+        res.status(500).json({ message: errorMessage });
     });
 });
+
+module.exports = {
+    createTask,
+}

@@ -22,9 +22,9 @@ const taskSchema = mongoose.Schema(
             type: [String],
             required: true,
         },
-        {
-            timestamps: true,
-        }
+    },
+    {
+        timestamps: true,
     }
 );
 
