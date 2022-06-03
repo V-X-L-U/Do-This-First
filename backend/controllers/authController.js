@@ -22,7 +22,7 @@ const registerUser = asyncHandler(async (req, res) => {
       res.status(201).json(result);
     })
     .catch(err => {
-      if (err.name === "VllidationError") {
+      if (err.name === "ValidationError") {
         res
           .status(400)
           .json({ message: "Invalid data for a user", server_err: err.name });
