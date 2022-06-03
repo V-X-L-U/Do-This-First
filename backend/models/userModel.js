@@ -24,7 +24,7 @@ userSchema.methods.verifyPassword = function(passwordProvided) {
 
 userSchema.pre("save", async function(next) {
   // if the password path hasn't changed, then no need to hash
-  if (!this.isModfied("password")) {
+  if (!this.isModified("password")) {
     next();
   }
 

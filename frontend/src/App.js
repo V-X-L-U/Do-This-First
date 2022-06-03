@@ -1,23 +1,35 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { instance } from "./instance";
 import "./App.css";
 
 const App = () => {
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const userData = {
+    email: "valen.ko@gmail.com",
+    password: "vakovkorvalen",
+  };
+
   const testCall = async () => {
     await instance
-      .get("/")
+      .post("/api/auth/register", userData)
       .then((res) => {
-        console.log(res);
+        console.log(res.data);
+        setErrorMessage("User successfully created");
       })
-      .catch(() => {
-        console.log("[ERROR] Test call at / failed");
+      .catch((err) => {
+        console.log(err.response.data);
+        setErrorMessage(err.response.data.message);
       });
   };
 
-  useEffect(() => {
-    testCall();
-  });
-  return <div>Do This First</div>;
+  return (
+    <div>
+      <div>DoThisFirst</div>
+      <button onClick={testCall}>Create User</button>
+      <div>{errorMessage}</div>
+    </div>
+  );
 };
 
 export default App;
