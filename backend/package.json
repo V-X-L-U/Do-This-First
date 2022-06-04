@@ -13,6 +13,8 @@
     "jest": "^28.1.0"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest --passWithNoTests --testTimeout 3000",
+    "show-coverage": "start ./coverage/lcov-report/index.html",
+    "jinit": "jest --init"
   }
 }
