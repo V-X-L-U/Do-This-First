@@ -1,4 +1,6 @@
 const asyncHandler = require("express-async-handler");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const User = require("../models/userModel");
 
@@ -35,4 +37,52 @@ const registerUser = asyncHandler(async (req, res) => {
     });
 });
 
-module.exports = { registerUser };
+const authTokenName = "do_this_first_auth_token";
+
+const loginUser = asyncHandler(async (req, res) => {
+  const userData = await User.findOne({ email: req.body.email });
+  if (!userData) {
+    res.status(400).json({ message: "User does not exist", server_err: "" });
+    return;
+  }
+
+  const passwordMatched = await bcrypt.compare(
+    req.body.password,
+    userData.password
+  );
+  if (!passwordMatched) {
+    res.status(401).json({ message: "Wrong password", server_err: "" });
+    return;
+  }
+
+  const token = jwt.sign(
+    {
+      email: userData.email,
+      _id: userData._id
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "5h"
+    }
+  );
+
+  const options = {
+    maxAge: 5 * 60 * 60 * 1000,
+    httpOnly: true,
+    secure: true,
+    sameSite: "Lax"
+  };
+
+  res.cookie(authTokenName, token, options);
+  res.status(200).json({ message: "Logged in successfully", server_err: "" });
+});
+
+const logoutUser = asyncHandler(async (req, res) => {
+  res.clearCookie(authTokenName);
+  res.status(200).json({
+    message: "Logged out successfully",
+    server_err: ""
+  });
+});
+
+module.exports = { registerUser, loginUser, logoutUser };
