@@ -3,31 +3,55 @@ import { instance } from "./instance";
 import "./App.css";
 
 const App = () => {
-  const [errorMessage, setErrorMessage] = useState("");
+  const [messageDisplay, setMessageDisplay] = useState("");
 
   const userData = {
     email: "valen.ko@gmail.com",
     password: "vakovkorvalen",
   };
 
-  const testCall = async () => {
+  const errHandler = (err) => {
+    console.log(err.response.data);
+    setMessageDisplay(err.response.data.message);
+  };
+
+  const registerUser = async () => {
     await instance
       .post("/api/auth/register", userData)
       .then((res) => {
         console.log(res.data);
-        setErrorMessage("User successfully created");
+        setMessageDisplay("User successfully created");
       })
-      .catch((err) => {
-        console.log(err.response.data);
-        setErrorMessage(err.response.data.message);
-      });
+      .catch(errHandler);
+  };
+
+  const loginUser = async () => {
+    await instance
+      .post("/api/auth/login", userData)
+      .then((res) => {
+        console.log(res.data);
+        setMessageDisplay("User logged in successfully");
+      })
+      .catch(errHandler);
+  };
+
+  const logoutUser = async () => {
+    await instance
+      .post("/api/auth/logout", userData)
+      .then((res) => {
+        console.log(res.data);
+        setMessageDisplay("User successfully logged out");
+      })
+      .catch(errHandler);
   };
 
   return (
     <div>
       <div>DoThisFirst</div>
-      <button onClick={testCall}>Create User</button>
-      <div>{errorMessage}</div>
+      <button onClick={registerUser}>Create User</button>
+      <button onClick={loginUser}>Login User</button>
+      <button onClick={logoutUser}>Logout User</button>
+      <div>{messageDisplay}</div>
     </div>
   );
 };
