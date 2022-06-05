@@ -45,12 +45,24 @@ const App = () => {
       .catch(errHandler);
   };
 
+  const getTasks = async () => {
+    await instance
+      .get("/api/tasks/all")
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div>
       <div>DoThisFirst</div>
       <button onClick={registerUser}>Create User</button>
       <button onClick={loginUser}>Login User</button>
       <button onClick={logoutUser}>Logout User</button>
+      <button onClick={getTasks}>Get Tasks</button>
       <div>{messageDisplay}</div>
     </div>
   );
