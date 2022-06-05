@@ -5,6 +5,7 @@ const cors = require("cors");
 const app = express();
 
 const authRouter = require("./routes/authRoutes");
+const taskRouter = require("./routes/taskRoutes");
 
 // loads .env variables into process.env
 require("dotenv").config();
@@ -24,6 +25,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", authRouter);
+app.use("/api/tasks", taskRouter);
 
 let server;
 if (process.env.NODE_ENV !== "test") {
