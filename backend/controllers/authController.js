@@ -40,6 +40,13 @@ const registerUser = asyncHandler(async (req, res) => {
 const authTokenName = "do_this_first_auth_token";
 
 const loginUser = asyncHandler(async (req, res) => {
+  if (!req.body.hasOwnProperty("email") || !req.body.hasOwnProperty("password")) {
+    res
+      .status(400)
+      .json({ message: "Invalid data for a user", server_err: "" });
+    return;
+  }
+
   const userData = await User.findOne({ email: req.body.email });
   if (!userData) {
     res.status(400).json({ message: "User does not exist", server_err: "" });
