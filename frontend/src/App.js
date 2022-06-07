@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { instance } from "./instance";
-import "./App.css";
+import styles from "./App.module.css";
 
 const App = () => {
   const testCall = async () => {
@@ -17,7 +17,35 @@ const App = () => {
   useEffect(() => {
     testCall();
   });
-  return <div>Do This First</div>;
+
+  const [counter, setCounter] = useState(0);
+
+  const increase = () => {
+    setCounter(counter + 1);
+  };
+
+  const decrease = () => {
+    setCounter(counter - 1);
+  };
+
+  const reset = () => {
+    setCounter(0);
+  };
+
+  return (
+    <>
+      <div className={styles.counter}>{counter}</div>
+      <button className={styles.counter} onClick={increase}>
+        +
+      </button>
+      <button className={styles.counter} onClick={decrease}>
+        -
+      </button>
+      <button className={styles.counter} onClick={reset}>
+        reset
+      </button>
+    </>
+  );
 };
 
 export default App;
