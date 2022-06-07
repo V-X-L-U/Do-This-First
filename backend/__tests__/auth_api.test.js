@@ -52,6 +52,12 @@ describe("API Basic Running Check", () => {
   });
 });
 
+describe("Register Test Suite", () => {
+  it("Successful Registration", async () => {});
+  it("User Registered", async () => {});
+  it("Invalid data", async () => {});
+});
+
 describe("Login Test Suite", () => {
   const loginRoute = "/api/auth/login";
 
@@ -85,6 +91,13 @@ describe("Login Test Suite", () => {
     const res = await request(app).post(loginRoute).send(invalidCredentials);
 
     expectStandardResponse(res, 400, "User does not exist", "");
+  });
+
+  it("Invalid data", async () => {
+    const invalidCredentials = {};
+    const res = await request(app).post(loginRoute).send(invalidCredentials);
+
+    expectStandardResponse(res, 400, "Invalid data for a user", "");
   });
 });
 
