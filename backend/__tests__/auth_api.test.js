@@ -63,7 +63,7 @@ describe("Login Test Suite", () => {
 
   it("Valid Login", async () => {
     const res = await request(app).post(loginRoute).send(credentials);
-    expect(res.statusCode).toEqual(200);
+    expectStandardResponse(res, 200, "Logged in successfully", "");
 
     // set-cookie attribute is an array of strings, each representing a token
     // each token is of the form <cookie_name>=<cookie_value>; options...
