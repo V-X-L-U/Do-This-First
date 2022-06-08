@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { instance } from "./instance";
 import "./App.css";
 
 const App = () => {
+  const [abc, setabc] = useState(0);
   const testCall = async () => {
     await instance
       .get("/")
