@@ -37,7 +37,7 @@ const App = () => {
 
   const logoutUser = async () => {
     await instance
-      .post("/api/auth/logout", userData)
+      .post("/api/auth/logout", {})
       .then((res) => {
         console.log(res.data);
         setMessageDisplay("User successfully logged out");
