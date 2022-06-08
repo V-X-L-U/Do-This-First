@@ -60,6 +60,7 @@ describe("Register Test Suite", () => {
   it("Successful Registration", async () => {
     const res = await request(app).post(registerRoute).send(newUser);
     expect(res.statusCode).toEqual(201);
+    expect(res.body).toHaveProperty("email");
     expect(res.body.email).toEqual(newUser.email);
     expect(res.body).toHaveProperty("_id");
   });
@@ -68,6 +69,7 @@ describe("Register Test Suite", () => {
     // first creation should succeed
     const res = await request(app).post(registerRoute).send(newUser);
     expect(res.statusCode).toEqual(201);
+    expect(res.body).toHaveProperty("email");
     expect(res.body.email).toEqual(newUser.email);
     expect(res.body).toHaveProperty("_id");
 
@@ -109,7 +111,6 @@ describe("Login/Logout Test Suite", () => {
   it("Valid Login & Logout", async () => {
     const res = await request(app).post(loginRoute).send(credentials);
     expectStandardResponse(res, 200, "Logged in successfully", "");
-
     // set-cookie attribute is an array of strings, each representing a token
     // each token is of the form <cookie_name>=<cookie_value>; options...
     expect(res.headers["set-cookie"][0]).toEqual(
@@ -117,7 +118,10 @@ describe("Login/Logout Test Suite", () => {
     );
 
     // Logout the user
+    // checks that the cookie is set to empty
+    const emptyToken = `${authTokenName}=;`;
     const res1 = await request(app).post("/api/auth/logout").send({});
+    expect(res1.headers["set-cookie"][0]).toEqual(expect.stringContaining(emptyToken));
     expectStandardResponse(res1, 200, "Logged out successfully", "");
   });
 

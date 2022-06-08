@@ -17,11 +17,6 @@ const userSchema = mongoose.Schema(
   }
 );
 
-userSchema.methods.verifyPassword = function(passwordProvided) {
-  // `this` refers to the document object
-  return bcrypt.compare(passwordProvided, this.password);
-};
-
 userSchema.pre("save", async function(next) {
   // if the password path hasn't changed, then no need to hash
   if (!this.isModified("password")) {
