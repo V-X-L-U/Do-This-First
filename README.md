@@ -52,3 +52,5 @@ The project documentation contains:
     ```
 
 4. The client and server should run on port `3000` and `5000` respectively.
+
+Alternatively, run `./startup.sh` from the root of the project.
