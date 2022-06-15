@@ -1,9 +1,21 @@
 {
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
+    "express-async-handler": "^1.2.0",
+    "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.6.0",
-    "mongoose": "^6.3.4"
+    "mongoose": "^6.3.4",
+    "supertest": "^6.2.3"
+  },
+  "devDependencies": {
+    "jest": "^28.1.0"
+  },
+  "scripts": {
+    "test": "jest --passWithNoTests --testTimeout 3000",
+    "show-coverage": "start ./coverage/lcov-report/index.html",
+    "jinit": "jest --init"
   }
 }
