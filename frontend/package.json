@@ -20,7 +20,7 @@
     "eject": "react-scripts eject",
     "prepare": "cd .. && husky install",
     "lint": "eslint --ext .js, --fix .",
-    "format": "prettier --write . --ignore-unknown"
+    "format": "prettier --write .. --ignore-unknown"
   },
   "eslintConfig": {
     "extends": [
