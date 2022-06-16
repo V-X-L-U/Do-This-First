@@ -3,46 +3,22 @@ const { app } = require("../server");
 const mongoose = require("mongoose");
 
 const User = require("../models/userModel");
+const {
+  expectStandardResponse,
+  setupTestServer,
+  tearDownTestServer,
+  authTokenName,
+  credentials
+} = require("./test_helpers");
 
-const credentials = {
-  email: "dothisfirst.tester@gmail.com",
-  password: "dtf_testing"
-};
-
-const authTokenName = "do_this_first_auth_token";
 let server;
 let userId;
 let jwt;
 
-const expectStandardResponse = (
-  res,
-  expectedStatus,
-  expectedMessage,
-  expectedServerErr
-) => {
-  expect(res.statusCode).toEqual(expectedStatus);
-
-  expect(res.body).toHaveProperty("message");
-  expect(res.body.message).toEqual(expectedMessage);
-
-  expect(res.body).toHaveProperty("server_err");
-  expect(res.body.server_err).toEqual(expectedServerErr);
-};
-
 beforeAll(async () => {
-  await mongoose.connect("mongodb://localhost:27017/", {
-    useUnifiedTopology: true,
-    useNewUrlParser: true
-  });
-
-  server = app.listen();
-
-  const res = await request(app).post("/api/auth/register").send(credentials);
-
-  expect(res.statusCode).toEqual(201);
-  expect(res.body.email).toEqual(credentials.email);
-
-  userId = res.body._id;
+  const serverValues = await setupTestServer();
+  server = serverValues.server;
+  userId = serverValues.userId;
 });
 
 describe("API Basic Running Check", () => {
@@ -55,7 +31,7 @@ describe("API Basic Running Check", () => {
 describe("Register Test Suite", () => {
   const registerRoute = "/api/auth/register";
 
-  const newUser = {email: "newuser@gmail.com", password: "verynewish"};
+  const newUser = { email: "newuser@gmail.com", password: "verynewish" };
 
   it("Successful Registration", async () => {
     const res = await request(app).post(registerRoute).send(newUser);
@@ -82,14 +58,18 @@ describe("Register Test Suite", () => {
     const invalidCredentials = {};
     const res = await request(app).post(registerRoute).send(invalidCredentials);
 
-    expectStandardResponse(res, 400, "Invalid data for a user", "ValidationError");
+    expectStandardResponse(
+      res,
+      400,
+      "Invalid data for a user",
+      "ValidationError"
+    );
   });
 
   // clean up the created user
   afterEach(async () => {
-    const newTestUser = await User.findOne({ email: newUser.email});
-    if (newTestUser)
-      await User.deleteOne(newTestUser);
+    const newTestUser = await User.findOne({ email: newUser.email });
+    if (newTestUser) await User.deleteOne(newTestUser);
   });
 });
 
@@ -121,7 +101,9 @@ describe("Login/Logout Test Suite", () => {
     // checks that the cookie is set to empty
     const emptyToken = `${authTokenName}=;`;
     const res1 = await request(app).post("/api/auth/logout").send({});
-    expect(res1.headers["set-cookie"][0]).toEqual(expect.stringContaining(emptyToken));
+    expect(res1.headers["set-cookie"][0]).toEqual(
+      expect.stringContaining(emptyToken)
+    );
     expectStandardResponse(res1, 200, "Logged out successfully", "");
   });
 
@@ -154,8 +136,5 @@ describe("Login/Logout Test Suite", () => {
 });
 
 afterAll(async () => {
-  const testUser = await User.findOne({ email: credentials.email });
-  await User.deleteOne(testUser);
-  mongoose.connection.close();
-  server.close();
+  await tearDownTestServer(server);
 });
