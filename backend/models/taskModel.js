@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const taskSchema = mongoose.Schema(
     {
+        user_id: {
+            type: String,
+            required: true,
+        },
         name: {
             type: String,
             required: true,
@@ -10,15 +14,15 @@ const taskSchema = mongoose.Schema(
             type: String,
             required: true,
         },
-        prereqsDone: {
+        prereqs_done: {
             type: Boolean,
             required: true,
         },
-        taskDone: {
+        task_done: {
             type: Boolean,
             required: true,
         },
-        prerequisites: {
+        prereqs: {
             type: [String],
             required: true,
         },
