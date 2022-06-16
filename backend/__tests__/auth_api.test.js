@@ -8,15 +8,19 @@ const {
   setupTestServer,
   tearDownTestServer,
   authTokenName,
-  credentials
 } = require("./test_helpers");
+
+const credentials = {
+  email: "auth_apitester@gmail.com",
+  password: "auth_api_pass",
+};
 
 let server;
 let userId;
 let jwt;
 
 beforeAll(async () => {
-  const serverValues = await setupTestServer();
+  const serverValues = await setupTestServer(credentials);
   server = serverValues.server;
   userId = serverValues.userId;
 });
@@ -110,7 +114,7 @@ describe("Login/Logout Test Suite", () => {
   it("Invalid password", async () => {
     const invalidCredentials = {
       email: credentials.email,
-      password: "invalidpass"
+      password: "invalidpass",
     };
     const res = await request(app).post(loginRoute).send(invalidCredentials);
 
@@ -120,7 +124,7 @@ describe("Login/Logout Test Suite", () => {
   it("Non-existent user", async () => {
     const invalidCredentials = {
       email: "invalid.email@gmail.com",
-      password: "invalidpass"
+      password: "invalidpass",
     };
     const res = await request(app).post(loginRoute).send(invalidCredentials);
 
@@ -136,5 +140,5 @@ describe("Login/Logout Test Suite", () => {
 });
 
 afterAll(async () => {
-  await tearDownTestServer(server);
+  await tearDownTestServer(server, credentials);
 });

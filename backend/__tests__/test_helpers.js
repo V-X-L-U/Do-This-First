@@ -4,11 +4,6 @@ const mongoose = require("mongoose");
 
 const User = require("../models/userModel");
 
-const credentials = {
-  email: "dothisfirst.tester@gmail.com",
-  password: "dtf_testing"
-};
-
 const authTokenName = "do_this_first_auth_token";
 
 const expectStandardResponse = (
@@ -27,16 +22,24 @@ const expectStandardResponse = (
 };
 
 const expectUserNotAuthenticated = (res) => {
-    expectStandardResponse(res, 401, "User not authenticated", "");
+  expectStandardResponse(res, 401, "User not authenticated", "");
 };
 
-const setupTestServer = async () => {
+const expectInvalidTokenErr = (res) => {
+  expectStandardResponse(res, 401, "Invalid token", "");
+};
+
+const setupTestServer = async (credentials) => {
   await mongoose.connect("mongodb://localhost:27017/", {
     useUnifiedTopology: true,
-    useNewUrlParser: true
+    useNewUrlParser: true,
   });
 
   const server = app.listen();
+
+  // make sure user doesn't exist
+  const testUser = await User.findOne({ email: credentials.email });
+  if (testUser) await User.deleteOne(testUser);
 
   const res = await request(app).post("/api/auth/register").send(credentials);
 
@@ -47,28 +50,49 @@ const setupTestServer = async () => {
 
   return {
     server: server,
-    userId: userId
+    userId: userId,
   };
 };
 
-const tearDownTestServer = async (server) => {
+const tearDownTestServer = async (server, credentials) => {
   const testUser = await User.findOne({ email: credentials.email });
-  await User.deleteOne(testUser);
+  if (testUser) await User.deleteOne(testUser);
   mongoose.connection.close();
   server.close();
-}
-
-const loginUser = async () => {
-    const res = await request(app).post(loginRoute).send(credentials);
-    expectStandardResponse(res, 200, "Logged in successfully", "");
-
-    // set-cookie attribute is an array of strings, each representing a token
-    // each token is of the form <cookie_name>=<cookie_value>; options...
-    expect(res.headers["set-cookie"][0]).toEqual(
-      expect.stringContaining(authTokenName)
-    );
-
-    return res.headers["set-cookie"][0].split(";")[0];
 };
 
-module.exports = { expectStandardResponse, expectUserNotAuthenticated, setupTestServer, tearDownTestServer, loginUser, authTokenName, credentials };
+const loginUser = async (credentials) => {
+  const loginRoute = "/api/auth/login";
+  const res = await request(app).post(loginRoute).send(credentials);
+  expectStandardResponse(res, 200, "Logged in successfully", "");
+
+  // set-cookie attribute is an array of strings, each representing a token
+  // each token is of the form <cookie_name>=<cookie_value>; options...
+  expect(res.headers["set-cookie"][0]).toEqual(
+    expect.stringContaining(authTokenName)
+  );
+
+  return res.headers["set-cookie"][0].split(";")[0];
+};
+
+const logoutUser = async () => {
+  // Logout the user
+  // checks that the cookie is set to empty
+  const emptyToken = `${authTokenName}=;`;
+  const res1 = await request(app).post("/api/auth/logout").send({});
+  expect(res1.headers["set-cookie"][0]).toEqual(
+    expect.stringContaining(emptyToken)
+  );
+  expectStandardResponse(res1, 200, "Logged out successfully", "");
+};
+
+module.exports = {
+  expectStandardResponse,
+  expectUserNotAuthenticated,
+  expectInvalidTokenErr,
+  setupTestServer,
+  tearDownTestServer,
+  loginUser,
+  logoutUser,
+  authTokenName,
+};

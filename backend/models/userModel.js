@@ -5,19 +5,19 @@ const userSchema = mongoose.Schema(
   {
     email: {
       type: String,
-      required: true
+      required: true,
     },
     password: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 
-userSchema.pre("save", async function(next) {
+userSchema.pre("save", async function (next) {
   // if the password path hasn't changed, then no need to hash
   if (!this.isModified("password")) {
     next();
