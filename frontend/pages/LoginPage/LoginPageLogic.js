@@ -41,15 +41,43 @@ const validatePassword = ({ password }) => {
 // Makes a call to the server to login the user.
 // Returns an empty string if login is successful. Otherwise, return appropriate
 // error message.
-const loginUserHandler = ({ email, password }) => {
+const loginUserHandler = ({ userEmail, userPassword }) => {
   // TODO : finish implementation
+  // https://stackoverflow.com/questions/6396101/pure-javascript-send-post-data-without-a-form
+  const data = {
+    email: userEmail,
+    password: userPassword,
+  };
+  fetch("/api/auth/login", {
+    method: "POST",
+    body: JSON.stringify(data),
+  }).then((res) => {
+    if (res.status >= 400) {
+      return console.error();
+    }
+    return "";
+  });
 };
 
 // Makes a call to the server to register the user.
 // Returns an empty string if register is successful. Otherwise, return
 // appropriate error message.
-const registerUserHandler = ({ email, password }) => {
+const registerUserHandler = ({ userEmail, userPassword }) => {
   // TODO : finish implementation
+  // https://stackoverflow.com/questions/6396101/pure-javascript-send-post-data-without-a-form
+  const data = {
+    email: userEmail,
+    password: userPassword,
+  };
+  fetch("/api/auth/register", {
+    method: "POST",
+    body: JSON.stringify(data),
+  }).then((res) => {
+    if (res.status >= 400) {
+      return console.error();
+    }
+    return "";
+  });
 };
 
 export { validateEmailandPassword, loginUserHandler, registerUserHandler };
