@@ -3,9 +3,12 @@ import PropTypes from "prop-types";
 
 // Creates a text that has a plain part and a clickable part.
 // param: void onClick()
-const InteractiveText = ({ plainText, clickableText, onClick }) => {
-  // TODO : complete text UI
-  return <div></div>;
+const InteractiveText = ({ clickableText, onClick }) => {
+  return (
+    <div onClick={onClick} className={styles.InteractiveText}>
+      {clickableText}
+    </div>
+  );
 };
 
 InteractiveText.propTypes = {
