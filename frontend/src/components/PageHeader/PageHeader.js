@@ -2,8 +2,7 @@ import styles from "./PageHeader.module.css";
 import PropTypes from "prop-types";
 
 const PageHeader = ({ pageTitle }) => {
-  // TODO : complete page header UI
-  return <div></div>;
+  return <h1 className={styles.PageHeader}>{pageTitle}</h1>;
 };
 
 PageHeader.propTypes = {
