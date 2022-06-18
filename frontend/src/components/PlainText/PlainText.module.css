@@ -1,0 +1,12 @@
+.plainText {
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  padding: 1em;
+  margin: 0em;
+  font-size: 1.125rem;
+  font-weight: bold;
+  font-family: "Inter", sans-serif;
+}
