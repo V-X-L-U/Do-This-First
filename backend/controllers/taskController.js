@@ -35,7 +35,7 @@ const getAllTasks = asyncHandler(async (req, res) => {
   } catch (err) {
     const errorResponse = {
       message: "Error getting tasks for user",
-      server_err: "",
+      server_err: err.name,
     };
 
     res.status(500).json(errorResponse);
