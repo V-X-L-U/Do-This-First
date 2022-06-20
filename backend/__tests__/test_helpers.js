@@ -86,24 +86,6 @@ const logoutUser = async () => {
   expectStandardResponse(res1, 200, "Logged out successfully", "");
 };
 
-// Standard no authentication test scenario for an authenticated route.
-const testNotAuthenticated = async (route, reqBody) => {
-  // Notice we didn't set the cookie
-  const res = await request(app).post(route).send(reqBody);
-  expectUserNotAuthenticated(res);
-};
-
-// Standard invalid token test sscenario for an authenticated route.
-const testInvalidToken = async (route, reqBody) => {
-  // Notice we set an invalid jwt
-  const invalidToken = `${authTokenName}=someinvalidjwt`;
-  const res = await request(app)
-    .post(route)
-    .set("cookie", invalidToken)
-    .send(reqBody);
-  expectInvalidTokenErr(res);
-};
-
 module.exports = {
   expectStandardResponse,
   expectUserNotAuthenticated,
@@ -112,7 +94,5 @@ module.exports = {
   tearDownTestServer,
   loginUser,
   logoutUser,
-  testNotAuthenticated,
-  testInvalidToken,
   authTokenName,
 };

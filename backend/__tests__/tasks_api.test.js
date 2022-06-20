@@ -3,6 +3,8 @@ const { app } = require("../server");
 const mongoose = require("mongoose");
 
 const User = require("../models/userModel");
+const Task = require("../models/taskModel");
+
 const {
   loginUser,
   logoutUser,
@@ -11,8 +13,6 @@ const {
   expectStandardResponse,
   expectUserNotAuthenticated,
   expectInvalidTokenErr,
-  testInvalidToken,
-  testNotAuthenticated,
   authTokenName,
 } = require("./test_helpers");
 
@@ -58,11 +58,19 @@ describe("Create Task Test Suite", () => {
   });
 
   it("Failed without Authentication", async () => {
-    await testNotAuthenticated(createTaskRoute, sampleTask);
+    // Notice we didn't set the cookie
+    const res = await request(app).post(createTaskRoute).send(sampleTask);
+    expectUserNotAuthenticated(res);
   });
 
   it("Failed with Invalid Token", async () => {
-    await testInvalidToken(createTaskRoute, sampleTask);
+    // Notice we set an invalid jwt
+    const invalidToken = `${authTokenName}=someinvalidjwt`;
+    const res = await request(app)
+      .post(createTaskRoute)
+      .set("cookie", invalidToken)
+      .send(sampleTask);
+    expectInvalidTokenErr(res);
   });
 
   it("Failed Task Creation with Improper Body", async () => {
@@ -91,6 +99,10 @@ describe("Create Task Test Suite", () => {
 });
 
 describe("Get All Tasks Test Suite", () => {
+  beforeAll(async () => {
+    await Task.deleteMany({ user_id: userId });
+  });
+
   const allTasksRoute = "/api/tasks/getAll";
 
   // names will be added later
@@ -112,7 +124,7 @@ describe("Get All Tasks Test Suite", () => {
       const task = { ...sampleTask };
       task.name = `task${i}`;
       const res = await request(app)
-        .post(createTaskRoute)
+        .post("/api/tasks/create")
         .set("cookie", token)
         .send(task);
 
@@ -133,7 +145,7 @@ describe("Get All Tasks Test Suite", () => {
     const taskIds = await createTasks(jwt);
 
     const res = await request(app)
-      .post(allTasksRoute)
+      .get(allTasksRoute)
       .set("cookie", jwt)
       .send({});
 
@@ -141,7 +153,7 @@ describe("Get All Tasks Test Suite", () => {
     expect(res.body).toHaveProperty("tasks");
     expect(res.body.tasks).toHaveLength(3);
 
-    res.body.tasks.array.forEach((task) => {
+    res.body.tasks.forEach((task) => {
       expect(task).toHaveProperty("user_id");
       expect(task.user_id).toEqual(userId);
       expect(task).toHaveProperty("_id");
@@ -154,11 +166,19 @@ describe("Get All Tasks Test Suite", () => {
   });
 
   it("Failed without Authentication", async () => {
-    testNotAuthenticated(allTasksRoute, taskData);
+    // Notice we didn't set the cookie
+    const res = await request(app).get(allTasksRoute).send(taskData);
+    expectUserNotAuthenticated(res);
   });
 
   it("Failed with Invalid Token", async () => {
-    testInvalidToken(allTasksRoute, taskData);
+    // Notice we set an invalid jwt
+    const invalidToken = `${authTokenName}=someinvalidjwt`;
+    const res = await request(app)
+      .get(allTasksRoute)
+      .set("cookie", invalidToken)
+      .send(taskData);
+    expectInvalidTokenErr(res);
   });
 });
 
