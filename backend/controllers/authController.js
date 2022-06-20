@@ -20,10 +20,10 @@ const registerUser = asyncHandler(async (req, res) => {
 
   await newUser
     .save()
-    .then(result => {
+    .then((result) => {
       res.status(201).json(result);
     })
-    .catch(err => {
+    .catch((err) => {
       if (err.name === "ValidationError") {
         res
           .status(400)
@@ -40,7 +40,10 @@ const registerUser = asyncHandler(async (req, res) => {
 const authTokenName = "do_this_first_auth_token";
 
 const loginUser = asyncHandler(async (req, res) => {
-  if (!req.body.hasOwnProperty("email") || !req.body.hasOwnProperty("password")) {
+  if (
+    !req.body.hasOwnProperty("email") ||
+    !req.body.hasOwnProperty("password")
+  ) {
     res
       .status(400)
       .json({ message: "Invalid data for a user", server_err: "" });
@@ -65,11 +68,11 @@ const loginUser = asyncHandler(async (req, res) => {
   const token = jwt.sign(
     {
       email: userData.email,
-      _id: userData._id
+      _id: userData._id,
     },
     process.env.JWT_SECRET,
     {
-      expiresIn: "5h"
+      expiresIn: "5h",
     }
   );
 
@@ -77,7 +80,7 @@ const loginUser = asyncHandler(async (req, res) => {
     maxAge: 5 * 60 * 60 * 1000,
     httpOnly: true,
     secure: true,
-    sameSite: "Lax"
+    sameSite: "Lax",
   };
 
   res.cookie(authTokenName, token, options);
@@ -88,7 +91,7 @@ const logoutUser = asyncHandler(async (req, res) => {
   res.clearCookie(authTokenName);
   res.status(200).json({
     message: "Logged out successfully",
-    server_err: ""
+    server_err: "",
   });
 });
 
