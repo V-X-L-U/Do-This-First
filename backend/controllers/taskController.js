@@ -28,6 +28,21 @@ const createTask = asyncHandler(async (req, res) => {
     });
 });
 
+const getAllTasks = asyncHandler(async (req, res) => {
+  try {
+    const tasks = await Task.find({ user_id: req.uid });
+    res.status(200).json({ tasks: tasks });
+  } catch (err) {
+    const errorResponse = {
+      message: "Error getting tasks for user",
+      server_err: err.name,
+    };
+
+    res.status(500).json(errorResponse);
+  }
+});
+
 module.exports = {
   createTask,
+  getAllTasks,
 };
