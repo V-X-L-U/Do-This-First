@@ -20,7 +20,7 @@ const authenticateUser = asyncHandler(async (req, res, next) => {
   try {
     const decodedToken = jwt.verify(tokenValue, process.env.JWT_SECRET);
 
-    // Provide the corresponding user id at req.id
+    // Provide the corresponding user id at req.uid
     req.uid = decodedToken._id;
     next();
   } catch (err) {
