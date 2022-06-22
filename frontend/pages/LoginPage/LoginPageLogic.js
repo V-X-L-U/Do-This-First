@@ -1,6 +1,6 @@
 // Returns an empty string if email and password is valid. Otherwise, return
 
-import axios from "axios";
+import { instance } from "../../src/instance";
 
 // appropriate error message.
 const validateEmailandPassword = ({ email, password }) => {
@@ -41,42 +41,44 @@ const validatePassword = ({ password }) => {
 // Makes a call to the server to login the user.
 // Returns an empty string if login is successful. Otherwise, return appropriate
 // error message.
-const loginUserHandler = ({ userEmail, userPassword }) => {
+const loginUserHandler = async ({ userEmail, userPassword }) => {
   // https://stackoverflow.com/questions/6396101/pure-javascript-send-post-data-without-a-form
   const data = {
     email: userEmail,
     password: userPassword,
   };
-  try {
-    const res = axios.post("/api/auth/login", data);
-    return "";
-  } catch (error) {
-    if (error.res.status >= 400) {
-      return error.res.data;
-    }
-    return "";
-  }
+  await instance
+    .post("/api/auth/login", data)
+    .then(() => {
+      return "";
+    })
+    .catch((err) => {
+      if (err.response.data) {
+        console.log(err.response.data.server_err);
+        return err.response.data.message;
+      }
+    });
 };
 
 // Makes a call to the server to register the user.
 // Returns an empty string if register is successful. Otherwise, return
 // appropriate error message.
-const registerUserHandler = ({ userEmail, userPassword }) => {
+const registerUserHandler = async ({ userEmail, userPassword }) => {
   // TODO : finish implementation
   // https://stackoverflow.com/questions/6396101/pure-javascript-send-post-data-without-a-form
   const data = {
     email: userEmail,
     password: userPassword,
   };
-  try {
-    const res = axios.post("/api/auth/register", data);
-    return "";
-  } catch (error) {
-    if (error.res.status >= 400) {
-      return error.res.data;
-    }
-    return "";
-  }
+  await instance
+    .post("/api/auth/register", data)
+    .then(() => {
+      return "";
+    })
+    .catch((err) => {
+      console.log(err.response.data.server_err);
+      return err.response.data.message;
+    });
 };
 
 export { validateEmailandPassword, loginUserHandler, registerUserHandler };
