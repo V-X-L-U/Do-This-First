@@ -57,6 +57,7 @@ const loginUserHandler = async ({ userEmail, userPassword }) => {
         console.log(err.response.data.server_err);
         return err.response.data.message;
       }
+      return "Login Unsuccessful";
     });
 };
 
@@ -64,7 +65,6 @@ const loginUserHandler = async ({ userEmail, userPassword }) => {
 // Returns an empty string if register is successful. Otherwise, return
 // appropriate error message.
 const registerUserHandler = async ({ userEmail, userPassword }) => {
-  // TODO : finish implementation
   // https://stackoverflow.com/questions/6396101/pure-javascript-send-post-data-without-a-form
   const data = {
     email: userEmail,
@@ -76,8 +76,11 @@ const registerUserHandler = async ({ userEmail, userPassword }) => {
       return "";
     })
     .catch((err) => {
-      console.log(err.response.data.server_err);
-      return err.response.data.message;
+      if (err.response.data) {
+        console.log(err.response.data.server_err);
+        return err.response.data.message;
+      }
+      return "Register Unsuccessful";
     });
 };
 
