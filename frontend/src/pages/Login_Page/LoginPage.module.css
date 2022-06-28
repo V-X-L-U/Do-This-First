@@ -1,0 +1,20 @@
+.bg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #f2efe9;
+  height: 100vh;
+}
+
+.credLayout {
+  display: flex;
+  flex-direction: column;
+  margin: 50px;
+}
+
+.accountRegisterText {
+  margin-top: 10%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
