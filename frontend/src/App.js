@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { instance } from "./instance";
+import LoginPage from "./pages/LoginPage";
 import "./App.css";
 
 const App = () => {
@@ -17,7 +18,7 @@ const App = () => {
   useEffect(() => {
     testCall();
   });
-  return <div>Do This First</div>;
+  return <LoginPage />;
 };
 
 export default App;
