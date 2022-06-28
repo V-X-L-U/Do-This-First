@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { instance } from "./instance";
-import LoginPage from "./pages/LoginPage";
+import LoginPage from "./pages/LoginPage/LoginPage";
 import "./App.css";
 
 const App = () => {
