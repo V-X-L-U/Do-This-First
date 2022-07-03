@@ -7,10 +7,10 @@ import ThemeColors from "../../ThemeColors";
 // param: void onChanged(<fieldType>)
 const TextField = ({ fieldName, onChange }) => {
   return (
-    <p className={styles.TextField}>
+    <div className={styles.textField}>
       <PlainText color={ThemeColors.Red} plainText={fieldName} />
       <input className={styles.input} onChange={onChange}></input>
-    </p>
+    </div>
   );
 };
 
