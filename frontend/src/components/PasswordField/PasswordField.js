@@ -7,11 +7,11 @@ import ThemeColors from "../../ThemeColors";
 // param: void onChanged(<fieldType>)
 const PasswordField = ({ fieldName, onChange }) => {
   return (
-    <p className={styles.PasswordField}>
+    <p className={styles.passwordField}>
       <PlainText color={ThemeColors.Red} plainText={fieldName} />
       <input
         type="password"
-        className={styles.input}
+        className={styles.inputBox}
         onChange={onChange}
       ></input>
     </p>
