@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 // param: void onClick()
 const InteractiveText = ({ clickableText, onClick }) => {
   return (
-    <div onClick={onClick} className={styles.InteractiveText}>
+    <div onClick={onClick} className={styles.interactiveText}>
       {clickableText}
     </div>
   );
