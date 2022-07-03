@@ -5,10 +5,10 @@ import ThemeColors from "../../ThemeColors";
 
 // Standard password field.
 // param: void onChanged(<fieldType>)
-const PasswordField = ({ fieldName, onChange }) => {
+const PasswordField = ({ fieldName, onChange, color }) => {
   return (
     <p className={styles.passwordField}>
-      <PlainText color={ThemeColors.Red} plainText={fieldName} />
+      <PlainText color={color} plainText={fieldName} />
       <input
         type="password"
         className={styles.inputBox}
@@ -21,6 +21,7 @@ const PasswordField = ({ fieldName, onChange }) => {
 PasswordField.propTypes = {
   fieldName: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  color: PropTypes.func.isRequired,
 };
 
 export default PasswordField;
