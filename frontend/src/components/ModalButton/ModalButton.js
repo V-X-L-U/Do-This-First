@@ -9,6 +9,7 @@ const ModalButton = ({ label, onClick, isEmphasized, bgColor, color }) => {
         backgroundColor: isEmphasized ? bgColor : ThemeColors.Grey,
         color: isEmphasized ? color : "#c0c0c0",
       }}
+      onClick={onClick}
       className={isEmphasized ? styles.emphasizedButton : styles.greyedButton}
     >
       {label}

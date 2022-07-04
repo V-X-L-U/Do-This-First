@@ -4,6 +4,7 @@
   align-items: center;
   background: #f2efe9;
   height: 100vh;
+  z-index: 0;
 }
 
 .credLayout {
@@ -17,4 +18,47 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+}
+
+.submitButton {
+  margin-left: 70%;
+}
+
+.preventClick {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: white;
+  opacity: 0.5;
+  z-index: 5;
+}
+
+.modal,
+.overlay {
+  max-width: 70vw;
+  min-width: 25vw;
+  max-height: 80vh;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: fixed;
+  background-color: #904e55;
+  color: #032a5c;
+  text-align: left;
+  border-radius: 30px;
+  padding: 20px 0px;
+  z-index: 10;
+}
+
+.signup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 60%;
+  height: 30%;
+  background: #904e55;
+  background-position: bottom;
+  z-index: 10;
 }

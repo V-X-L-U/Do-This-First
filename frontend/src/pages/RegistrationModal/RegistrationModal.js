@@ -32,18 +32,11 @@ const RegistrationModal = ({ hideModal, userRegistrationHandler }) => {
     setRegistrationFormData(updatedFormData);
   };
 
-  // TODO : implement "controller" functions for respective buttons
-  const onCancel = () => {
-    // hint: use hide modal
-  };
-
   const onConfirm = () => {
     // hint: use user registration handler
     // hint: set the error message appropriately, when needed
   };
 
-  // TODO : implement modal UI
-  // hint: look at the imports and use those components
   return (
     <div className={styles.bg}>
       <PageHeader pageTitle="SIGN UP" />
@@ -54,13 +47,14 @@ const RegistrationModal = ({ hideModal, userRegistrationHandler }) => {
       </div>
       <div className={styles.buttonLayout}>
         <ModalButton
+          onClick={hideModal}
           label="Cancel"
           isEmphasized="true"
           bgColor={ThemeColors.White}
           color={ThemeColors.Red}
         />
         <ModalButton
-          // TODO: Add onClick that changes showRegistrationModal
+          onClick=""
           label="Confirm"
           isEmphasized="true"
           bgColor={ThemeColors.White}

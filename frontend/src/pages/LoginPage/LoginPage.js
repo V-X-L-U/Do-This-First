@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styles from "./LoginPage.module.css";
-import RegistrationModal from "../../components/RegistrationModal/RegistrationModal";
+import RegistrationModal from "../../pages/RegistrationModal/RegistrationModal";
 import ErrorDisplay from "../../components/ErrorDisplay/ErrorDisplay";
 import TextField from "../../components/TextField/TextField";
 import PageHeader from "../../components/PageHeader/PageHeader";
@@ -29,20 +29,46 @@ const LoginPage = () => {
   // Used to control whether the registration pop-up should be shown
   const [showRegistrationModal, setShowRegistrationModal] = useState(false);
 
-  // TODO : implement page UI
-  // hint: look at the imports and use those components
+  const onCancel = () => {
+    setShowRegistrationModal(false);
+  };
+
   return (
-    <div className={styles.bg}>
-      <PageHeader pageTitle="LOG IN" />
-      <div className={styles.credLayout}>
-        <TextField fieldName="Email" />
-        <PasswordField fieldName="Password" />
-        <div className={styles.accountRegisterText}>
-          <PlainText
-            color={ThemeColors.Red}
-            plainText="Don't have an account?"
-          />
-          <InteractiveText clickableText="Sign up" />
+    <div>
+      {showRegistrationModal ? (
+        <>
+          <div className={styles.preventClick} />
+          <RegistrationModal hideModal={onCancel} />
+        </>
+      ) : (
+        <></>
+      )}
+
+      <div className={styles.bg}>
+        <PageHeader pageTitle="LOG IN" bgColor={ThemeColors.Red} />
+        <div className={styles.credLayout}>
+          <TextField fieldName="Email" color={ThemeColors.Red} />
+          <PasswordField fieldName="Password" color={ThemeColors.Red} />
+          <div className={styles.submitButton}>
+            <ModalButton
+              label="Submit"
+              isEmphasized="true"
+              bgColor={ThemeColors.Red}
+              color={ThemeColors.White}
+            />
+          </div>
+          <div className={styles.accountRegisterText}>
+            <PlainText
+              color={ThemeColors.Red}
+              plainText="Don't have an account?"
+            />
+            <InteractiveText
+              clickableText="Sign up"
+              onClick={() => {
+                setShowRegistrationModal(true);
+              }}
+            />
+          </div>
         </div>
       </div>
     </div>
