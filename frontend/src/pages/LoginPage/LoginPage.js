@@ -67,7 +67,7 @@ const LoginPage = () => {
           <div className={styles.submitButton}>
             <ModalButton
               label="Submit"
-              isEmphasized="true"
+              isEmphasized={true}
               bgColor={ThemeColors.Red}
               color={ThemeColors.White}
             />
