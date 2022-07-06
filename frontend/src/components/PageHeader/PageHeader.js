@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 const PageHeader = ({ pageTitle, bgColor }) => {
   return (
     <h1
-      className={styles.PageHeader}
+      className={styles.pageHeader}
       style={{
         backgroundColor: bgColor,
       }}
