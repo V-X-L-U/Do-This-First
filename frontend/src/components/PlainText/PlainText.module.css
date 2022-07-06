@@ -1,10 +1,8 @@
 .plainText {
   box-sizing: border-box;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: baseline;
   margin: 0em;
+  padding: 0em;
   font-size: 1.125rem;
   font-weight: bold;
   font-family: "Inter", sans-serif;
