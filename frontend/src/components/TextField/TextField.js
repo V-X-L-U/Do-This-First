@@ -5,11 +5,15 @@ import ThemeColors from "../../ThemeColors";
 
 // Standard text field.
 // param: void onChanged(<fieldType>)
-const TextField = ({ fieldName, onChange, color }) => {
+const TextField = ({ fieldName, onChange, color, hidden }) => {
   return (
     <div className={styles.textField}>
       <PlainText plainText={fieldName} color={color} />
-      <input className={styles.input} onChange={onChange}></input>
+      <input
+        type={hidden ? "password" : "text"}
+        className={styles.inputBox}
+        onChange={onChange}
+      ></input>
     </div>
   );
 };
@@ -17,7 +21,8 @@ const TextField = ({ fieldName, onChange, color }) => {
 TextField.propTypes = {
   fieldName: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  color: PropTypes.func.isRequired,
+  color: PropTypes.string.isRequired,
+  hidden: PropTypes.bool.isRequired,
 };
 
 export default TextField;
