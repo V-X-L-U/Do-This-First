@@ -6,7 +6,6 @@ import PageHeader from "../../components/PageHeader/PageHeader";
 import PlainText from "../../components/PlainText/PlainText";
 import ThemeColors from "../../ThemeColors";
 import ModalButton from "../../components/ModalButton/ModalButton";
-import PasswordField from "../../components/PasswordField/PasswordField";
 import TextField from "../../components/TextField/TextField";
 // User Registration pop-up.
 //
@@ -42,8 +41,12 @@ const RegistrationModal = ({ hideModal, userRegistrationHandler }) => {
       <PageHeader pageTitle="SIGN UP" />
 
       <div className={styles.credLayout}>
-        <TextField fieldName="Email" color={ThemeColors.White} />
-        <PasswordField fieldName="Password" color={ThemeColors.White} />
+        <TextField fieldName="Email" color={ThemeColors.White} hidden={false} />
+        <TextField
+          fieldName="Password"
+          color={ThemeColors.White}
+          hidden={true}
+        />
       </div>
       <div className={styles.buttonLayout}>
         <ModalButton

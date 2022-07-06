@@ -9,7 +9,6 @@ import ThemeButton from "../../components/ThemeButton/ThemeButton";
 import PlainText from "../../components/PlainText/PlainText";
 import ThemeColors from "../../ThemeColors";
 import ModalButton from "../../components/ModalButton/ModalButton";
-import PasswordField from "../../components/PasswordField/PasswordField";
 
 const LoginPage = () => {
   const [loginFormData, setLoginFormData] = useState({
@@ -47,16 +46,12 @@ const LoginPage = () => {
       <div className={styles.bg}>
         <PageHeader pageTitle="LOG IN" bgColor={ThemeColors.Red} />
         <div className={styles.credLayout}>
-          <TextField fieldName="Email" color={ThemeColors.Red} />
-          <PasswordField fieldName="Password" color={ThemeColors.Red} />
-          <div className={styles.submitButton}>
-            <ModalButton
-              label="Submit"
-              isEmphasized="true"
-              bgColor={ThemeColors.Red}
-              color={ThemeColors.White}
-            />
-          </div>
+          <TextField fieldName="Email" color={ThemeColors.Red} hidden={false} />
+          <TextField
+            fieldName="Password"
+            color={ThemeColors.Red}
+            hidden={true}
+          />
           <div className={styles.accountRegisterText}>
             <PlainText
               color={ThemeColors.Red}
@@ -67,6 +62,14 @@ const LoginPage = () => {
               onClick={() => {
                 setShowRegistrationModal(true);
               }}
+            />
+          </div>
+          <div className={styles.submitButton}>
+            <ModalButton
+              label="Submit"
+              isEmphasized="true"
+              bgColor={ThemeColors.Red}
+              color={ThemeColors.White}
             />
           </div>
         </div>

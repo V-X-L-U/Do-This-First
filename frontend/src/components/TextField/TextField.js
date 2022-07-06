@@ -8,7 +8,9 @@ import ThemeColors from "../../ThemeColors";
 const TextField = ({ fieldName, onChange, color, hidden }) => {
   return (
     <div className={styles.textField}>
-      <PlainText plainText={fieldName} color={color} />
+      <div className={styles.labelBox}>
+        <PlainText plainText={fieldName} color={color} />
+      </div>
       <input
         type={hidden ? "password" : "text"}
         className={styles.inputBox}
