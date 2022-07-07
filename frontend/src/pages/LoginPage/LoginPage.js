@@ -5,7 +5,6 @@ import ErrorDisplay from "../../components/ErrorDisplay/ErrorDisplay";
 import TextField from "../../components/TextField/TextField";
 import PageHeader from "../../components/PageHeader/PageHeader";
 import InteractiveText from "../../components/InteractiveText/InteractiveText";
-import ThemeButton from "../../components/ThemeButton/ThemeButton";
 import PlainText from "../../components/PlainText/PlainText";
 import ThemeColors from "../../ThemeColors";
 import ModalButton from "../../components/ModalButton/ModalButton";

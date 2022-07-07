@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { instance } from "./instance";
-import LoginPage from "./pages/LoginPage/LoginPage";
 import "./App.css";
 
 const App = () => {
