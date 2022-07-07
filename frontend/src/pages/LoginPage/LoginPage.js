@@ -52,7 +52,15 @@ const LoginPage = () => {
             color={ThemeColors.Red}
             hidden={true}
           />
-          <div className={styles.accountRegisterText}>
+          {errorMessage.length > 0 ? (
+            <ErrorDisplay errorMessage={errorMessage} />
+          ) : (
+            <></>
+          )}
+          <div
+            className={styles.accountRegisterText}
+            style={{ marginTop: `${errorMessage.length > 0 ? 0 : 45}px` }}
+          >
             <PlainText
               color={ThemeColors.Red}
               plainText="Don't have an account?"
