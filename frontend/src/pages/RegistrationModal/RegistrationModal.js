@@ -5,6 +5,7 @@ import PageHeader from "../../components/PageHeader/PageHeader";
 import ThemeColors from "../../ThemeColors";
 import ModalButton from "../../components/ModalButton/ModalButton";
 import TextField from "../../components/TextField/TextField";
+import ErrorDisplay from "../../components/ErrorDisplay/ErrorDisplay";
 // User Registration pop-up.
 //
 // param: void hideModal()
@@ -51,8 +52,17 @@ const RegistrationModal = ({ hideModal, userRegistrationHandler }) => {
           hidden={true}
           onChange={() => {}}
         />
+        {errorMessage.length > 0 ? (
+          <ErrorDisplay errorMessage={errorMessage} />
+        ) : (
+          <></>
+        )}
       </div>
-      <div className={styles.buttonLayout}>
+
+      <div
+        className={styles.buttonLayout}
+        style={{ marginTop: `${errorMessage.length > 0 ? 0 : 45}px` }}
+      >
         <ModalButton
           onClick={hideModal}
           label="Cancel"
