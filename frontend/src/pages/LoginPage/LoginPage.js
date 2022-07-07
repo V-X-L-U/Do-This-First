@@ -46,11 +46,17 @@ const LoginPage = () => {
       <div className={styles.bg}>
         <PageHeader pageTitle="LOG IN" bgColor={ThemeColors.Red} />
         <div className={styles.credLayout}>
-          <TextField fieldName="Email" color={ThemeColors.Red} hidden={false} />
+          <TextField
+            fieldName="Email"
+            color={ThemeColors.Red}
+            hidden={false}
+            onChange={() => {}}
+          />
           <TextField
             fieldName="Password"
             color={ThemeColors.Red}
             hidden={true}
+            onChange={() => {}}
           />
           {errorMessage.length > 0 ? (
             <ErrorDisplay errorMessage={errorMessage} />
@@ -78,6 +84,7 @@ const LoginPage = () => {
               isEmphasized={true}
               bgColor={ThemeColors.Red}
               color={ThemeColors.White}
+              onClick={() => {}}
             />
           </div>
         </div>

@@ -1,7 +1,6 @@
 import styles from "./TextField.module.css";
 import PropTypes from "prop-types";
 import PlainText from "../PlainText/PlainText";
-import ThemeColors from "../../ThemeColors";
 
 // Standard text field.
 // param: void onChanged(<fieldType>)

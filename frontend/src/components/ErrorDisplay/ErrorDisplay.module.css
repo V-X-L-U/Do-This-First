@@ -1,12 +1,12 @@
 /* TODO : complete style */
 .errorDisplay {
-    width: 100%;
-    border-radius: 5px;
-    padding: 5px 10px;
-    margin: 10px 10px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    font-family: "Inter", sans-serif;
-    color: #BA3939;
-    background-color: #FFBDBD;
+  width: 100%;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin: 10px 10px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  font-family: "Inter", sans-serif;
+  color: #ba3939;
+  background-color: #ffbdbd;
 }

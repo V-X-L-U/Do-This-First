@@ -12,7 +12,6 @@ const InteractiveText = ({ clickableText, onClick }) => {
 };
 
 InteractiveText.propTypes = {
-  plainText: PropTypes.string.isRequired,
   clickableText: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
 };

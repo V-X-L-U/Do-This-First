@@ -1,9 +1,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import styles from "./RegistrationModal.module.css";
-import ErrorDisplay from "../../components/ErrorDisplay/ErrorDisplay";
 import PageHeader from "../../components/PageHeader/PageHeader";
-import PlainText from "../../components/PlainText/PlainText";
 import ThemeColors from "../../ThemeColors";
 import ModalButton from "../../components/ModalButton/ModalButton";
 import TextField from "../../components/TextField/TextField";
@@ -38,28 +36,34 @@ const RegistrationModal = ({ hideModal, userRegistrationHandler }) => {
 
   return (
     <div className={styles.bg}>
-      <PageHeader pageTitle="SIGN UP" />
+      <PageHeader pageTitle="SIGN UP" bgColor="transparent" />
 
       <div className={styles.credLayout}>
-        <TextField fieldName="Email" color={ThemeColors.White} hidden={false} />
+        <TextField
+          fieldName="Email"
+          color={ThemeColors.White}
+          hidden={false}
+          onChange={() => {}}
+        />
         <TextField
           fieldName="Password"
           color={ThemeColors.White}
           hidden={true}
+          onChange={() => {}}
         />
       </div>
       <div className={styles.buttonLayout}>
         <ModalButton
           onClick={hideModal}
           label="Cancel"
-          isEmphasized="true"
+          isEmphasized={true}
           bgColor={ThemeColors.White}
           color={ThemeColors.Red}
         />
         <ModalButton
-          onClick=""
+          onClick={() => {}}
           label="Confirm"
-          isEmphasized="true"
+          isEmphasized={true}
           bgColor={ThemeColors.White}
           color={ThemeColors.Red}
         />

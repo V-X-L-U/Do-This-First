@@ -21,8 +21,8 @@ ModalButton.propTypes = {
   label: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
   isEmphasized: PropTypes.bool.isRequired,
-  bgColor: PropTypes.bool.isRequired,
-  color: PropTypes.bool.isRequired,
+  bgColor: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
 };
 
 export default ModalButton;
