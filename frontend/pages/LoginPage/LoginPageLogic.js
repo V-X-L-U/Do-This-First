@@ -23,7 +23,7 @@ const validateEmail = ({ email }) => {
   if (email.match(emailFormat)) {
     return "";
   }
-  return "Invalid Email: Should be in the correct format (e.g. abc@tex.com)";
+  return "Invalid Email: Should be in the correct format (e.g., abc@tex.com)";
 };
 
 // Returns an empty string if password is valid. Otherwise, return appropriate
@@ -47,7 +47,7 @@ const loginUserHandler = async ({ userEmail, userPassword }) => {
     email: userEmail,
     password: userPassword,
   };
-  await instance
+  return await instance
     .post("/api/auth/login", data)
     .then(() => {
       return "";
@@ -70,7 +70,7 @@ const registerUserHandler = async ({ userEmail, userPassword }) => {
     email: userEmail,
     password: userPassword,
   };
-  await instance
+  return await instance
     .post("/api/auth/register", data)
     .then(() => {
       return "";
