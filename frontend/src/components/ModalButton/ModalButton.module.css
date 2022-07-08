@@ -1,0 +1,33 @@
+.emphasizedButton {
+  background-color: #904e55;
+  border: none;
+  color: #f2efe9;
+  font-size: 1.125rem;
+  padding: 10px min(60px, 10vw);
+  border-radius: 10px;
+  margin: 10px 0px;
+  cursor: pointer;
+  border-width: 1px;
+  box-shadow: 3px 3px grey;
+  font-weight: bold;
+  font-family: "Inter", sans-serif;
+}
+.emphasizedButton:active {
+  transform: translateY(1px);
+  box-shadow: 2px 3px #dadada;
+}
+
+.greyedButton {
+  background-color: #8b898b;
+  border: none;
+  color: #c0c0c0;
+  font-size: 1.125rem;
+  padding: 10px min(60px, 10vw);
+  border-radius: 10px;
+  margin: 10px 0px;
+  cursor: pointer;
+  border-width: 1px;
+  box-shadow: 3px 3px grey;
+  font-weight: bold;
+  font-family: "Inter", sans-serif;
+}

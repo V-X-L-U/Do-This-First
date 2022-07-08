@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { instance } from "./instance";
 import "./App.css";
 
@@ -56,6 +56,33 @@ const App = () => {
       });
   };
 
+  const createTask = async () => {
+    const newTask = {
+      name: "Groceries",
+      description: "Buy meat at TnT",
+      prereqs_done: false,
+      task_done: false,
+      prereqs: [],
+    };
+
+    await instance
+      .post("/api/tasks/create", newTask)
+      .then((res) => {
+        setMessageDisplay("Task Successfully created");
+        console.log(res.data);
+      })
+      .catch(errHandler);
+  };
+
+  const getAllTasks = async () => {
+    try {
+      const res = await instance.get("api/tasks/getAll");
+      console.log(res);
+    } catch (err) {
+      errHandler(err);
+    }
+  };
+
   return (
     <div>
       <div>DoThisFirst</div>
@@ -63,6 +90,8 @@ const App = () => {
       <button onClick={loginUser}>Login User</button>
       <button onClick={logoutUser}>Logout User</button>
       <button onClick={getTasks}>Get Tasks</button>
+      <button onClick={createTask}>Create Task</button>
+      <button onClick={getAllTasks}>Get All Tasks</button>
       <div>{messageDisplay}</div>
     </div>
   );
