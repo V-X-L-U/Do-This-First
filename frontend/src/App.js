@@ -1,6 +1,23 @@
 import { useState } from "react";
 import { instance } from "./instance";
+import { ReactDOM } from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import RegistrationModal from "./pages/RegistrationModal/RegistrationModal";
+import TaskListPage from "./pages/TaskListPage/TaskListPage";
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<App />} />
+      <Route path="login" element={<LoginPage />} />
+      <Route path="register" element={<RegistrationModal />} />
+      <Route path="tasks" element={<TaskListPage />} />
+    </Routes>
+  </BrowserRouter>
+);
 
 const App = () => {
   const [messageDisplay, setMessageDisplay] = useState("");
