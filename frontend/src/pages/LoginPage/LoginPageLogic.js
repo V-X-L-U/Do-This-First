@@ -1,7 +1,6 @@
-// Returns an empty string if email and password is valid. Otherwise, return
-
 import { instance } from "../../src/instance";
 
+// Returns an empty string if email and password is valid. Otherwise, return
 // appropriate error message.
 const validateEmailandPassword = ({ email, password }) => {
   const validEmail = validateEmail(email);
