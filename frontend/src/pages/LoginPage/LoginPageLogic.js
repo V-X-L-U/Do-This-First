@@ -46,7 +46,6 @@ const loginUserHandler = async ({ email, password }) => {
     email: email,
     password: password,
   };
-  console.log(data);
   return await instance
     .post("/api/auth/login", data)
     .then(() => {
@@ -64,11 +63,11 @@ const loginUserHandler = async ({ email, password }) => {
 // Makes a call to the server to register the user.
 // Returns an empty string if register is successful. Otherwise, return
 // appropriate error message.
-const registerUserHandler = async ({ userEmail, userPassword }) => {
+const registerUserHandler = async ({ email, password }) => {
   // https://stackoverflow.com/questions/6396101/pure-javascript-send-post-data-without-a-form
   const data = {
-    email: userEmail,
-    password: userPassword,
+    email: email,
+    password: password,
   };
   return await instance
     .post("/api/auth/register", data)
