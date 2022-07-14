@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./LoginPage.module.css";
 import RegistrationModal from "../../pages/RegistrationModal/RegistrationModal";
 import ErrorDisplay from "../../components/ErrorDisplay/ErrorDisplay";
@@ -8,8 +9,10 @@ import InteractiveText from "../../components/InteractiveText/InteractiveText";
 import PlainText from "../../components/PlainText/PlainText";
 import ThemeColors from "../../ThemeColors";
 import ModalButton from "../../components/ModalButton/ModalButton";
+import { loginUserHandler, validateEmailandPassword } from "./LoginPageLogic";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const [loginFormData, setLoginFormData] = useState({
     email: "",
     password: "",
@@ -49,13 +52,17 @@ const LoginPage = () => {
             fieldName="Email"
             color={ThemeColors.Red}
             hidden={false}
-            onChange={() => {}}
+            onChange={(e) => {
+              setUpdatedFormData("email", e);
+            }}
           />
           <TextField
             fieldName="Password"
             color={ThemeColors.Red}
             hidden={true}
-            onChange={() => {}}
+            onChange={(e) => {
+              setUpdatedFormData("password", e);
+            }}
           />
           {errorMessage.length > 0 ? (
             <ErrorDisplay errorMessage={errorMessage} />
@@ -83,7 +90,19 @@ const LoginPage = () => {
               isEmphasized={true}
               bgColor={ThemeColors.Red}
               color={ThemeColors.White}
-              onClick={() => {}}
+              onClick={async () => {
+                const validFormat = validateEmailandPassword(loginFormData);
+                const validData = await loginUserHandler(loginFormData);
+                if (validFormat.length > 0) {
+                  // ERROR WRONG FORMAT
+                  setErrorMessage(validFormat);
+                } else if (validData.length > 0) {
+                  // ERROR LOGIN FAILED
+                  setErrorMessage(validData);
+                } else {
+                  navigate("/tasks");
+                }
+              }}
             />
           </div>
         </div>
