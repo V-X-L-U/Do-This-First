@@ -54,6 +54,7 @@ const LoginPage = () => {
             hidden={false}
             onChange={(e) => {
               setUpdatedFormData("email", e);
+              console.log(loginFormData);
             }}
           />
           <TextField
@@ -62,6 +63,7 @@ const LoginPage = () => {
             hidden={true}
             onChange={(e) => {
               setUpdatedFormData("password", e);
+              console.log(loginFormData);
             }}
           />
           {errorMessage.length > 0 ? (
@@ -92,16 +94,18 @@ const LoginPage = () => {
               color={ThemeColors.White}
               onClick={async () => {
                 const validFormat = validateEmailandPassword(loginFormData);
-                const validData = await loginUserHandler(loginFormData);
                 if (validFormat.length > 0) {
                   // ERROR WRONG FORMAT
                   setErrorMessage(validFormat);
-                } else if (validData.length > 0) {
+                  return;
+                }
+                const validData = await loginUserHandler(loginFormData);
+                if (validData.length > 0) {
                   // ERROR LOGIN FAILED
                   setErrorMessage(validData);
-                } else {
-                  navigate("/tasks");
+                  return;
                 }
+                navigate("/tasks");
               }}
             />
           </div>

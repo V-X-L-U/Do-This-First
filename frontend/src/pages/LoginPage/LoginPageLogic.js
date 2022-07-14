@@ -1,4 +1,4 @@
-import { instance } from "../../src/instance";
+import { instance } from "../../instance";
 
 // Returns an empty string if email and password is valid. Otherwise, return
 // appropriate error message.
@@ -16,7 +16,7 @@ const validateEmailandPassword = ({ email, password }) => {
 
 // Returns an empty string if email is valid. Otherwise, return appropriate
 // error message.
-const validateEmail = ({ email }) => {
+const validateEmail = (email) => {
   const emailFormat = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(.[a-zA-Z0-9]{2,3})+$/;
   // https://www.w3resource.com/javascript/form/email-validation.php
   if (email.match(emailFormat)) {
@@ -27,7 +27,7 @@ const validateEmail = ({ email }) => {
 
 // Returns an empty string if password is valid. Otherwise, return appropriate
 // error message.
-const validatePassword = ({ password }) => {
+const validatePassword = (password) => {
   const passwordFormat = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
   // Minimum One Uppercase, One Lowercase, One Number and 8 Character (No special Character)
   // https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
@@ -40,12 +40,13 @@ const validatePassword = ({ password }) => {
 // Makes a call to the server to login the user.
 // Returns an empty string if login is successful. Otherwise, return appropriate
 // error message.
-const loginUserHandler = async ({ userEmail, userPassword }) => {
+const loginUserHandler = async ({ email, password }) => {
   // https://stackoverflow.com/questions/6396101/pure-javascript-send-post-data-without-a-form
   const data = {
-    email: userEmail,
-    password: userPassword,
+    email: email,
+    password: password,
   };
+  console.log(data);
   return await instance
     .post("/api/auth/login", data)
     .then(() => {
