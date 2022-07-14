@@ -54,6 +54,7 @@ const LoginPage = () => {
             hidden={false}
             onChange={(e) => {
               setUpdatedFormData("email", e);
+              setErrorMessage("");
             }}
           />
           <TextField
@@ -62,6 +63,7 @@ const LoginPage = () => {
             hidden={true}
             onChange={(e) => {
               setUpdatedFormData("password", e);
+              setErrorMessage("");
             }}
           />
           {errorMessage.length > 0 ? (

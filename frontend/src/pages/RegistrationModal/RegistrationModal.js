@@ -56,6 +56,7 @@ const RegistrationModal = ({ hideModal, userRegistrationHandler }) => {
           hidden={false}
           onChange={(e) => {
             setUpdatedFormData("email", e);
+            setErrorMessage("");
           }}
         />
         <TextField
@@ -64,6 +65,7 @@ const RegistrationModal = ({ hideModal, userRegistrationHandler }) => {
           hidden={true}
           onChange={(e) => {
             setUpdatedFormData("password", e);
+            setErrorMessage("");
           }}
         />
         {errorMessage.length > 0 ? (
