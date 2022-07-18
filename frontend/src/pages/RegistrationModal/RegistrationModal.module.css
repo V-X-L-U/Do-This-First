@@ -4,7 +4,6 @@
   align-items: center;
   width: 85vw;
   max-width: 500px;
-  height: 80vh;
   background: #904e55;
   top: 50%;
   left: 50%;
@@ -12,7 +11,7 @@
   z-index: 10;
   position: fixed;
   border-radius: 30px;
-  padding: 0px 20px;
+  padding: 0px 20px 40px 20px;
 }
 
 .credLayout {
