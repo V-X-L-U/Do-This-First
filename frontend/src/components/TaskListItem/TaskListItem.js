@@ -1,18 +1,18 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 import { BsTrash } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
-import styles from "./ListViewItem.module.css";
+import styles from "./TaskListItem.module.css";
 
-const ListViewItem = () => {
+const TaskListItem = ({ task, status }) => {
   const editTask = () => {};
 
   const deleteTask = () => {};
 
   return (
-    <div className={styles.listViewItem}>
-      <div className={styles.taskName}>
-        {/* TODO: change color based on task status, icons, dyanamic task names */}
-        Task Name
+    <div className={styles.taskListItem}>
+      <div className={styles.taskName} color={status}>
+        {task}
       </div>
       <div className={styles.buttonLayout}>
         <button className={styles.editButton}>
@@ -26,4 +26,9 @@ const ListViewItem = () => {
   );
 };
 
-export default ListViewItem;
+TaskListItem.propTypes = {
+  task: PropTypes.string.isRequired,
+  status: PropTypes.string.isRequired,
+};
+
+export default TaskListItem;
