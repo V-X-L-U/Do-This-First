@@ -8,11 +8,11 @@ const PrereqListItem = ({ task, status }) => {
 
   return (
     <div className={styles.prereqListItem}>
-      <div className={styles.taskName} color={status}>
+      <div className={styles.taskName} style={{ color: status }}>
         {task}
       </div>
       <div className={styles.deleteBtnLayout}>
-        <button className={styles.deleteButton}>
+        <button className={styles.deleteButton} onClick={deleteTask}>
           <TiDelete className={styles.deleteIcon} />
         </button>
       </div>

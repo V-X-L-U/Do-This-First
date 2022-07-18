@@ -11,7 +11,7 @@ const TaskListItem = ({ task, status }) => {
 
   return (
     <div className={styles.taskListItem}>
-      <div className={styles.taskName} color={status}>
+      <div className={styles.taskName} style={{ color: status }}>
         {task}
       </div>
       <div className={styles.buttonLayout}>
