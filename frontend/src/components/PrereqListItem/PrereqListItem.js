@@ -3,13 +3,13 @@ import PropTypes from "prop-types";
 import { TiDelete } from "react-icons/ti";
 import styles from "./PrereqListItem.module.css";
 
-const PrereqListItem = ({ task, status }) => {
+const PrereqListItem = ({ taskName, taskStatusColor }) => {
   const deleteTask = () => {};
 
   return (
     <div className={styles.prereqListItem}>
-      <div className={styles.taskName} style={{ color: status }}>
-        {task}
+      <div className={styles.taskName} style={{ color: taskStatusColor }}>
+        {taskName}
       </div>
       <div className={styles.deleteBtnLayout}>
         <button className={styles.deleteButton} onClick={deleteTask}>
@@ -21,8 +21,8 @@ const PrereqListItem = ({ task, status }) => {
 };
 
 PrereqListItem.propTypes = {
-  task: PropTypes.string.isRequired,
-  status: PropTypes.string.isRequired,
+  taskName: PropTypes.string.isRequired,
+  taskStatusColor: PropTypes.string.isRequired,
 };
 
 export default PrereqListItem;
