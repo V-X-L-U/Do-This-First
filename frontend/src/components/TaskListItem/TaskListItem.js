@@ -4,15 +4,15 @@ import { BsTrash } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
 import styles from "./TaskListItem.module.css";
 
-const TaskListItem = ({ task, status }) => {
+const TaskListItem = ({ taskName, taskStatusColor }) => {
   const editTask = () => {};
 
   const deleteTask = () => {};
 
   return (
     <div className={styles.taskListItem}>
-      <div className={styles.taskName} style={{ color: status }}>
-        {task}
+      <div className={styles.taskName} style={{ color: taskStatusColor }}>
+        {taskName}
       </div>
       <div className={styles.buttonLayout}>
         <button className={styles.editButton}>
@@ -27,8 +27,8 @@ const TaskListItem = ({ task, status }) => {
 };
 
 TaskListItem.propTypes = {
-  task: PropTypes.string.isRequired,
-  status: PropTypes.string.isRequired,
+  taskName: PropTypes.string.isRequired,
+  taskStatusColor: PropTypes.string.isRequired,
 };
 
 export default TaskListItem;
