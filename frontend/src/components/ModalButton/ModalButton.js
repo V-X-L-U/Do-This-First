@@ -1,5 +1,5 @@
 import styles from "./ModalButton.module.css";
-import ThemeColors from "../../ThemeColors";
+import { ThemeColors } from "../../ThemeColors";
 import PropTypes from "prop-types";
 
 const ModalButton = ({ label, onClick, isEmphasized, bgColor, color }) => {
