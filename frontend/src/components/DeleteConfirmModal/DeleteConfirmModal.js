@@ -10,9 +10,9 @@ const DeleteConfirmModal = ({ onCancel, onConfirm }) => {
     <div className={styles.bg}>
       <PageHeader pageTitle="Delete task?" bgColor="transparent" />
 
-      <div className={styles.credLayout}>
+      <div className={styles.textLayout}>
         <PlainText
-          plainText="Deleted task will be permanently removed. Tasks cannot be recovered"
+          plainText="Deleted task will be permanently removed. Tasks cannot be recovered."
           color={ThemeColors.White}
         />
       </div>
