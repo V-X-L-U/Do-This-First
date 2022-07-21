@@ -10,5 +10,8 @@
     height: 40%;
     resize: none;
     overflow-y: scroll;
+    box-sizing: border-box;
+    padding-left: 10px;
+    padding-right: 10px;
 }
   
