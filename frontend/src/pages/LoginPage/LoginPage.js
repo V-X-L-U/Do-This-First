@@ -9,7 +9,11 @@ import InteractiveText from "../../components/InteractiveText/InteractiveText";
 import PlainText from "../../components/PlainText/PlainText";
 import ThemeColors from "../../ThemeColors";
 import ModalButton from "../../components/ModalButton/ModalButton";
-import { loginUserHandler, validateEmailandPassword } from "./LoginPageLogic";
+import {
+  loginUserHandler,
+  registerUserHandler,
+  validateEmailandPassword,
+} from "./LoginPageLogic";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -55,7 +59,10 @@ const LoginPage = () => {
       {showRegistrationModal ? (
         <>
           <div className={styles.preventClick} />
-          <RegistrationModal hideModal={hideModal} />
+          <RegistrationModal
+            hideModal={hideModal}
+            userRegistrationHandler={registerUserHandler}
+          />
         </>
       ) : (
         <></>

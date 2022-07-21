@@ -9,7 +9,6 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LoginPage />} />
-        <Route path="register" element={<RegistrationModal />} />
         <Route path="tasks" element={<TaskListPage />} />
       </Routes>
     </BrowserRouter>
