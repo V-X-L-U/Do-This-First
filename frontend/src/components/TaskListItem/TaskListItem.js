@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { BsTrash } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
 import styles from "./TaskListItem.module.css";
+import { TaskColors } from "../../ThemeColors";
 
 const TaskListItem = ({ taskName, taskStatusColor }) => {
   const editTask = () => {};
@@ -11,7 +12,16 @@ const TaskListItem = ({ taskName, taskStatusColor }) => {
 
   return (
     <div className={styles.taskListItem}>
-      <div className={styles.taskName} style={{ color: taskStatusColor }}>
+      <div
+        className={styles.taskName}
+        style={{
+          color: taskStatusColor,
+          textDecoration:
+            taskStatusColor === TaskColors.FinishedTask
+              ? "line-through"
+              : "none",
+        }}
+      >
         {taskName}
       </div>
       <div className={styles.buttonLayout}>
