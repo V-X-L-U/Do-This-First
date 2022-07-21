@@ -104,6 +104,7 @@ const LoginPage = () => {
             />
             <InteractiveText
               clickableText="Sign up"
+              color={ThemeColors.Blue}
               onClick={() => {
                 setShowRegistrationModal(true);
               }}

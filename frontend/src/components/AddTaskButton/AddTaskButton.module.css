@@ -1,0 +1,15 @@
+.addButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 30px;
+  background: transparent;
+  border: none;
+  height: 40%;
+}
+
+.addIcon {
+  color: white;
+  height: 100%;
+  width: 100%;
+}
