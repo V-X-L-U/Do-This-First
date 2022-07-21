@@ -87,9 +87,7 @@ const RegistrationModal = ({ hideModal, userRegistrationHandler }) => {
           color={ThemeColors.Red}
         />
         <ModalButton
-          onClick={async () => {
-            await onConfirm();
-          }}
+          onClick={onConfirm}
           label="Confirm"
           isEmphasized={true}
           bgColor={ThemeColors.White}
