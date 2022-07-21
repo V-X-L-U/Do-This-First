@@ -6,6 +6,7 @@ import ThemeColors from "../../ThemeColors";
 import ModalButton from "../../components/ModalButton/ModalButton";
 import TextField from "../../components/TextField/TextField";
 import ErrorDisplay from "../../components/ErrorDisplay/ErrorDisplay";
+import { validateEmailandPassword } from "../LoginPage/LoginPageLogic";
 // User Registration pop-up.
 //
 // param: void hideModal()
@@ -30,9 +31,20 @@ const RegistrationModal = ({ hideModal, userRegistrationHandler }) => {
     setRegistrationFormData(updatedFormData);
   };
 
-  const onConfirm = () => {
+  const onConfirm = async () => {
     // hint: use user registration handler
     // hint: set the error message appropriately, when needed
+    const validFormat = validateEmailandPassword(registrationFormData);
+    if (validFormat.length > 0) {
+      setErrorMessage(validFormat);
+      return;
+    }
+    const validRegister = await userRegistrationHandler(registrationFormData);
+    if (validRegister.length > 0) {
+      setErrorMessage(validRegister);
+    }
+
+    hideModal();
   };
 
   return (
@@ -44,13 +56,19 @@ const RegistrationModal = ({ hideModal, userRegistrationHandler }) => {
           fieldName="Email"
           color={ThemeColors.White}
           hidden={false}
-          onChange={() => {}}
+          onChange={(e) => {
+            setUpdatedFormData("email", e);
+            setErrorMessage("");
+          }}
         />
         <TextField
           fieldName="Password"
           color={ThemeColors.White}
           hidden={true}
-          onChange={() => {}}
+          onChange={(e) => {
+            setUpdatedFormData("password", e);
+            setErrorMessage("");
+          }}
         />
         {errorMessage.length > 0 ? (
           <ErrorDisplay errorMessage={errorMessage} />
@@ -71,7 +89,7 @@ const RegistrationModal = ({ hideModal, userRegistrationHandler }) => {
           color={ThemeColors.Red}
         />
         <ModalButton
-          onClick={() => {}}
+          onClick={onConfirm}
           label="Confirm"
           isEmphasized={true}
           bgColor={ThemeColors.White}

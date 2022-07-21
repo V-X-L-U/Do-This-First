@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./LoginPage.module.css";
 import RegistrationModal from "../../pages/RegistrationModal/RegistrationModal";
 import ErrorDisplay from "../../components/ErrorDisplay/ErrorDisplay";
@@ -8,8 +9,14 @@ import InteractiveText from "../../components/InteractiveText/InteractiveText";
 import PlainText from "../../components/PlainText/PlainText";
 import ThemeColors from "../../ThemeColors";
 import ModalButton from "../../components/ModalButton/ModalButton";
+import {
+  loginUserHandler,
+  registerUserHandler,
+  validateEmailandPassword,
+} from "./LoginPageLogic";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const [loginFormData, setLoginFormData] = useState({
     email: "",
     password: "",
@@ -27,8 +34,24 @@ const LoginPage = () => {
   // Used to control whether the registration pop-up should be shown
   const [showRegistrationModal, setShowRegistrationModal] = useState(false);
 
-  const onCancel = () => {
+  const hideModal = () => {
     setShowRegistrationModal(false);
+  };
+
+  const onSubmit = async () => {
+    const validFormat = validateEmailandPassword(loginFormData);
+    if (validFormat.length > 0) {
+      // ERROR WRONG FORMAT
+      setErrorMessage(validFormat);
+      return;
+    }
+    const validData = await loginUserHandler(loginFormData);
+    if (validData.length > 0) {
+      // ERROR LOGIN FAILED
+      setErrorMessage(validData);
+      return;
+    }
+    navigate("/tasks");
   };
 
   return (
@@ -36,7 +59,10 @@ const LoginPage = () => {
       {showRegistrationModal ? (
         <>
           <div className={styles.preventClick} />
-          <RegistrationModal hideModal={onCancel} />
+          <RegistrationModal
+            hideModal={hideModal}
+            userRegistrationHandler={registerUserHandler}
+          />
         </>
       ) : (
         <></>
@@ -49,13 +75,19 @@ const LoginPage = () => {
             fieldName="Email"
             color={ThemeColors.Red}
             hidden={false}
-            onChange={() => {}}
+            onChange={(e) => {
+              setUpdatedFormData("email", e);
+              setErrorMessage("");
+            }}
           />
           <TextField
             fieldName="Password"
             color={ThemeColors.Red}
             hidden={true}
-            onChange={() => {}}
+            onChange={(e) => {
+              setUpdatedFormData("password", e);
+              setErrorMessage("");
+            }}
           />
           {errorMessage.length > 0 ? (
             <ErrorDisplay errorMessage={errorMessage} />
@@ -84,7 +116,7 @@ const LoginPage = () => {
               isEmphasized={true}
               bgColor={ThemeColors.Red}
               color={ThemeColors.White}
-              onClick={() => {}}
+              onClick={onSubmit}
             />
           </div>
         </div>
