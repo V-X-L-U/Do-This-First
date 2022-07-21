@@ -30,8 +30,24 @@ const LoginPage = () => {
   // Used to control whether the registration pop-up should be shown
   const [showRegistrationModal, setShowRegistrationModal] = useState(false);
 
-  const onCancel = () => {
+  const hideModal = () => {
     setShowRegistrationModal(false);
+  };
+
+  const onSubmit = async () => {
+    const validFormat = validateEmailandPassword(loginFormData);
+    if (validFormat.length > 0) {
+      // ERROR WRONG FORMAT
+      setErrorMessage(validFormat);
+      return;
+    }
+    const validData = await loginUserHandler(loginFormData);
+    if (validData.length > 0) {
+      // ERROR LOGIN FAILED
+      setErrorMessage(validData);
+      return;
+    }
+    navigate("/tasks");
   };
 
   return (
@@ -39,7 +55,7 @@ const LoginPage = () => {
       {showRegistrationModal ? (
         <>
           <div className={styles.preventClick} />
-          <RegistrationModal hideModal={onCancel} />
+          <RegistrationModal hideModal={hideModal} />
         </>
       ) : (
         <></>
@@ -92,21 +108,7 @@ const LoginPage = () => {
               isEmphasized={true}
               bgColor={ThemeColors.Red}
               color={ThemeColors.White}
-              onClick={async () => {
-                const validFormat = validateEmailandPassword(loginFormData);
-                if (validFormat.length > 0) {
-                  // ERROR WRONG FORMAT
-                  setErrorMessage(validFormat);
-                  return;
-                }
-                const validData = await loginUserHandler(loginFormData);
-                if (validData.length > 0) {
-                  // ERROR LOGIN FAILED
-                  setErrorMessage(validData);
-                  return;
-                }
-                navigate("/tasks");
-              }}
+              onClick={onSubmit}
             />
           </div>
         </div>
