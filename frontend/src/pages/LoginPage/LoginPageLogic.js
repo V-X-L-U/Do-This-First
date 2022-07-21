@@ -22,7 +22,7 @@ const validateEmail = (email) => {
   if (email.match(emailFormat)) {
     return "";
   }
-  return "Invalid Email: Should be in the correct format (e.g., abc@tex.com)";
+  return "Invalid Email: Should be of proper format (e.g., abc@tex.com)";
 };
 
 // Returns an empty string if password is valid. Otherwise, return appropriate
@@ -34,7 +34,7 @@ const validatePassword = (password) => {
   if (password.match(passwordFormat)) {
     return "";
   }
-  return "Invalid Password: Should contain at least 8 characters; At least 1 UpperCase, 1 LowerCase, 1 Number";
+  return "Invalid Password: Should contain at least 8 characters, at least 1 upper case, 1 lower case, 1 digit";
 };
 
 // Makes a call to the server to login the user.

@@ -43,6 +43,8 @@ const RegistrationModal = ({ hideModal, userRegistrationHandler }) => {
     if (validRegister.length > 0) {
       setErrorMessage(validRegister);
     }
+
+    hideModal();
   };
 
   return (
