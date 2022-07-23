@@ -1,0 +1,63 @@
+.taskListItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 10px;
+  gap: 10px;
+}
+
+.editButton {
+  border: none;
+  width: 30px;
+  height: 30px;
+  border: none;
+  background-color: transparent;
+  border-radius: 5px;
+}
+
+.editIcon {
+  height: 100%;
+  width: 100%;
+  color: gray;
+}
+
+.editIcon:hover {
+  color: #3e90a1;
+}
+
+.deleteButton {
+  border: none;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  background-color: transparent;
+  border-radius: 5px;
+}
+
+.deleteIcon {
+  height: 100%;
+  width: 100%;
+  color: gray;
+}
+
+.deleteIcon:hover {
+  color: #3e90a1;
+}
+
+.buttonLayout {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 30%;
+  justify-content: center;
+}
+
+.taskName {
+  width: 70%;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  font-size: 0.9rem;
+  font-weight: light;
+  font-family: "Inter", sans-serif;
+}

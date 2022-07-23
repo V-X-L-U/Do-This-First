@@ -2,7 +2,7 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import styles from "./RegistrationModal.module.css";
 import PageHeader from "../../components/PageHeader/PageHeader";
-import ThemeColors from "../../ThemeColors";
+import { ThemeColors } from "../../ThemeColors";
 import ModalButton from "../../components/ModalButton/ModalButton";
 import TextField from "../../components/TextField/TextField";
 import ErrorDisplay from "../../components/ErrorDisplay/ErrorDisplay";

@@ -6,4 +6,10 @@ const ThemeColors = {
   Blue: "#3e90a1",
 };
 
-export default ThemeColors;
+const TaskColors = {
+  Valid: "#904E55",
+  Invalid: "#8B898B",
+  Finished: "#B3B2B1",
+};
+
+export { ThemeColors, TaskColors };
