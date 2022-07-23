@@ -5,19 +5,19 @@ import TaskListItem from "../TaskListItem/TaskListItem";
 import { ThemeColors, TaskColors } from "../../ThemeColors";
 import PrereqListItem from "../PrereqListItem/PrereqListItem";
 
-const ListView = ({ tasks, TaskType }) => {
-  const convertInt = (x) => {
-    if (x.task_done && x.prereqs_done) {
+const ListView = ({ tasks, TaskType: ListItemType }) => {
+  const convertTaskToInt = (taskToConvert) => {
+    if (taskToConvert.task_done && taskToConvert.prereqs_done) {
       return 0;
-    } else if (!x.task_done && !x.prereqs_done) {
+    } else if (!taskToConvert.task_done && !taskToConvert.prereqs_done) {
       return 1;
     } else {
       return 2;
     }
   };
 
-  tasks.sort(function (a, b) {
-    return convertInt(b) - convertInt(a);
+  tasks.sort(function (task1, task2) {
+    return convertTaskToInt(task1) - convertTaskToInt(task2);
   });
 
   const listItems = tasks.map(function (task, ix) {
@@ -27,8 +27,8 @@ const ListView = ({ tasks, TaskType }) => {
       ? TaskColors.ValidTask
       : TaskColors.InvalidTask;
     return (
-      <li key={ix} className={styles.TaskItemList}>
-        <TaskType taskName={task.name} taskStatusColor={taskColor} />
+      <li key={ix} className={styles.ListItem}>
+        <ListItemType taskName={task.name} taskStatusColor={taskColor} />
       </li>
     );
   });

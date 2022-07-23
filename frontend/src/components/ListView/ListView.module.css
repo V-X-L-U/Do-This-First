@@ -9,9 +9,10 @@
   max-height: 200px;
 }
 
-.TaskItemList {
+.ListItem {
   list-style-type: none;
   height: 7vh;
+  max-height: 50px;
   width: 100%;
 }
 
