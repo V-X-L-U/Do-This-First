@@ -1,7 +1,7 @@
 import styles from "./PageHeader.module.css";
 import PropTypes from "prop-types";
 
-const PageHeader = ({ pageTitle, bgColor }) => {
+const PageHeader = ({ pageTitle, bgColor, trailingComp }) => {
   return (
     <h1
       className={styles.pageHeader}
@@ -10,6 +10,7 @@ const PageHeader = ({ pageTitle, bgColor }) => {
       }}
     >
       {pageTitle}
+      {trailingComp === null ? <></> : trailingComp}
     </h1>
   );
 };
@@ -17,6 +18,7 @@ const PageHeader = ({ pageTitle, bgColor }) => {
 PageHeader.propTypes = {
   pageTitle: PropTypes.string.isRequired,
   bgColor: PropTypes.string.isRequired,
+  trailingComp: PropTypes.element,
 };
 
 export default PageHeader;
