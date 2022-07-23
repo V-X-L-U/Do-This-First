@@ -6,9 +6,9 @@ const ThemeColors = {
 };
 
 const TaskColors = {
-  ValidTask: "#904E55",
-  InvalidTask: "#8B898B",
-  FinishedTask: "#B3B2B1",
+  Valid: "#904E55",
+  Invalid: "#8B898B",
+  Finished: "#B3B2B1",
 };
 
 export { ThemeColors, TaskColors };
