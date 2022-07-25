@@ -13,7 +13,7 @@ const TextField = ({ fieldName, onChange, color, hidden, multilineInput }) => {
       </div>
       {multilineInput ? (
         <div className={styles.DescriptionInput}>
-          <TextArea />
+          <TextArea onChange={onChange} />
         </div>
       ) : (
         <input
