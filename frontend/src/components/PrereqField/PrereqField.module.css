@@ -16,8 +16,9 @@
   border-radius: 15px;
   border: none;
   outline: none;
-  padding-left: 10px;
   width: 65%;
-  height: 200px;
+  height: 150px;
   background-color: #ffffff;
+  padding: 10px;
+  box-sizing: border-box;
 }
