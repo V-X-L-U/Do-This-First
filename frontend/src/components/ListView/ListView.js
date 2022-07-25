@@ -17,7 +17,7 @@ const ListView = ({ tasks, TaskType: ListItemType }) => {
   };
 
   tasks.sort(function (task1, task2) {
-    return convertTaskToInt(task1) - convertTaskToInt(task2);
+    return convertTaskToInt(task2) - convertTaskToInt(task1);
   });
 
   const listItems = tasks.map(function (task, ix) {
