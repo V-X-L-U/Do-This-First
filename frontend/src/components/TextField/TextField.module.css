@@ -8,6 +8,11 @@
   width: 100%;
 }
 
+.DescriptionInput {
+  width: 65%;
+  height: 150px;
+}
+
 .inputBox {
   border-radius: 15px;
   border: none;
@@ -17,7 +22,9 @@
   padding-left: 10px;
   font-size: 1.125rem;
   font-family: "Inter", sans-serif;
-  width: 60%;
+  width: 65%;
+  height: 25px;
+  overflow-wrap: break-all;
 }
 
 .labelBox {

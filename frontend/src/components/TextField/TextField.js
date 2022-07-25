@@ -1,6 +1,7 @@
 import styles from "./TextField.module.css";
 import PropTypes from "prop-types";
 import PlainText from "../PlainText/PlainText";
+import TextArea from "../TextArea/TextArea";
 
 // Standard text field.
 // param: void onChanged(<fieldType>)
@@ -10,12 +11,17 @@ const TextField = ({ fieldName, onChange, color, hidden, multilineInput }) => {
       <div className={styles.labelBox}>
         <PlainText plainText={fieldName} color={color} />
       </div>
-      <input
-        type={hidden ? "password" : "text"}
-        className={styles.inputBox}
-        onChange={onChange}
-        style={{ height: multilineInput ? "150px" : "25px" }}
-      ></input>
+      {multilineInput ? (
+        <div className={styles.DescriptionInput}>
+          <TextArea />
+        </div>
+      ) : (
+        <input
+          type={hidden ? "password" : "text"}
+          className={styles.inputBox}
+          onChange={onChange}
+        ></input>
+      )}
     </div>
   );
 };
