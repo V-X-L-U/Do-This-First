@@ -1,17 +1,18 @@
 .textArea {
-    border-radius: 15px;
-    border: none;
-    outline: none;
-    background-color: #ffffff;
-    color: #575656;
-    font-size: 1.125rem;
-    font-family: "Inter", sans-serif;
-    width: 100%;
-    height: 40%;
-    resize: none;
-    overflow-y: scroll;
-    box-sizing: border-box;
-    padding-left: 10px;
-    padding-right: 10px;
+  border-radius: 15px;
+  border: none;
+  outline: none;
+  background-color: #ffffff;
+  color: #575656;
+  font-size: 1rem;
+  font-family: "Inter", sans-serif;
+  width: 100%;
+  height: 100%;
+  resize: none;
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding-left: 10px;
+  padding-right: 10px;
 }
-  
+
+
