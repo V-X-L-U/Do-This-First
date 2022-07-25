@@ -22,10 +22,11 @@ const ListView = ({ tasks, TaskType: ListItemType }) => {
 
   const listItems = tasks.map(function (task, ix) {
     const taskColor = task.task_done
-      ? TaskColors.FinishedTask
+      ? TaskColors.Finished
       : task.prereqs_done
-      ? TaskColors.ValidTask
-      : TaskColors.InvalidTask;
+      ? TaskColors.Valid
+      : TaskColors.Invalid;
+
     return (
       <li key={ix} className={styles.ListItem}>
         <ListItemType taskName={task.name} taskStatusColor={taskColor} />
