@@ -4,7 +4,7 @@ import PlainText from "../PlainText/PlainText";
 
 // Standard text field.
 // param: void onChanged(<fieldType>)
-const TextField = ({ fieldName, onChange, color, hidden }) => {
+const TextField = ({ fieldName, onChange, color, hidden, multilineInput }) => {
   return (
     <div className={styles.textField}>
       <div className={styles.labelBox}>
@@ -14,6 +14,7 @@ const TextField = ({ fieldName, onChange, color, hidden }) => {
         type={hidden ? "password" : "text"}
         className={styles.inputBox}
         onChange={onChange}
+        style={{ height: multilineInput ? "150px" : "25px" }}
       ></input>
     </div>
   );
@@ -24,6 +25,7 @@ TextField.propTypes = {
   onChange: PropTypes.func.isRequired,
   color: PropTypes.string.isRequired,
   hidden: PropTypes.bool.isRequired,
+  multilineInput: PropTypes.bool.isRequired,
 };
 
 export default TextField;
