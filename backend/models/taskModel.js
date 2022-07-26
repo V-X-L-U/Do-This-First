@@ -29,7 +29,7 @@ const taskSchema = mongoose.Schema(
     dependents: {
       type: [String],
       required: true,
-    }
+    },
   },
   {
     timestamps: true,

@@ -57,12 +57,14 @@ describe("Create Task Test Suite", () => {
     expect(res.body.prereqs_done).toEqual(true);
     expect(res.body).toHaveProperty("task_done");
     expect(res.body.task_done).toEqual(false);
+    expect(res.body).toHaveProperty("dependents");
+    expect(res.body.dependents).toHaveLength(0);
 
     const dependentTask = {
       name: "dependent 1",
       description: "This is a dependent of another task",
       prereqs: [res.body._id],
-    }
+    };
     const res = await request(app)
       .post(createTaskRoute)
       .set("cookie", jwt)
@@ -77,6 +79,18 @@ describe("Create Task Test Suite", () => {
     expect(res1.body.prereqs_done).toEqual(false);
     expect(res1.body).toHaveProperty("task_done");
     expect(res1.body.task_done).toEqual(false);
+    expect(res1.body).toHaveProperty("dependents");
+    expect(res1.body.dependents).toHaveLength(0);
+
+    try {
+      const rootTask = await Task.findOne({ _id: res.body._id });
+      console.log(rootTask);
+      // sampleTask should now have dependentTask as a dependent
+      expect(rootTask.dependents).toEqual([res1.body._id]);
+    } catch (err) {
+      console.log(err);
+      fail("[Create Task Successfully] Unexpected error occurred");
+    }
   });
 
   it("Failed without Authentication", async () => {
