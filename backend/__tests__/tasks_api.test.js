@@ -36,25 +36,47 @@ describe("Create Task Test Suite", () => {
   const sampleTask = {
     name: "new task name",
     description: "new task description",
-    prereqs_done: false,
-    task_done: false,
     prereqs: [],
   };
 
   it("Create Task Successfully", async () => {
     jwt = await loginUser(credentials);
-    console.log(jwt);
 
     const res = await request(app)
       .post(createTaskRoute)
       .set("cookie", jwt)
       .send(sampleTask);
+
     expect(res.statusCode).toEqual(201);
     expect(res.body).toHaveProperty("user_id");
     expect(res.body.user_id).toEqual(userId);
     expect(res.body).toHaveProperty("_id");
     // matches a subset of res.body
     expect(res.body).toMatchObject(sampleTask);
+    expect(res.body).toHaveProperty("prereqs_done");
+    expect(res.body.prereqs_done).toEqual(true);
+    expect(res.body).toHaveProperty("task_done");
+    expect(res.body.task_done).toEqual(false);
+
+    const dependentTask = {
+      name: "dependent 1",
+      description: "This is a dependent of another task",
+      prereqs: [res.body._id],
+    }
+    const res = await request(app)
+      .post(createTaskRoute)
+      .set("cookie", jwt)
+      .send(dependentTask);
+
+    expect(res1.statusCode).toEqual(201);
+    expect(res1.body).toHaveProperty("user_id");
+    expect(res1.body.user_id).toEqual(userId);
+    expect(res1.body).toHaveProperty("_id");
+    expect(res1.body).toMatchObject(dependentTask);
+    expect(res1.body).toHaveProperty("prereqs_done");
+    expect(res1.body.prereqs_done).toEqual(false);
+    expect(res1.body).toHaveProperty("task_done");
+    expect(res1.body.task_done).toEqual(false);
   });
 
   it("Failed without Authentication", async () => {
