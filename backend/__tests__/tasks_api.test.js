@@ -114,8 +114,6 @@ describe("Create Task Test Suite", () => {
 
     const brokenTask = {
       description: "new task description",
-      prereqs_done: false,
-      task_done: false,
       prereqs: [],
     };
 
