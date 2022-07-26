@@ -16,6 +16,15 @@ const {
   authTokenName,
 } = require("./test_helpers");
 
+const assertTaskDetails = (task_doc, dependents, prereqs_done, task_done) => {
+  expect(task_doc).toHaveProperty("prereqs_done");
+  expect(task_doc.prereqs_done).toEqual(prereqs_done);
+  expect(task_doc).toHaveProperty("task_done");
+  expect(task_doc.task_done).toEqual(task_done);
+  expect(task_doc).toHaveProperty("dependents");
+  expect(task_doc.dependents).toEqual(dependents);
+};
+
 const credentials = {
   email: "dothisfirst.tester@gmail.com",
   password: "dtf_testing",
@@ -53,12 +62,7 @@ describe("Create Task Test Suite", () => {
     expect(res.body).toHaveProperty("_id");
     // matches a subset of res.body
     expect(res.body).toMatchObject(sampleTask);
-    expect(res.body).toHaveProperty("prereqs_done");
-    expect(res.body.prereqs_done).toEqual(true);
-    expect(res.body).toHaveProperty("task_done");
-    expect(res.body.task_done).toEqual(false);
-    expect(res.body).toHaveProperty("dependents");
-    expect(res.body.dependents).toHaveLength(0);
+    assertTaskDetails(res.body, [], true, false);
 
     const dependentTask = {
       name: "dependent 1",
@@ -75,12 +79,7 @@ describe("Create Task Test Suite", () => {
     expect(res1.body.user_id).toEqual(userId);
     expect(res1.body).toHaveProperty("_id");
     expect(res1.body).toMatchObject(dependentTask);
-    expect(res1.body).toHaveProperty("prereqs_done");
-    expect(res1.body.prereqs_done).toEqual(false);
-    expect(res1.body).toHaveProperty("task_done");
-    expect(res1.body.task_done).toEqual(false);
-    expect(res1.body).toHaveProperty("dependents");
-    expect(res1.body.dependents).toHaveLength(0);
+    assertTaskDetails(res1.body, [], false, false);
 
     try {
       const rootTask = await Task.findOne({ _id: res.body._id });
