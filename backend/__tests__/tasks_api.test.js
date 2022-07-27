@@ -26,8 +26,8 @@ const assertTaskDetails = (task_doc, dependents, prereqs_done, task_done) => {
 };
 
 const credentials = {
-  email: "dothisfirst.tester@gmail.com",
-  password: "dtf_testing",
+  email: "valen.ko@gmail.com",
+  password: "123456uU",
 };
 
 let server;
@@ -69,7 +69,7 @@ describe("Create Task Test Suite", () => {
       description: "This is a dependent of another task",
       prereqs: [res.body._id],
     };
-    const res = await request(app)
+    const res1 = await request(app)
       .post(createTaskRoute)
       .set("cookie", jwt)
       .send(dependentTask);
