@@ -44,6 +44,13 @@ const createTask = asyncHandler(async (req, res) => {
       return txRes_;
     }
 
+    // check that all prerequisites have been fetched
+    if (prereqDocs.length != req.body.prereqs.length) {
+      txRes_.status = 400;
+      txRes_.body = { message: "Some prerequisites do not exist", server_err: ""};
+      return txRes_;
+    }
+
     // compute prereqs_done
     const prereqs_done = prereqDocs.reduce(
       (status, doc) => status && doc.task_done,
