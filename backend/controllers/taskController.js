@@ -18,20 +18,31 @@ const createTask = asyncHandler(async (req, res) => {
     return;
   }
 
+  console.log("[Create Task] Starting mongo session ...");
   // Starts the session to be used for the transaction
   const db = await mongoose.createConnection(process.env.ATLAS_URI).asPromise();
   const session = await db.startSession();
+  console.log("[Create Task] Mongo session started. Preparing transaction ...");
 
   const txRes = await runTxWithResults(session, async () => {
     const txRes_ = {
       status: 500,
-      body: { message: "Error creating task", server_err: ""},
-    }
+      body: { message: "Error creating task", server_err: "" },
+    };
 
-    const prereqDocs = await Task.find({
-      _id: { $in: req.body.prereqs },
-      user_id: req.uid,
-    }).session(session);
+    try {
+      const prereqDocs = await Task.find({
+        _id: { $in: req.body.prereqs },
+        user_id: req.uid,
+      }).session(session);
+    } catch (fetchErr) {
+      txRes_.status = 500;
+      txRes_.body = {
+        message: "Error creating task",
+        server_err: fetchErr.toString(),
+      };
+      return txRes_;
+    }
 
     // compute prereqs_done
     const prereqs_done = prereqDocs.reduce(
@@ -47,20 +58,26 @@ const createTask = asyncHandler(async (req, res) => {
     } catch (err) {
       if ("name" in err && err.name == "ValidationError") {
         txRes_.status = 400;
-        txRes_.body = {message: "Invalid data for a task", server_err: err.name};
+        txRes_.body = {
+          message: "Invalid data for a task",
+          server_err: err.name,
+        };
+      } else {
+        txRes_.status = 500;
+        txRes_.body = {
+          message: "Error creating task",
+          server_err: err.toString(),
+        };
       }
-
-      const serv_err = "name" in err ? err.name : "";
-      txRes_.status = 500;
-      txRes_.body = { message: "Error creating task", server_err: serv_err};
     }
 
     return txRes_;
   });
+  res.status(txRes.status).json(txRes.body);
 
   await session.endSession();
 
-  res.status(txRes.status).json(txRes.body);
+  console.log("[Create Task] Session ended.");
 });
 
 const getAllTasks = asyncHandler(async (req, res) => {
