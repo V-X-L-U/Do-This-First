@@ -3,6 +3,85 @@ const asyncHandler = require("express-async-handler");
 const Task = require("../models/taskModel");
 const { runTxWithResults } = require("../utils");
 
+// Evaluates the prerequisite status of a task.
+// Modifies <txRes_> when an error is encountered.
+// Returns <True> iff. the transaction should abort.
+const evalPrereqs = async (session, taskBody, txRes_) => {
+  try {
+    const prereqDocs = await Task.find({
+      _id: { $in: taskBody.prereqs },
+      user_id: taskBody.user_id,
+    }).session(session);
+
+    // check that all prerequisites have been fetched
+    if (prereqDocs.length != taskBody.prereqs.length) {
+      txRes_.status = 400;
+      txRes_.body = {
+        message: "Some prerequisites do not exist",
+        server_err: "",
+      };
+
+      return true;
+    }
+
+    // compute prereqs_done
+    taskBody.prereqs_done = prereqDocs.reduce(
+      (status, doc) => status && doc.task_done,
+      true
+    );
+
+    return false;
+  } catch (fetchErr) {
+    txRes_.status = 500;
+    txRes_.body = {
+      message: "Error creating task",
+      server_err: `[prereq eval] ${fetchErr.toString()}`,
+    };
+    return true;
+  }
+};
+
+// Creates the document corresponding to a task specified by <taskBody>.
+// Modifies <txRes_> to indicate suitable success/error responses.
+const createTaskDoc = async (session, taskBody, txRes_) => {
+  try {
+    const newTask = await Task.create([taskBody], { session: session });
+    txRes_.status = 201;
+    txRes_.body = newTask[0];
+  } catch (err) {
+    if ("name" in err && err.name == "ValidationError") {
+      txRes_.status = 400;
+      txRes_.body = {
+        message: "Invalid data for a task",
+        server_err: err.name,
+      };
+    } else {
+      txRes_.status = 500;
+      txRes_.body = {
+        message: "Error creating task",
+        server_err: `[task doc create] ${err.toString()}`,
+      };
+    }
+  }
+};
+
+const createTaskTx = (session, taskBody) => {
+  return runTxWithResults(session, async () => {
+    const txRes_ = {
+      status: 500,
+      body: { message: "Error creating task", server_err: "" },
+    };
+
+    const evalError = await evalPrereqs(session, taskBody, txRes_);
+
+    if (evalError) return txRes_;
+
+    await createTaskDoc(session, taskBody, txRes_);
+
+    return txRes_;
+  });
+};
+
 const createTask = asyncHandler(async (req, res) => {
   const taskBody = {
     ...req.body,
@@ -24,67 +103,10 @@ const createTask = asyncHandler(async (req, res) => {
   const session = await db.startSession();
   console.log("[Create Task] Mongo session started. Preparing transaction ...");
 
-  const txRes = await runTxWithResults(session, async () => {
-    const txRes_ = {
-      status: 500,
-      body: { message: "Error creating task", server_err: "" },
-    };
-
-    try {
-      const prereqDocs = await Task.find({
-        _id: { $in: req.body.prereqs },
-        user_id: req.uid,
-      }).session(session);
-    } catch (fetchErr) {
-      txRes_.status = 500;
-      txRes_.body = {
-        message: "Error creating task",
-        server_err: fetchErr.toString(),
-      };
-      return txRes_;
-    }
-
-    // check that all prerequisites have been fetched
-    if (prereqDocs.length != req.body.prereqs.length) {
-      txRes_.status = 400;
-      txRes_.body = { message: "Some prerequisites do not exist", server_err: ""};
-      return txRes_;
-    }
-
-    // compute prereqs_done
-    const prereqs_done = prereqDocs.reduce(
-      (status, doc) => status && doc.task_done,
-      true
-    );
-    taskBody.prereqs_done = prereqs_done;
-
-    try {
-      const newTask = await Task.create([taskBody], { session: session });
-      txRes_.status = 201;
-      txRes_.body = newTask[0];
-    } catch (err) {
-      if ("name" in err && err.name == "ValidationError") {
-        txRes_.status = 400;
-        txRes_.body = {
-          message: "Invalid data for a task",
-          server_err: err.name,
-        };
-      } else {
-        txRes_.status = 500;
-        txRes_.body = {
-          message: "Error creating task",
-          server_err: err.toString(),
-        };
-      }
-    }
-
-    return txRes_;
-  });
+  const txRes = await createTaskTx(session, taskBody);
   res.status(txRes.status).json(txRes.body);
 
   await session.endSession();
-
-  console.log("[Create Task] Session ended.");
 });
 
 const getAllTasks = asyncHandler(async (req, res) => {
