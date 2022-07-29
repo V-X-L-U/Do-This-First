@@ -41,13 +41,36 @@ const evalPrereqs = async (session, taskBody, txRes_) => {
   }
 };
 
+// Add <taskBody._id> to the depedents list of each prereq in <taskBody.prereqs>.
+// Return <True> iff. an error occurred.
+const updatePrereqs = async (session, taskBody, txRes_) => {
+  try {
+    const updateRes = await Task.updateMany(
+      { _id: { $in: taskBody.prereqs }, user_id: taskBody.user_id },
+      { $push: { dependents: taskBody._id } }
+    );
+    return false;
+  } catch (updateErr) {
+    txRes_.status = 500;
+    txRes_.body = {
+      message: "Error creating task",
+      server_err: `[update prereqs] ${updateErr.toString()}`,
+    };
+    return true;
+  }
+};
+
 // Creates the document corresponding to a task specified by <taskBody>.
 // Modifies <txRes_> to indicate suitable success/error responses.
+// Adds <._id> to <taskBody> on a successful create.
+// Return <True> iff. an error occurred.
 const createTaskDoc = async (session, taskBody, txRes_) => {
   try {
     const newTask = await Task.create([taskBody], { session: session });
     txRes_.status = 201;
     txRes_.body = newTask[0];
+    taskBody._id = newTask[0]._id;
+    return false;
   } catch (err) {
     if ("name" in err && err.name == "ValidationError") {
       txRes_.status = 400;
@@ -62,6 +85,8 @@ const createTaskDoc = async (session, taskBody, txRes_) => {
         server_err: `[task doc create] ${err.toString()}`,
       };
     }
+
+    return true;
   }
 };
 
@@ -72,11 +97,11 @@ const createTaskTx = (session, taskBody) => {
       body: { message: "Error creating task", server_err: "" },
     };
 
-    const evalError = await evalPrereqs(session, taskBody, txRes_);
+    if (await evalPrereqs(session, taskBody, txRes_)) return txRes_;
 
-    if (evalError) return txRes_;
+    if (await createTaskDoc(session, taskBody, txRes_)) return txRes_;
 
-    await createTaskDoc(session, taskBody, txRes_);
+    await updatePrereqs(session, taskBody, txRes_);
 
     return txRes_;
   });
