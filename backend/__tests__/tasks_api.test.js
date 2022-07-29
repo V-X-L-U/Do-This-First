@@ -141,8 +141,6 @@ describe("Get All Tasks Test Suite", () => {
   // names will be added later
   const sampleTask = {
     description: "new task description",
-    prereqs_done: false,
-    task_done: false,
     prereqs: [],
   };
 
@@ -166,6 +164,7 @@ describe("Get All Tasks Test Suite", () => {
       expect(res.body.user_id).toEqual(userId);
       expect(res.body).toHaveProperty("_id");
       expect(res.body).toMatchObject(task);
+      assertTaskDetails(res.body, [], true, false);
 
       taskIds.push(res.body._id);
     }
