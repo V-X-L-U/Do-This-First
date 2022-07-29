@@ -99,8 +99,7 @@ const createTask = asyncHandler(async (req, res) => {
 
   console.log("[Create Task] Starting mongo session ...");
   // Starts the session to be used for the transaction
-  const db = await mongoose.createConnection(process.env.ATLAS_URI).asPromise();
-  const session = await db.startSession();
+  const session = await Task.startSession();
   console.log("[Create Task] Mongo session started. Preparing transaction ...");
 
   const txRes = await createTaskTx(session, taskBody);

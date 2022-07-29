@@ -30,10 +30,13 @@ const expectInvalidTokenErr = (res) => {
 };
 
 const setupTestServer = async (credentials) => {
-  await mongoose.connect("mongodb://localhost:27017/", {
-    useUnifiedTopology: true,
-    useNewUrlParser: true,
-  });
+  await mongoose.connect(
+    "mongodb://LAPTOP-I39IOSMN:27017,LAPTOP-I39IOSMN:27018,LAPTOP-I39IOSMN:27019?replicaSet=rs",
+    {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+    }
+  );
 
   const server = app.listen();
 
