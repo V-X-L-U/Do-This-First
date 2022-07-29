@@ -18,6 +18,6 @@
     "test": "jest --testMatch='**/*.test.js' --passWithNoTests --testTimeout 3000",
     "show-coverage": "start ./coverage/lcov-report/index.html",
     "jinit": "jest --init",
-    "start-test-server": "run-rs --shell"
+    "start-test-server": "run-rs"
   }
 }
