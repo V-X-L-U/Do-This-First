@@ -32,11 +32,20 @@ const evalPrereqs = async (session, taskBody, txRes_) => {
 
     return false;
   } catch (fetchErr) {
-    txRes_.status = 500;
-    txRes_.body = {
-      message: "Error creating task",
-      server_err: `[prereq eval] ${fetchErr.toString()}`,
-    };
+    if ("name" in fetchErr && fetchErr.name == "CastError") {
+      // potentially invalid prereq id
+      txRes_.status = 400;
+      txRes_.body = {
+        message: "Some prerequisites do not exist",
+        server_err: "",
+      };
+    } else {
+      txRes_.status = 500;
+      txRes_.body = {
+        message: "Error creating task",
+        server_err: `[prereq eval] ${fetchErr.toString()}`,
+      };
+    }
     return true;
   }
 };

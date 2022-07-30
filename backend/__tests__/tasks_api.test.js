@@ -185,6 +185,18 @@ describe("Create Task Test Suite", () => {
     await removeUser(newUserCredentials);
   });
 
+  it("Failed with invalid prereq id", async () => {
+    jwt = await loginUser(credentials);
+    const brokenTask = {
+      name: "broken",
+      description: "invalid prereq id",
+      prereqs: ["a"],
+    };
+
+    const res = await createCall(jwt, brokenTask);
+    expectStandardResponse(res, 400, "Some prerequisites do not exist", "");
+  });
+
   afterEach(logoutUser);
 });
 
