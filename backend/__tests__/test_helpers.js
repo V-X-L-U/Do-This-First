@@ -64,6 +64,14 @@ const tearDownTestServer = async (server, credentials) => {
   server.close();
 };
 
+const registerUser = async (credentials) => {
+  const newUser = await request(app)
+    .post("/api/auth/register")
+    .send(credentials);
+  expect(newUser.statusCode).toEqual(201);
+  expect(newUser.body.email).toEqual(credentials.email);
+};
+
 const loginUser = async (credentials) => {
   const loginRoute = "/api/auth/login";
   const res = await request(app).post(loginRoute).send(credentials);
@@ -95,6 +103,7 @@ module.exports = {
   expectInvalidTokenErr,
   setupTestServer,
   tearDownTestServer,
+  registerUser,
   loginUser,
   logoutUser,
   authTokenName,
