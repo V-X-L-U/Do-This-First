@@ -72,6 +72,11 @@ const registerUser = async (credentials) => {
   expect(newUser.body.email).toEqual(credentials.email);
 };
 
+const removeUser = async (credentials) => {
+  const userToRemove = await User.findOne({email: credentials.email});
+  if (userToRemove) await User.deleteOne(userToRemove);
+}
+
 const loginUser = async (credentials) => {
   const loginRoute = "/api/auth/login";
   const res = await request(app).post(loginRoute).send(credentials);
@@ -104,6 +109,7 @@ module.exports = {
   setupTestServer,
   tearDownTestServer,
   registerUser,
+  removeUser,
   loginUser,
   logoutUser,
   authTokenName,
