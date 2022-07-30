@@ -73,9 +73,9 @@ const registerUser = async (credentials) => {
 };
 
 const removeUser = async (credentials) => {
-  const userToRemove = await User.findOne({email: credentials.email});
+  const userToRemove = await User.findOne({ email: credentials.email });
   if (userToRemove) await User.deleteOne(userToRemove);
-}
+};
 
 const loginUser = async (credentials) => {
   const loginRoute = "/api/auth/login";

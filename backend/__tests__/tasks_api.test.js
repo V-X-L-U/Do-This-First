@@ -18,7 +18,14 @@ const {
   authTokenName,
 } = require("./test_helpers");
 
-const assertTaskDetails = (taskRequest, task_doc, userId, dependents, prereqs_done, task_done) => {
+const assertTaskDetails = (
+  taskRequest,
+  task_doc,
+  userId,
+  dependents,
+  prereqs_done,
+  task_done
+) => {
   expect(task_doc).toHaveProperty("user_id");
   expect(task_doc.user_id).toEqual(userId);
   expect(task_doc).toHaveProperty("_id");
@@ -54,7 +61,7 @@ describe("Create Task Test Suite", () => {
     description: "new task description",
     prereqs: [],
   };
-    const createCall = (jwt, taskData) => {
+  const createCall = (jwt, taskData) => {
     return request(app).post(createTaskRoute).set("cookie", jwt).send(taskData);
   };
 
@@ -105,7 +112,6 @@ describe("Create Task Test Suite", () => {
     const dep1Task = await Task.findOne({ _id: res2.body._id });
     // dependentTask1 should have no dependents
     expect(dep1Task.dependents).toEqual([]);
-
   });
 
   it("Failed without Authentication", async () => {
@@ -172,7 +178,7 @@ describe("Create Task Test Suite", () => {
       name: "another broken one",
       description: "the prereq is not owned by this user",
       prereqs: [notOwned.body._id],
-    }
+    };
     const res = await createCall(jwt2, brokenTask);
     expectStandardResponse(res, 400, "Some prerequisites do not exist", "");
 
