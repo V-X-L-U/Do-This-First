@@ -16,13 +16,25 @@ const {
   authTokenName,
 } = require("./test_helpers");
 
-const assertTaskDetails = (task_doc, dependents, prereqs_done, task_done) => {
+const assertTaskDetails = (
+  taskRequest,
+  task_doc,
+  userId,
+  dependents,
+  prereqs_done,
+  task_done
+) => {
+  expect(task_doc).toHaveProperty("user_id");
+  expect(task_doc.user_id).toEqual(userId);
+  expect(task_doc).toHaveProperty("_id");
   expect(task_doc).toHaveProperty("prereqs_done");
   expect(task_doc.prereqs_done).toEqual(prereqs_done);
   expect(task_doc).toHaveProperty("task_done");
   expect(task_doc.task_done).toEqual(task_done);
   expect(task_doc).toHaveProperty("dependents");
   expect(task_doc.dependents).toEqual(dependents);
+  // matches a subset of res.body
+  expect(task_doc).toMatchObject(taskRequest);
 };
 
 const credentials = {
@@ -48,48 +60,55 @@ describe("Create Task Test Suite", () => {
     prereqs: [],
   };
 
+  const createCall = (jwt, taskData) => {
+    return request(app).post(createTaskRoute).set("cookie", jwt).send(taskData);
+  };
+
   it("Create Task Successfully", async () => {
     jwt = await loginUser(credentials);
 
-    const res = await request(app)
-      .post(createTaskRoute)
-      .set("cookie", jwt)
-      .send(sampleTask);
-
+    const res = await createCall(jwt, sampleTask);
     expect(res.statusCode).toEqual(201);
-    expect(res.body).toHaveProperty("user_id");
-    expect(res.body.user_id).toEqual(userId);
-    expect(res.body).toHaveProperty("_id");
-    // matches a subset of res.body
-    expect(res.body).toMatchObject(sampleTask);
-    assertTaskDetails(res.body, [], true, false);
+    assertTaskDetails(sampleTask, res.body, userId, [], true, false);
 
     const dependentTask = {
       name: "dependent 1",
       description: "This is a dependent of another task",
       prereqs: [res.body._id],
     };
-    const res1 = await request(app)
-      .post(createTaskRoute)
-      .set("cookie", jwt)
-      .send(dependentTask);
-
+    const res1 = await createCall(jwt, dependentTask);
     expect(res1.statusCode).toEqual(201);
-    expect(res1.body).toHaveProperty("user_id");
-    expect(res1.body.user_id).toEqual(userId);
-    expect(res1.body).toHaveProperty("_id");
-    expect(res1.body).toMatchObject(dependentTask);
-    assertTaskDetails(res1.body, [], false, false);
+    assertTaskDetails(dependentTask, res1.body, userId, [], false, false);
 
-    try {
-      const rootTask = await Task.findOne({ _id: res.body._id });
-      console.log(rootTask);
-      // sampleTask should now have dependentTask as a dependent
-      expect(rootTask.dependents).toEqual([res1.body._id]);
-    } catch (err) {
-      console.log(err);
-      fail("[Create Task Successfully] Unexpected error occurred");
-    }
+    const rootTask = await Task.findOne({ _id: res.body._id });
+    // sampleTask should now have dependentTask as a dependent
+    expect(rootTask.dependents).toEqual([res1.body._id]);
+
+    const depTask = await Task.findOne({ _id: res1.body._id });
+    expect(depTask.dependents).toEqual([]);
+
+    const dependentTask1 = {
+      name: "dependent 2",
+      description: "This is another dependent",
+      prereqs: [res.body._id, res1.body._id],
+    };
+    const res2 = await createCall(jwt, dependentTask1);
+    expect(res2.statusCode).toEqual(201);
+    assertTaskDetails(dependentTask1, res2.body, userId, [], false, false);
+
+    const rootTask_ = await Task.findOne({ _id: res.body._id });
+    // sampleTask should now have the following dependents:
+    // - dependentTask
+    // - dependentTask1
+    expect(rootTask_.dependents).toEqual([res1.body._id, res2.body._id]);
+
+    const depTask_ = await Task.findOne({ _id: res1.body._id });
+    // dependentTask should have dependentTask2 as the only dependent
+    expect(depTask_.dependents).toEqual([res2.body._id]);
+
+    const dep1Task = await Task.findOne({ _id: res2.body._id });
+    // dependentTask1 should have no dependents
+    expect(dep1Task.dependents).toEqual([]);
   });
 
   it("Failed without Authentication", async () => {
@@ -160,11 +179,7 @@ describe("Get All Tasks Test Suite", () => {
         .send(task);
 
       expect(res.statusCode).toEqual(201);
-      expect(res.body).toHaveProperty("user_id");
-      expect(res.body.user_id).toEqual(userId);
-      expect(res.body).toHaveProperty("_id");
-      expect(res.body).toMatchObject(task);
-      assertTaskDetails(res.body, [], true, false);
+      assertTaskDetails(task, res.body, userId, [], true, false);
 
       taskIds.push(res.body._id);
     }
