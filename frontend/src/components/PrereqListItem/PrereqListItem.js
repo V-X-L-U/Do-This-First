@@ -14,9 +14,7 @@ const PrereqListItem = ({ taskName, taskStatusColor }) => {
         style={{
           color: taskStatusColor,
           textDecoration:
-            taskStatusColor === TaskColors.FinishedTask
-              ? "line-through"
-              : "none",
+            taskStatusColor === TaskColors.Finished ? "line-through" : "none",
         }}
       >
         {taskName}
