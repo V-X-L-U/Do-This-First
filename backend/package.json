@@ -11,11 +11,13 @@
     "supertest": "^6.2.3"
   },
   "devDependencies": {
-    "jest": "^28.1.0"
+    "jest": "^28.1.0",
+    "run-rs": "^0.7.7"
   },
   "scripts": {
     "test": "jest --testMatch='**/*.test.js' --passWithNoTests --testTimeout 3000",
     "show-coverage": "start ./coverage/lcov-report/index.html",
-    "jinit": "jest --init"
+    "jinit": "jest --init",
+    "start-test-server": "run-rs"
   }
 }

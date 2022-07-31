@@ -30,10 +30,13 @@ const expectInvalidTokenErr = (res) => {
 };
 
 const setupTestServer = async (credentials) => {
-  await mongoose.connect("mongodb://localhost:27017/", {
-    useUnifiedTopology: true,
-    useNewUrlParser: true,
-  });
+  await mongoose.connect(
+    "mongodb://LAPTOP-I39IOSMN:27017,LAPTOP-I39IOSMN:27018,LAPTOP-I39IOSMN:27019?replicaSet=rs",
+    {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+    }
+  );
 
   const server = app.listen();
 
@@ -61,6 +64,19 @@ const tearDownTestServer = async (server, credentials) => {
   server.close();
 };
 
+const registerUser = async (credentials) => {
+  const newUser = await request(app)
+    .post("/api/auth/register")
+    .send(credentials);
+  expect(newUser.statusCode).toEqual(201);
+  expect(newUser.body.email).toEqual(credentials.email);
+};
+
+const removeUser = async (credentials) => {
+  const userToRemove = await User.findOne({ email: credentials.email });
+  if (userToRemove) await User.deleteOne(userToRemove);
+};
+
 const loginUser = async (credentials) => {
   const loginRoute = "/api/auth/login";
   const res = await request(app).post(loginRoute).send(credentials);
@@ -86,13 +102,24 @@ const logoutUser = async () => {
   expectStandardResponse(res1, 200, "Logged out successfully", "");
 };
 
+const oidToString = (oidList) => {
+  const converted = [];
+  oidList.forEach((oid) => {
+    converted.push(oid.toString());
+  });
+  return converted;
+};
+
 module.exports = {
   expectStandardResponse,
   expectUserNotAuthenticated,
   expectInvalidTokenErr,
   setupTestServer,
   tearDownTestServer,
+  registerUser,
+  removeUser,
   loginUser,
   logoutUser,
+  oidToString,
   authTokenName,
 };

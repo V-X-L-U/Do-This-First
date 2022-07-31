@@ -24,7 +24,6 @@ const authenticateUser = asyncHandler(async (req, res, next) => {
     req.uid = decodedToken._id;
     next();
   } catch (err) {
-    console.log(err);
     res.status(401).json({ message: "Invalid token", server_err: "" });
   }
 });
