@@ -12,6 +12,12 @@ import ModalButton from "../../components/ModalButton/ModalButton";
 import InteractiveText from "../../components/InteractiveText/InteractiveText";
 
 const CreateTaskPage = () => {
+  const [showPrereqList, setShowPrereqList] = useState(false);
+
+  const hidePrereqList = () => {
+    setShowPrereqList(false);
+  };
+
   const t = [
     {
       _id: "62ae9c508a6a011402317e82",
@@ -77,6 +83,13 @@ const CreateTaskPage = () => {
 
   return (
     <div className={styles.bg}>
+      {showPrereqList ? (
+        <>
+          <div></div>
+        </>
+      ) : (
+        <></>
+      )}
       <PageHeader pageTitle="CREATE TASK" bgColor={ThemeColors.Red} />
       <div className={styles.bodyWrapper}>
         <div className={styles.taskCreationForm}>
@@ -85,14 +98,14 @@ const CreateTaskPage = () => {
             color={ThemeColors.Red}
             onChange={() => {}}
             hidden={false}
-            multilineInput={false}
+            multiline={false}
           />
           <TextField
             fieldName="Description"
             color={ThemeColors.Red}
             onChange={() => {}}
             hidden={false}
-            multilineInput={true}
+            multiline={true}
           />
           <PrereqField
             fieldName="Prerequisites"
@@ -101,8 +114,8 @@ const CreateTaskPage = () => {
           />
           <div className={styles.buttonLayout}>
             <InteractiveText
-              clickableText="Add Prerequisites"
-              onClick={() => {}}
+              clickableText="Add prerequisites"
+              onClick={() => setShowPrereqList(true)}
               color={ThemeColors.Red}
             />
             <ModalButton

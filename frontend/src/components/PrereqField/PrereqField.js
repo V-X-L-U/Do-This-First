@@ -8,7 +8,7 @@ import PrereqListItem from "../PrereqListItem/PrereqListItem";
 // param: void onChanged(<fieldType>)
 const PrereqField = ({ fieldName, color, tasks }) => {
   return (
-    <div className={styles.PrereqField}>
+    <div className={styles.prereqField}>
       <div className={styles.labelBox}>
         <PlainText plainText={fieldName} color={color} />
       </div>
