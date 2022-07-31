@@ -6,6 +6,7 @@ const User = require("../models/userModel");
 const Task = require("../models/taskModel");
 
 const {
+  oidToString,
   registerUser,
   removeUser,
   loginUser,
@@ -35,7 +36,6 @@ const assertTaskDetails = (
   expect(task_doc.task_done).toEqual(task_done);
   expect(task_doc).toHaveProperty("dependents");
   expect(task_doc.dependents).toEqual(dependents);
-  // matches a subset of res.body
   expect(task_doc).toMatchObject(taskRequest);
 };
 
@@ -85,10 +85,10 @@ describe("Create Task Test Suite", () => {
 
     const rootTask = await Task.findOne({ _id: res.body._id });
     // sampleTask should now have dependentTask as a dependent
-    expect(rootTask.dependents).toEqual([res1.body._id]);
+    expect(oidToString(rootTask.dependents)).toEqual([res1.body._id]);
 
     const depTask = await Task.findOne({ _id: res1.body._id });
-    expect(depTask.dependents).toEqual([]);
+    expect(oidToString(depTask.dependents)).toEqual([]);
 
     const dependentTask1 = {
       name: "dependent 2",
@@ -103,15 +103,18 @@ describe("Create Task Test Suite", () => {
     // sampleTask should now have the following dependents:
     // - dependentTask
     // - dependentTask1
-    expect(rootTask_.dependents).toEqual([res1.body._id, res2.body._id]);
+    expect(oidToString(rootTask_.dependents)).toEqual([
+      res1.body._id,
+      res2.body._id,
+    ]);
 
     const depTask_ = await Task.findOne({ _id: res1.body._id });
     // dependentTask should have dependentTask2 as the only dependent
-    expect(depTask_.dependents).toEqual([res2.body._id]);
+    expect(oidToString(depTask_.dependents)).toEqual([res2.body._id]);
 
     const dep1Task = await Task.findOne({ _id: res2.body._id });
     // dependentTask1 should have no dependents
-    expect(dep1Task.dependents).toEqual([]);
+    expect(oidToString(dep1Task.dependents)).toEqual([]);
   });
 
   it("Failed without Authentication", async () => {
@@ -172,7 +175,7 @@ describe("Create Task Test Suite", () => {
       password: "132435yY",
     };
     await registerUser(newUserCredentials);
-    jwt2 = await loginUser(newUserCredentials);
+    const jwt2 = await loginUser(newUserCredentials);
 
     const brokenTask = {
       name: "another broken one",

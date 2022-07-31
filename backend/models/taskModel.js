@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const taskSchema = mongoose.Schema(
   {
     user_id: {
-      type: String,
+      type: mongoose.ObjectId,
       required: true,
     },
     name: {
@@ -27,7 +27,7 @@ const taskSchema = mongoose.Schema(
       required: true,
     },
     dependents: {
-      type: [String],
+      type: [mongoose.ObjectId],
       required: true,
     },
   },

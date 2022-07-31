@@ -57,7 +57,8 @@ const updatePrereqs = async (session, taskBody, txRes_) => {
     const updateRes = await Task.updateMany(
       { _id: { $in: taskBody.prereqs }, user_id: taskBody.user_id },
       { $push: { dependents: taskBody._id } }
-    );
+    ).session(session);
+
     return false;
   } catch (updateErr) {
     txRes_.status = 500;
@@ -124,6 +125,7 @@ const createTask = asyncHandler(async (req, res) => {
     dependents: [],
   };
 
+  // The `prereqs` field is used before schema valiation occurs.
   if (!("prereqs" in req.body)) {
     res
       .status(400)
@@ -131,11 +133,8 @@ const createTask = asyncHandler(async (req, res) => {
     return;
   }
 
-  console.log("[Create Task] Starting mongo session ...");
   // Starts the session to be used for the transaction
   const session = await Task.startSession();
-  console.log("[Create Task] Mongo session started. Preparing transaction ...");
-
   const txRes = await createTaskTx(session, taskBody);
   res.status(txRes.status).json(txRes.body);
 

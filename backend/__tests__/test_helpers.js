@@ -102,6 +102,14 @@ const logoutUser = async () => {
   expectStandardResponse(res1, 200, "Logged out successfully", "");
 };
 
+const oidToString = (oidList) => {
+  const converted = [];
+  oidList.forEach((oid) => {
+    converted.push(oid.toString());
+  });
+  return converted;
+};
+
 module.exports = {
   expectStandardResponse,
   expectUserNotAuthenticated,
@@ -112,5 +120,6 @@ module.exports = {
   removeUser,
   loginUser,
   logoutUser,
+  oidToString,
   authTokenName,
 };
