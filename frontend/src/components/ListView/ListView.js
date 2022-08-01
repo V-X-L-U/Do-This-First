@@ -17,15 +17,16 @@ const ListView = ({ tasks, TaskType: ListItemType }) => {
   };
 
   tasks.sort(function (task1, task2) {
-    return convertTaskToInt(task1) - convertTaskToInt(task2);
+    return convertTaskToInt(task2) - convertTaskToInt(task1);
   });
 
   const listItems = tasks.map(function (task, ix) {
     const taskColor = task.task_done
-      ? TaskColors.FinishedTask
+      ? TaskColors.Finished
       : task.prereqs_done
-      ? TaskColors.ValidTask
-      : TaskColors.InvalidTask;
+      ? TaskColors.Valid
+      : TaskColors.Invalid;
+
     return (
       <li key={ix} className={styles.ListItem}>
         <ListItemType taskName={task.name} taskStatusColor={taskColor} />

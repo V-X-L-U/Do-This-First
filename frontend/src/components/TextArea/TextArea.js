@@ -2,7 +2,11 @@ import PropTypes from "prop-types";
 import styles from "./TextArea.module.css";
 
 const TextArea = ({ onChange }) => {
-  return <textarea className={styles.textArea} onChange={onChange} />;
+  return (
+    <div className={styles.textAreaWrapper}>
+      <textarea className={styles.textArea} onChange={onChange} />
+    </div>
+  );
 };
 
 TextArea.propTypes = {
