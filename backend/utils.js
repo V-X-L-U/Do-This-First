@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const ObjectId = require("mongoose").Types.ObjectId;
 
 const runTxWithResults = async (session, closure) => {
   let result;
@@ -13,7 +13,7 @@ const runTxWithResults = async (session, closure) => {
 
 const checkValidObjectIds = (iDList) => {
   for (let i = 0; i < iDList.length; i++) {
-    if (!mongoose.ObjectId.isValid(iDList[i])) {
+    if (!ObjectId.isValid(iDList[i])) {
       return false;
     }
   }

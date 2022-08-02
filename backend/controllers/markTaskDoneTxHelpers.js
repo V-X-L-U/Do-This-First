@@ -91,7 +91,7 @@ const taskDoneUpdateDirects = async (session, dependents, userId, txRes_) => {
 // Updates the task to mark it as done
 // Returns <True> iff. an unexpected error occurred.
 // Modifies <txRes_> to indicate the appropriate error response.
-const markTaskDone = async (session, taskId, userId, txRes_) => {
+const updateTaskHelper = async (session, taskId, userId, txRes_) => {
   return Task.findOneAndUpdate(
     { _id: taskId, user_id: userId },
     { task_done: true }
@@ -112,7 +112,7 @@ const markTaskDone = async (session, taskId, userId, txRes_) => {
 };
 
 module.exports = {
-  markTaskDone,
+  updateTaskHelper,
   getTaskById,
   taskDoneUpdateDirects,
 };
