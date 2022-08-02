@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const Task = require("../models/taskModel");
-const { runTxWithResults, checkValidObjectIds } = require("utils");
+const { runTxWithResults, checkValidObjectIds } = require("../utils");
 const {
   getTaskById,
   taskDoneUpdateDirects,

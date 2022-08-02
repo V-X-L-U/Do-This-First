@@ -1,5 +1,5 @@
 const Task = require("../models/taskModel");
-const { checkValidObjectIds } = require("utils");
+const { checkValidObjectIds } = require("../utils");
 
 // Evaluates the prerequisite status of a task.
 // Modifies <txRes_> when an error is encountered.

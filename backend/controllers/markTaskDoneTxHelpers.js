@@ -1,5 +1,5 @@
 const Task = require("../models/taskModel");
-const { checkValidObjectIds } = require("utils");
+const { checkValidObjectIds } = require("../utils");
 
 // Attempts to get a user task by it's id.
 // Returns iff. one of the following errors occurred:
