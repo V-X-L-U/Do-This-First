@@ -2,7 +2,7 @@ const Task = require("../models/taskModel");
 const { checkValidObjectIds } = require("../utils");
 
 // Attempts to get a user task by it's id.
-// Returns iff. one of the following errors occurred:
+// Returns null iff. one of the following errors occurred:
 //  - invalid task id
 //  - task doesn't exist
 //  - task doesn't belong to the user
@@ -88,7 +88,31 @@ const taskDoneUpdateDirects = async (session, dependents, userId, txRes_) => {
   }
 };
 
+// Updates the task to mark it as done
+// Returns <True> iff. an unexpected error occurred.
+// Modifies <txRes_> to indicate the appropriate error response.
+const markTaskDone = async (session, taskId, userId, txRes_) => {
+  return Task.findOneAndUpdate(
+    { _id: taskId, user_id: userId },
+    { task_done: true }
+  )
+    .session(session)
+    .then(() => {
+      return false;
+    })
+    .catch((err) => {
+      txRes_.status = 500;
+      txRes_.body = {
+        message: "Error marking task done",
+        server_err: `[mark task done] ${err.toString()}`,
+      };
+
+      return true;
+    });
+};
+
 module.exports = {
+  markTaskDone,
   getTaskById,
   taskDoneUpdateDirects,
 };

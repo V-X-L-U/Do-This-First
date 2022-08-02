@@ -37,6 +37,9 @@ const markTaskDone = asyncHandler(async (req, res) => {
           server_err: "",
         },
       };
+    } else if (await markTaskDone(session, markDoneId, req.uid, txRes_)) {
+      // if task was not successfully marked done, abort
+      return txRes_;
     }
 
     // otherwise, mark task done and update DIRECT dependents
