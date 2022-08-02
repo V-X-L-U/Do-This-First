@@ -1,7 +1,10 @@
 const asyncHandler = require("express-async-handler");
 const Task = require("../models/taskModel");
 const { runTxWithResults, checkValidObjectIds } = require("utils");
-const { getTaskById, taskDoneUpdateDirects } = require("./taskTxHelpers");
+const {
+  getTaskById,
+  taskDoneUpdateDirects,
+} = require("./markTaskDoneTxHelpers");
 
 const markTaskDone = asyncHandler(async (req, res) => {
   const markDoneId = req.params.id;
