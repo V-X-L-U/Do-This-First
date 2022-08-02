@@ -9,4 +9,14 @@ const runTxWithResults = async (session, closure) => {
   return result;
 };
 
-module.exports = { runTxWithResults };
+const checkValidObjectIds = (iDList) => {
+  for (let i = 0; i < iDList.length; i++) {
+    if (!mongoose.ObjectId.isValid(iDList[i])) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+module.exports = { runTxWithResults, checkValidObjectIds };

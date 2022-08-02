@@ -65,7 +65,7 @@ beforeAll(async () => {
 
 afterAll(() => {
   removeUser(newUserCredentials);
-})
+});
 
 describe("Create Task Test Suite", () => {
   const createTaskRoute = "/api/tasks/create";
