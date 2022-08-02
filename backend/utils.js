@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+
 const runTxWithResults = async (session, closure) => {
   let result;
   await session.withTransaction(() => {
