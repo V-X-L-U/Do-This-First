@@ -83,6 +83,11 @@ describe("Task Mark Done Test Suite", () => {
       .set("cookie", jwt)
       .send({});
 
-    expectStandardResponse(res1, 400, "Task does not exist", "Invalid ObjectId");
+    expectStandardResponse(
+      res1,
+      400,
+      "Task does not exist",
+      "Invalid ObjectId"
+    );
   });
 });
