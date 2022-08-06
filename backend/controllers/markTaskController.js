@@ -22,44 +22,54 @@ const markTaskDone = asyncHandler(async (req, res) => {
     body: {},
   };
 
-  await mongoose.connection.transaction(async (session) => {
-    const taskToMark = await getTaskById(session, markDoneId, userId, txRes);
-    if (!taskToMark) {
-      throw new TxError("Task not found");
-    }
+  await mongoose.connection
+    .transaction(async (session) => {
+      const taskToMark = await getTaskById(session, markDoneId, userId, txRes);
+      if (!taskToMark) {
+        throw new TxError("Task not found");
+      }
 
-    if (taskToMark.task_done) {
+      if (taskToMark.task_done) {
+        makeSuccessTxRes(txRes);
+        throw new TxError("Task not done");
+      }
+
+      if (!taskToMark.prereqs_done) {
+        txRes.status = 400;
+        txRes.body = {
+          message: "Some prerequisites are not yet done",
+          server_err: "",
+        };
+        throw new TxError("Prereqs not done");
+      }
+
+      const markTaskFailed = await updateTaskHelper(
+        session,
+        markDoneId,
+        userId,
+        txRes
+      );
+      if (markTaskFailed) throw new TxError("Failed to mark task doc as done");
+
+      const updateDirectsFailed = await taskDoneUpdateDirects(
+        session,
+        taskToMark.dependents,
+        userId,
+        txRes
+      );
+      if (updateDirectsFailed) throw new TxError("Failed to update dependents");
+
       makeSuccessTxRes(txRes);
-      throw new TxError("Task not done");
-    }
-
-    if (!taskToMark.prereqs_done) {
-      txRes.status = 400;
-      txRes.body = {
-        message: "Some prerequisites are not yet done",
-        server_err: "",
-      };
-      throw new TxError("Prereqs not done");
-    }
-
-    const markTaskFailed = await updateTaskHelper(
-      session,
-      markDoneId,
-      userId,
-      txRes
-    );
-    if (markTaskFailed) throw new TxError("Failed to mark task doc as done");
-
-    const updateDirectsFailed = await taskDoneUpdateDirects(
-      session,
-      taskToMark.dependents,
-      userId,
-      txRes
-    );
-    if (updateDirectsFailed) throw new TxError("Failed to update dependents");
-
-    makeSuccessTxRes(txRes);
-  });
+    })
+    .catch((err) => {
+      if (err.name !== "TxError") {
+        txRes.status = 500;
+        txRes.body = {
+          message: "Error marking task done",
+          server_err: `[tx] ${err.toString()}`,
+        };
+      }
+    });
 
   res.status(txRes.status).json(txRes.body);
   await session.endSession();
