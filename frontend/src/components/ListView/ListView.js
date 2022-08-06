@@ -28,7 +28,7 @@ const ListView = ({ tasks, TaskType: ListItemType }) => {
       : TaskColors.Invalid;
 
     return (
-      <li key={ix} className={styles.ListItem}>
+      <li key={ix} className={styles.listItem}>
         <ListItemType taskName={task.name} taskStatusColor={taskColor} />
       </li>
     );
