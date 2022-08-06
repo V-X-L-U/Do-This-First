@@ -12,6 +12,7 @@ const expectStandardResponse = (
   expectedMessage,
   expectedServerErr
 ) => {
+  if (res.statusCode !== expectedStatus) console.log(res);
   expect(res.statusCode).toEqual(expectedStatus);
 
   expect(res.body).toHaveProperty("message");

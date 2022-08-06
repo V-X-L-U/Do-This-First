@@ -103,7 +103,6 @@ const assertRed = async (taskData) => {
 
 const assertStriked = async (taskData) => {
   const taskToAssert = await getTaskById(taskData);
-  console.log(taskToAssert);
   expect(taskToAssert.prereqs_done).toEqual(true);
   expect(taskToAssert.task_done).toEqual(true);
 };
