@@ -1,5 +1,7 @@
+const mongoose = require("mongoose");
 const asyncHandler = require("express-async-handler");
 const Task = require("../models/taskModel");
+const TxError = require("./txError");
 const { runTxWithResults, checkValidObjectIds } = require("../utils");
 const {
   getTaskById,
@@ -7,66 +9,56 @@ const {
   updateTaskHelper,
 } = require("./markTaskDoneTxHelpers");
 
+const makeSuccessTxRes = (txRes) => {
+  (txRes.status = 200),
+    (txRes.body = { message: "Successfully marked task done", server_err: "" });
+};
+
 const markTaskDone = asyncHandler(async (req, res) => {
   const markDoneId = req.params.id;
-  const session = await Task.startSession();
-  const txRes = await runTxWithResults(session, async () => {
-    const txRes_ = {
-      status: 400,
-      body: {},
-    };
-    const taskToMark = await getTaskById(session, markDoneId, req.uid, txRes_);
-    if (!taskToMark)
-      // if null
-      return txRes_;
+  const userId = req.uid;
+  const txRes = {
+    status: 400,
+    body: {},
+  };
 
-    if (taskToMark.task_done)
-      return {
-        status: 200,
-        body: {
-          message: "Successfully marked task done",
-          server_err: "",
-        },
-      };
-
-    // if prereqs not done, abort
-    if (!taskToMark.prereqs_done) {
-      return {
-        status: 400,
-        body: {
-          message: "Some prerequisites are not yet done",
-          server_err: "",
-        },
-      };
+  await mongoose.connection.transaction(async (session) => {
+    const taskToMark = await getTaskById(session, markDoneId, userId, txRes);
+    if (!taskToMark) {
+      throw new TxError("Task not found");
     }
 
-    const shouldAbort = await updateTaskHelper(
+    if (taskToMark.task_done) {
+      makeSuccessTxRes(txRes);
+      throw new TxError("Task not done");
+    }
+
+    if (!taskToMark.prereqs_done) {
+      txRes.status = 400;
+      txRes.body = {
+        message: "Some prerequisites are not yet done",
+        server_err: "",
+      };
+      throw new TxError("Prereqs not done");
+    }
+
+    const markTaskFailed = await updateTaskHelper(
       session,
       markDoneId,
-      req.uid,
-      txRes_
+      userId,
+      txRes
     );
-    console.log(shouldAbort);
-    if (shouldAbort) {
-      // if task was not successfully marked done, abort
-      return txRes_;
-    }
+    if (markTaskFailed) throw new TxError("Failed to mark task doc as done");
 
-    // otherwise, mark task done and update DIRECT dependents
-    if (
-      await taskDoneUpdateDirects(
-        session,
-        taskToMark.dependents,
-        req.uid,
-        txRes_
-      )
-    )
-      return txRes_;
+    const updateDirectsFailed = await taskDoneUpdateDirects(
+      session,
+      taskToMark.dependents,
+      userId,
+      txRes
+    );
+    if (updateDirectsFailed) throw new TxError("Failed to update dependents");
 
-    return {
-      status: 200,
-      body: { message: "Successfully marked task done", server_err: "" },
-    };
+    makeSuccessTxRes(txRes);
   });
 
   res.status(txRes.status).json(txRes.body);
