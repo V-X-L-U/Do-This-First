@@ -14,7 +14,7 @@ const getTaskById = async (session, taskId, userId, txRes_) => {
       txRes_.status = 400;
       txRes_.body = {
         message: "Task does not exist",
-        server_err: "",
+        server_err: "Invalid ObjectId",
       };
       return;
     }

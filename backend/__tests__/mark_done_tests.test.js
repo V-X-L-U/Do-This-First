@@ -76,4 +76,13 @@ describe("Task Mark Done Test Suite", () => {
     await assertStriked(root);
     await assertStriked(dep1);
   });
+
+  it("Mark done failed with invalid task id", async () => {
+    const res1 = await request(app)
+      .put("/api/tasks/markDone/invalidId")
+      .set("cookie", jwt)
+      .send({});
+
+    expectStandardResponse(res1, 400, "Task does not exist", "Invalid ObjectId");
+  });
 });
