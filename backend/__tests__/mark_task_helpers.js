@@ -88,7 +88,7 @@ const multNonLinearSetup = async (jwt) => {
   const dep3Res = await createTask(jwt, dep3);
 
   await assertGrey(dep3Res.body);
-  return [root, dep1, dep2Res.body, dep3Res.body];
+  return [root, dep1, dep2, dep3Res.body];
 };
 
 const getTaskById = (taskData) => {

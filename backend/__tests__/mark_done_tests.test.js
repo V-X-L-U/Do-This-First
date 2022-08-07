@@ -116,10 +116,56 @@ describe("Task Mark Done Test Suite", () => {
     const [root, dep1, dep2, dep3] = await multLinearSetup(jwt);
 
     const res = await markDoneCall(root);
+    expectStandardResponse(res, 200, "Successfully marked task done", "");
     assertStriked(root);
     assertRed(dep1);
     assertRed(dep2);
     assertRed(dep3);
+  });
+
+  it("Mixed failed and successful mark done", async () => {
+    const [root, dep1, dep2, dep3] = await multNonLinearSetup(jwt);
+
+    const res1 = await markDoneCall(root);
+    expectStandardResponse(res1, 200, "Successfully marked task done", "");
+    assertStriked(root);
+    assertRed(dep1);
+    assertGrey(dep2);
+    assertGrey(dep3);
+
+    // shouldn't change anything
+    const res2 = await markDoneCall(dep3);
+    expectStandardResponse(
+      res2,
+      400,
+      "Some prerequisites are not yet done",
+      ""
+    );
+    assertStriked(root);
+    assertRed(dep1);
+    assertGrey(dep2);
+    assertGrey(dep3);
+
+    const res3 = await markDoneCall(dep1);
+    expectStandardResponse(res3, 200, "Successfully marked task done", "");
+    assertStriked(root);
+    assertStriked(dep1);
+    assertRed(dep2);
+    assertGrey(dep3);
+
+    const res4 = await markDoneCall(dep2);
+    expectStandardResponse(res4, 200, "Successfully marked task done", "");
+    assertStriked(root);
+    assertStriked(dep1);
+    assertStriked(dep2);
+    assertRed(dep3);
+
+    const res5 = await markDoneCall(dep3);
+    expectStandardResponse(res5, 200, "Successfully marked task done", "");
+    assertStriked(root);
+    assertStriked(dep1);
+    assertStriked(dep2);
+    assertStriked(dep3);
   });
 
   it("Marked done failed as prereqs are not done", async () => {
