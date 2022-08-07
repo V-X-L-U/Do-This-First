@@ -90,6 +90,28 @@ describe("Task Mark Done Test Suite", () => {
     await assertStriked(dep1);
   });
 
+  it("Successful subsequent mark done", async () => {
+    const [root, dep1, dep2] = await threeTaskSetup(jwt);
+
+    const res1 = await markDoneCall(root);
+    expectStandardResponse(res1, 200, "Successfully marked task done", "");
+    assertStriked(root);
+    assertRed(dep1);
+    assertGrey(dep2);
+
+    const res2 = await markDoneCall(dep1);
+    expectStandardResponse(res2, 200, "Successfully marked task done", "");
+    assertStriked(root);
+    assertStriked(dep1);
+    assertRed(dep2);
+
+    const res3 = await markDoneCall(dep2);
+    expectStandardResponse(res3, 200, "Successfully marked task done", "");
+    assertStriked(root);
+    assertStriked(dep1);
+    assertStriked(dep2);
+  });
+
   it("Marked done failed as prereqs are not done", async () => {
     const [root, dep1] = await twoTaskSetup(jwt);
 
@@ -150,3 +172,7 @@ describe("Task Mark Done Test Suite", () => {
     );
   });
 });
+
+// TODO : Complex test cases
+// 1. Test that marking done only touches the relevant forest (both user's and other user's forests).
+// 2. Test for unexpected errors at each stage of the transaction (use mocking).
