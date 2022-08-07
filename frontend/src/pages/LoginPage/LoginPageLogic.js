@@ -16,7 +16,7 @@ const validateEmailandPassword = ({ email, password }) => {
 
 // Returns an empty string if email is valid. Otherwise, return appropriate
 // error message.
-const validateEmail = (email) => {
+const validateEmail = email => {
   const emailFormat = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(.[a-zA-Z0-9]{2,3})+$/;
   // https://www.w3resource.com/javascript/form/email-validation.php
   if (email.match(emailFormat)) {
@@ -27,7 +27,7 @@ const validateEmail = (email) => {
 
 // Returns an empty string if password is valid. Otherwise, return appropriate
 // error message.
-const validatePassword = (password) => {
+const validatePassword = password => {
   const passwordFormat = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
   // Minimum One Uppercase, One Lowercase, One Number and 8 Character (No special Character)
   // https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
@@ -51,7 +51,7 @@ const loginUserHandler = async ({ email, password }) => {
     .then(() => {
       return "";
     })
-    .catch((err) => {
+    .catch(err => {
       if (err.response.data) {
         console.log(err.response.data.server_err);
         return err.response.data.message;
@@ -74,7 +74,7 @@ const registerUserHandler = async ({ email, password }) => {
     .then(() => {
       return "";
     })
-    .catch((err) => {
+    .catch(err => {
       if (err.response.data) {
         console.log(err.response.data.server_err);
         return err.response.data.message;

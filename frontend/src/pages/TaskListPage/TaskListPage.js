@@ -10,10 +10,10 @@ const TaskListPage = () => {
 
     await instance
       .post("/api/tasks/create", taskData)
-      .then((res) => {
+      .then(res => {
         console.log(res);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   };
