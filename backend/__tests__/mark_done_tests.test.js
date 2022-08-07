@@ -90,6 +90,21 @@ describe("Task Mark Done Test Suite", () => {
     await assertStriked(dep1);
   });
 
+  it("Marked done failed as prereqs are not done", async () => {
+    const [root, dep1] = await twoTaskSetup(jwt);
+
+    const res1 = await markDoneCall(dep1);
+    expectStandardResponse(
+      res1,
+      400,
+      "Some prerequisites are not yet done",
+      ""
+    );
+
+    assertRed(root);
+    assertGrey(dep1);
+  });
+
   it("Marked done successfully since task already done", async () => {
     const [root, _] = await twoTaskSetup(jwt);
 
@@ -114,7 +129,10 @@ describe("Task Mark Done Test Suite", () => {
   it("Mark done failed with task that user doesn't own", async () => {
     const [notOwned, _] = await twoTaskSetup(otherJwt); // doesn't belong to main test user
 
-    const res1 = await request(app).put(markDoneRoute(notOwned._id)).set("cookie", jwt).send({});
+    const res1 = await request(app)
+      .put(markDoneRoute(notOwned._id))
+      .set("cookie", jwt)
+      .send({});
     expectStandardResponse(res1, 400, "Task does not exist", "");
   });
 
