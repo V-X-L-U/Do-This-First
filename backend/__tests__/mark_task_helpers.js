@@ -32,6 +32,8 @@ const twoTaskSetup = async (jwt) => {
 
   const dep1Res = await createTask(jwt, dep1);
 
+  await assertRed(rootRes.body);
+  await assertGrey(dep1Res.body);
   return [rootRes.body, dep1Res.body];
 };
 
@@ -45,6 +47,7 @@ const threeTaskSetup = async (jwt) => {
 
   const dep2Res = await createTask(jwt, dep2);
 
+  await assertGrey(dep2Res.body);
   return [root, dep1, dep2Res.body];
 };
 
@@ -67,6 +70,8 @@ const multLinearSetup = async (jwt) => {
 
   const dep3Res = await createTask(jwt, dep3);
 
+  await assertGrey(dep2Res.body);
+  await assertGrey(dep3Res.body);
   return [root, dep1, dep2Res.body, dep3Res.body];
 };
 
@@ -82,6 +87,7 @@ const multNonLinearSetup = async (jwt) => {
 
   const dep3Res = await createTask(jwt, dep3);
 
+  await assertGrey(dep3Res.body);
   return [root, dep1, dep2Res.body, dep3Res.body];
 };
 
