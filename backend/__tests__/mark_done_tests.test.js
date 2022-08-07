@@ -227,8 +227,25 @@ describe("Task Mark Done Test Suite", () => {
       "Invalid ObjectId"
     );
   });
-});
 
-// TODO : Complex test cases
-// 1. Test that marking done only touches the relevant forest (both user's and other user's forests).
-// 2. Test for unexpected errors at each stage of the transaction (use mocking).
+  it("Verify mark done doesn't update beyond relevant task forest", async () => {
+    // Each task is part of a task forest that is in turn part of a user task
+    // graph. This test checks that no updates are made beyond (1) the task
+    // forest of which the task marked done is a part of and (2) the user's task
+    // graph (i.e., other people's task).
+    const [root, dep1, dep2] = await threeTaskSetup(jwt);
+    const [disRoot, disDep1] = await twoTaskSetup(jwt);
+    const [otherRoot, otherDep1] = await twoTaskSetup(otherJwt);
+
+    const res = await markDoneCall(root);
+    assertStriked(root);
+    assertRed(dep1);
+    assertGrey(dep2);
+
+    assertRed(disRoot);
+    assertGrey(disDep1);
+
+    assertRed(otherRoot);
+    assertGrey(otherDep1);
+  });
+});
