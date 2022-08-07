@@ -112,6 +112,16 @@ describe("Task Mark Done Test Suite", () => {
     assertStriked(dep2);
   });
 
+  it("Successfully update multiple prereqs", async () => {
+    const [root, dep1, dep2, dep3] = await multLinearSetup(jwt);
+
+    const res = await markDoneCall(root);
+    assertStriked(root);
+    assertRed(dep1);
+    assertRed(dep2);
+    assertRed(dep3);
+  });
+
   it("Marked done failed as prereqs are not done", async () => {
     const [root, dep1] = await twoTaskSetup(jwt);
 
