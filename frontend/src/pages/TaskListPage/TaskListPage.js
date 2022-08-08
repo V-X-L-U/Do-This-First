@@ -1,8 +1,4 @@
 import { instance } from "../../instance";
-import { ThemeColors } from "../../ThemeColors";
-import AddTaskButton from "../../components/AddTaskButton/AddTaskButton";
-import PageHeader from "../../components/PageHeader/PageHeader";
-import styles from "./TaskListPage.module.css";
 
 const TaskListPage = () => {
   const createTask = async () => {
@@ -14,22 +10,18 @@ const TaskListPage = () => {
 
     await instance
       .post("/api/tasks/create", taskData)
-      .then(res => {
+      .then((res) => {
         console.log(res);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
   return (
-    <div className={styles.bg}>
-      <PageHeader
-        showNav={true}
-        pageTitle="TODO"
-        bgColor={ThemeColors.Red}
-        trailingComp={<AddTaskButton />}
-      />
+    <div>
+      This will the home page and where we see all our tasks.
+      <button onClick={createTask}>Create</button>
     </div>
   );
 };

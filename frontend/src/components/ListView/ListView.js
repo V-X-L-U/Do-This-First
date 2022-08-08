@@ -6,7 +6,7 @@ import { ThemeColors, TaskColors } from "../../ThemeColors";
 import PrereqListItem from "../PrereqListItem/PrereqListItem";
 
 const ListView = ({ tasks, TaskType: ListItemType }) => {
-  const convertTaskToInt = taskToConvert => {
+  const convertTaskToInt = (taskToConvert) => {
     if (taskToConvert.task_done && taskToConvert.prereqs_done) {
       return 0;
     } else if (!taskToConvert.task_done && !taskToConvert.prereqs_done) {

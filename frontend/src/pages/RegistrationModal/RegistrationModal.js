@@ -56,7 +56,7 @@ const RegistrationModal = ({ hideModal, userRegistrationHandler }) => {
           fieldName="Email"
           color={ThemeColors.White}
           hidden={false}
-          onChange={e => {
+          onChange={(e) => {
             setUpdatedFormData("email", e);
             setErrorMessage("");
           }}
@@ -65,7 +65,7 @@ const RegistrationModal = ({ hideModal, userRegistrationHandler }) => {
           fieldName="Password"
           color={ThemeColors.White}
           hidden={true}
-          onChange={e => {
+          onChange={(e) => {
             setUpdatedFormData("password", e);
             setErrorMessage("");
           }}
