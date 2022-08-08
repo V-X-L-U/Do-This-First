@@ -1,7 +1,7 @@
 import { logoutUserHandler } from "./PageHeaderLogic";
 import { useNavigate } from "react-router-dom";
 import { FiMenu } from "react-icons/fi";
-import { MdClose } from "react-icons/md";
+import { BsChevronLeft } from "react-icons/bs";
 import { useState } from "react";
 import styles from "./PageHeader.module.css";
 import PropTypes from "prop-types";
@@ -39,7 +39,7 @@ const NavButton = ({ isShowingDropdown, onClick }) => {
       {!isShowingDropdown ? (
         <FiMenu className={styles.hamburgerIcon} />
       ) : (
-        <MdClose className={styles.closeIcon} />
+        <BsChevronLeft className={styles.closeIcon} />
       )}
     </button>
   );
@@ -54,7 +54,19 @@ const PageHeader = ({ pageTitle, bgColor, trailingComp, showNav }) => {
         backgroundColor: bgColor,
       }}
     >
-      {showNav ? <NavButton isShowingDropdown={false} /> : <></>}
+      {showNav ? (
+        <NavButton
+          isShowingDropdown={false}
+          onClick={() => setShowNavDropdown(true)}
+        />
+      ) : (
+        <></>
+      )}
+      {showNavDropdown ? (
+        <Sidebar onClose={() => setShowNavDropdown(false)} />
+      ) : (
+        <></>
+      )}
       {pageTitle}
       {trailingComp === null ? <></> : trailingComp}
     </h1>
