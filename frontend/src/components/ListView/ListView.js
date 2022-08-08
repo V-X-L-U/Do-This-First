@@ -1,9 +1,6 @@
-import { useState } from "react";
 import styles from "./ListView.module.css";
 import PropTypes from "prop-types";
-import TaskListItem from "../TaskListItem/TaskListItem";
-import { ThemeColors, TaskColors } from "../../ThemeColors";
-import PrereqListItem from "../PrereqListItem/PrereqListItem";
+import { TaskColors } from "../../ThemeColors";
 
 const ListView = ({ tasks, TaskType: ListItemType }) => {
   const convertTaskToInt = taskToConvert => {

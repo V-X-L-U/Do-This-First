@@ -1,6 +1,5 @@
 import styles from "./InteractiveText.module.css";
 import PropTypes from "prop-types";
-import ThemeColors from "../../ThemeColors";
 
 // Creates a text that has a plain part and a clickable part.
 // param: void onClick()

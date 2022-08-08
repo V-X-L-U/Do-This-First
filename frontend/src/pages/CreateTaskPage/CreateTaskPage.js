@@ -1,11 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import styles from "./CreateTaskPage.module.css";
-import ErrorDisplay from "../../components/ErrorDisplay/ErrorDisplay";
 import PageHeader from "../../components/PageHeader/PageHeader";
-import { ThemeColors, TaskColors } from "../../ThemeColors";
-import ListView from "../../components/ListView/ListView";
-import PrereqListItem from "../../components/PrereqListItem/PrereqListItem";
+import { ThemeColors } from "../../ThemeColors";
 import TextField from "../../components/TextField/TextField";
 import PrereqField from "../../components/PrereqField/PrereqField";
 import ModalButton from "../../components/ModalButton/ModalButton";
@@ -14,6 +10,7 @@ import InteractiveText from "../../components/InteractiveText/InteractiveText";
 const CreateTaskPage = () => {
   const [showPrereqList, setShowPrereqList] = useState(false);
 
+  // TODO : link this fn
   const hidePrereqList = () => {
     setShowPrereqList(false);
   };
