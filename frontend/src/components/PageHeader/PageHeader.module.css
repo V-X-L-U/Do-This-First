@@ -34,10 +34,12 @@
 }
 
 .navButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 30px;
   background: transparent;
   border: none;
-  margin-left: 10px;
-  padding-top: 0.4em;
   cursor: pointer;
 }
 
@@ -48,6 +50,7 @@
   background-color: #eaf3fe;
   z-index: 10;
   height: 100vh;
+  padding-top: 5%;
 }
 
 .navDropdownItem {

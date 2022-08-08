@@ -90,7 +90,11 @@ const CreateTaskPage = () => {
       ) : (
         <></>
       )}
-      <PageHeader pageTitle="CREATE TASK" bgColor={ThemeColors.Red} />
+      <PageHeader
+        pageTitle="CREATE TASK"
+        bgColor={ThemeColors.Red}
+        showNav={true}
+      />
       <div className={styles.bodyWrapper}>
         <div className={styles.taskCreationForm}>
           <TextField
