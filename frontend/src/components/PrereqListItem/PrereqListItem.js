@@ -1,4 +1,3 @@
-import { useState } from "react";
 import PropTypes from "prop-types";
 import { TiDelete } from "react-icons/ti";
 import styles from "./PrereqListItem.module.css";
