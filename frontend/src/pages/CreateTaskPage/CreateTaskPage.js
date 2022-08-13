@@ -10,6 +10,7 @@ import TextField from "../../components/TextField/TextField";
 import PrereqField from "../../components/PrereqField/PrereqField";
 import ModalButton from "../../components/ModalButton/ModalButton";
 import InteractiveText from "../../components/InteractiveText/InteractiveText";
+import AddPrereqListModal from "../../components/AddPrereqListModal/AddPrereqListModal";
 
 const CreateTaskPage = () => {
   const [showPrereqList, setShowPrereqList] = useState(false);
@@ -17,6 +18,20 @@ const CreateTaskPage = () => {
   const hidePrereqList = () => {
     setShowPrereqList(false);
   };
+  const prereq = [
+    {
+      _id: "62ae9c508a6a011402317e82",
+      user_id: "629bca3c45785085a2b31af0",
+      name: "task 1",
+      description: "Buy meat at TnT",
+      prereqs_done: true,
+      task_done: false,
+      prereqs: [],
+      createdAt: "2022-06-19T03:47:28.751Z",
+      updatedAt: "2022-06-19T03:47:28.751Z",
+      __v: 0,
+    },
+  ];
 
   const t = [
     {
@@ -55,37 +70,21 @@ const CreateTaskPage = () => {
       updatedAt: "2022-06-19T03:49:49.594Z",
       __v: 0,
     },
-    {
-      _id: "62ae9cdd8a6a011402317e87",
-      user_id: "629bca3c45785085a2b31af0",
-      name: "Groceries 2",
-      description: "Buy meat at Walmart",
-      prereqs_done: true,
-      task_done: true,
-      prereqs: [],
-      createdAt: "2022-06-19T03:49:49.594Z",
-      updatedAt: "2022-06-19T03:49:49.594Z",
-      __v: 0,
-    },
-    {
-      _id: "62ae9cdd8a6a011402317e87",
-      user_id: "629bca3c45785085a2b31af0",
-      name: "Groceries 3",
-      description: "Buy meat at Walmart",
-      prereqs_done: false,
-      task_done: false,
-      prereqs: [],
-      createdAt: "2022-06-19T03:49:49.594Z",
-      updatedAt: "2022-06-19T03:49:49.594Z",
-      __v: 0,
-    },
   ];
 
   return (
     <div className={styles.bg}>
       {showPrereqList ? (
         <>
-          <div></div>
+          <div>
+            <div className={styles.preventClick} />
+            <AddPrereqListModal
+              userTasks={t}
+              prereqTasks={prereq}
+              onCancel={hidePrereqList}
+              onConfirm={() => {}}
+            />
+          </div>
         </>
       ) : (
         <></>
@@ -110,7 +109,7 @@ const CreateTaskPage = () => {
           <PrereqField
             fieldName="Prerequisites"
             color={ThemeColors.Red}
-            tasks={t}
+            tasks={prereq}
           />
           <div className={styles.buttonLayout}>
             <InteractiveText
