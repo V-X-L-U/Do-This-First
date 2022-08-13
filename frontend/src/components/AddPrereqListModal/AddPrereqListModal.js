@@ -1,0 +1,56 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
+import styles from "./AddPrereqListModal.module.css";
+import ListView from "../ListView/ListView";
+import PrereqListItem from "../PrereqListItem/PrereqListItem";
+import PageHeader from "../PageHeader/PageHeader";
+import ModalButton from "../ModalButton/ModalButton";
+import { ThemeColors } from "../../ThemeColors";
+import PrereqListView from "../PrereqListView/PrereqListView";
+
+const AddPrereqListModal = ({
+  userTasks,
+  prereqTasks,
+  onCancel,
+  onConfirm,
+}) => {
+  return (
+    <div className={styles.bg}>
+      <PageHeader
+        pageTitle="Select all task to be added"
+        bgColor={"transparent"}
+      />
+
+      <div className={styles.listViewBg}>
+        <PrereqListView userTasks={userTasks} prereqTask={prereqTasks} />
+      </div>
+
+      <div className={styles.buttonLayout}>
+        <ModalButton
+          onClick={onCancel}
+          label="Cancel"
+          isEmphasized={true}
+          bgColor={ThemeColors.White}
+          color={ThemeColors.Red}
+        />
+        <ModalButton
+          onClick={onConfirm}
+          label="Confirm"
+          isEmphasized={true}
+          bgColor={ThemeColors.White}
+          color={ThemeColors.Red}
+        />
+      </div>
+    </div>
+  );
+};
+
+AddPrereqListModal.propTypes = {
+  userTasks: PropTypes.arrayOf(PropTypes.object).isRequired,
+  prereqTasks: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onConfirm: PropTypes.func.isRequired,
+};
+
+export default AddPrereqListModal;
