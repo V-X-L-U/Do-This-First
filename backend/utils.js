@@ -21,4 +21,12 @@ const checkValidObjectIds = (iDList) => {
   return true;
 };
 
-module.exports = { runTxWithResults, checkValidObjectIds };
+const produce500TxErr = (txRes, errMessage, location, err) => {
+  txRes.status = 500;
+  txRes.body = {
+    message: errMessage,
+    server_err: `[${location}] ${err.toString()}`,
+  };
+};
+
+module.exports = { runTxWithResults, checkValidObjectIds, produce500TxErr };
