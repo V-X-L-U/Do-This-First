@@ -44,14 +44,27 @@ const credentials = {
   password: "123456uU",
 };
 
+const newUserCredentials = {
+  email: "ming@gmail.com",
+  password: "132435yY",
+};
+
 let server;
 let userId;
 let jwt;
+let jwt2;
 
 beforeAll(async () => {
   const serverValues = await setupTestServer(credentials);
   server = serverValues.server;
   userId = serverValues.userId;
+
+  await registerUser(newUserCredentials);
+  jwt2 = await loginUser(newUserCredentials);
+});
+
+afterAll(() => {
+  removeUser(newUserCredentials);
 });
 
 describe("Create Task Test Suite", () => {
@@ -168,15 +181,6 @@ describe("Create Task Test Suite", () => {
     jwt = await loginUser(credentials);
     const notOwned = await createCall(jwt, sampleTask);
 
-    // create another user with a task that attempts to use
-    // user 1's task as a prereq
-    const newUserCredentials = {
-      email: "ming@gmail.com",
-      password: "132435yY",
-    };
-    await registerUser(newUserCredentials);
-    const jwt2 = await loginUser(newUserCredentials);
-
     const brokenTask = {
       name: "another broken one",
       description: "the prereq is not owned by this user",
@@ -184,8 +188,6 @@ describe("Create Task Test Suite", () => {
     };
     const res = await createCall(jwt2, brokenTask);
     expectStandardResponse(res, 400, "Some prerequisites do not exist", "");
-
-    await removeUser(newUserCredentials);
   });
 
   it("Failed with invalid prereq id", async () => {

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import PropTypes from "prop-types";
 import { BsTrash } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
@@ -6,8 +5,10 @@ import styles from "./TaskListItem.module.css";
 import { TaskColors } from "../../ThemeColors";
 
 const TaskListItem = ({ taskName, taskStatusColor }) => {
+  // TODO : implement
   const editTask = () => {};
 
+  // TODO : implement
   const deleteTask = () => {};
 
   return (

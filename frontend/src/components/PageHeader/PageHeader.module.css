@@ -9,3 +9,76 @@
   margin: 0em;
   color: #f2efe9;
 }
+
+.hamburgerIcon {
+  height: 1.875rem;
+  width: 1.875rem;
+  background: transparent;
+  color: white;
+}
+
+.hamburgerIcon:hover {
+  color: #969696;
+}
+
+.closeIcon {
+  height: 1.875rem;
+  width: 1.875rem;
+  background: transparent;
+  color: white;
+  padding-top: 0.3em;
+}
+
+.closeIcon:hover {
+  color: #575757;
+}
+
+.hamburgerNavBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 30px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.closeSidebarBtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.navDropdown {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #d9c7c9;
+  z-index: 10;
+  height: 100vh;
+  padding-top: 10px;
+}
+
+.navDropdownItem {
+  background-color: #904e55;
+  color: white;
+  font-weight: 600;
+  font-family: "Inter", sans-serif;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 10px;
+  height: 50px;
+  width: 120px;
+  margin: 5px 10px;
+}
+
+.navDropdownItem:hover {
+  cursor: pointer;
+}
+
+.menuItemContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 0px 30px;
+  margin-bottom: 20px;
+}

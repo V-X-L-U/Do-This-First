@@ -1,3 +1,5 @@
+const ObjectId = require("mongoose").Types.ObjectId;
+
 const runTxWithResults = async (session, closure) => {
   let result;
   await session.withTransaction(() => {
@@ -9,4 +11,14 @@ const runTxWithResults = async (session, closure) => {
   return result;
 };
 
-module.exports = { runTxWithResults };
+const checkValidObjectIds = (iDList) => {
+  for (let i = 0; i < iDList.length; i++) {
+    if (!ObjectId.isValid(iDList[i])) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+module.exports = { runTxWithResults, checkValidObjectIds };
