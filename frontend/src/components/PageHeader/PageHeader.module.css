@@ -56,7 +56,7 @@
   background-color: #d9c7c9;
   z-index: 10;
   height: 100vh;
-  padding-top: 5%;
+  padding-top: 10px;
 }
 
 .navDropdownItem {
