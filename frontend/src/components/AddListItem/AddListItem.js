@@ -3,12 +3,12 @@ import PropTypes from "prop-types";
 import styles from "./AddListItem.module.css";
 import { TaskColors } from "../../ThemeColors";
 
-const AddListItem = ({ taskName, taskStatusColor, check, prereqTask }) => {
-  const onChange = (event) => {
+const AddListItem = ({ taskName, taskStatusColor, isChecked, prereqTasks }) => {
+  const onChange = event => {
     if (event.target.checked) {
-      prereqTask.push(event.target.value);
+      prereqTasks.push(event.target.value);
     } else {
-      prereqTask.splice(prereqTask.indexOf(event.target.value), 1);
+      prereqTasks.splice(prereqTasks.indexOf(event.target.value), 1);
     }
   };
   return (
@@ -16,7 +16,7 @@ const AddListItem = ({ taskName, taskStatusColor, check, prereqTask }) => {
       <input
         value={taskName}
         type="checkbox"
-        defaultChecked={check}
+        defaultChecked={isChecked}
         onChange={onChange}
       />
       <div
@@ -35,8 +35,8 @@ const AddListItem = ({ taskName, taskStatusColor, check, prereqTask }) => {
 AddListItem.propTypes = {
   taskName: PropTypes.string.isRequired,
   taskStatusColor: PropTypes.string.isRequired,
-  check: PropTypes.bool.isRequired,
-  prereqTask: PropTypes.arrayOf(PropTypes.object).isRequired,
+  isChecked: PropTypes.bool.isRequired,
+  prereqTasks: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default AddListItem;

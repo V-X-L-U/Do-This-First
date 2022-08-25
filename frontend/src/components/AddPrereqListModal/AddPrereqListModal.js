@@ -23,7 +23,7 @@ const AddPrereqListModal = ({
       />
 
       <div className={styles.listViewBg}>
-        <PrereqListView userTasks={userTasks} prereqTask={prereqTasks} />
+        <PrereqListView userTasks={userTasks} prereqTasks={prereqTasks} />
       </div>
 
       <div className={styles.buttonLayout}>

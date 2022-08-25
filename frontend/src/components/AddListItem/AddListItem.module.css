@@ -1,7 +1,7 @@
 .addListItem {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin: 10px;
-    gap: 10px;
-  }
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 10px;
+  gap: 10px;
+}

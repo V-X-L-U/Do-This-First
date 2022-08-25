@@ -4,8 +4,8 @@ import PropTypes from "prop-types";
 import { ThemeColors, TaskColors } from "../../ThemeColors";
 import AddListItem from "../AddListItem/AddListItem";
 
-const PrereqListView = ({ userTasks, prereqTask }) => {
-  const convertTaskToInt = (taskToConvert) => {
+const PrereqListView = ({ userTasks, prereqTasks }) => {
+  const convertTaskToInt = taskToConvert => {
     if (taskToConvert.task_done && taskToConvert.prereqs_done) {
       return 0;
     } else if (!taskToConvert.task_done && !taskToConvert.prereqs_done) {
@@ -21,8 +21,8 @@ const PrereqListView = ({ userTasks, prereqTask }) => {
 
   const prereqStrings = [];
 
-  for (const i in prereqTask) {
-    prereqStrings.push(prereqTask[i]._id);
+  for (const i in prereqTasks) {
+    prereqStrings.push(prereqTasks[i]._id);
   }
 
   const listItems = userTasks.map(function (task, ix) {
@@ -41,8 +41,8 @@ const PrereqListView = ({ userTasks, prereqTask }) => {
         <AddListItem
           taskName={task.name}
           taskStatusColor={taskColor}
-          check={containsPrereq()}
-          prereqTask={prereqTask}
+          isChecked={containsPrereq()}
+          prereqTasks={prereqTasks}
         />
       </li>
     );
@@ -53,7 +53,7 @@ const PrereqListView = ({ userTasks, prereqTask }) => {
 
 PrereqListView.propTypes = {
   userTasks: PropTypes.arrayOf(PropTypes.object).isRequired,
-  prereqTask: PropTypes.arrayOf(PropTypes.object).isRequired,
+  prereqTasks: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default PrereqListView;

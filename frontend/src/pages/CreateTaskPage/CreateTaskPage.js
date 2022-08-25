@@ -10,12 +10,7 @@ import AddPrereqListModal from "../../components/AddPrereqListModal/AddPrereqLis
 
 const CreateTaskPage = () => {
   const [showPrereqList, setShowPrereqList] = useState(false);
-
-  // TODO : link this fn
-  const hidePrereqList = () => {
-    setShowPrereqList(false);
-  };
-  const prereq = [
+  const [prereqs, setPrereqs] = useState([
     {
       _id: "62ae9c508a6a011402317e82",
       user_id: "629bca3c45785085a2b31af0",
@@ -28,9 +23,8 @@ const CreateTaskPage = () => {
       updatedAt: "2022-06-19T03:47:28.751Z",
       __v: 0,
     },
-  ];
-
-  const t = [
+  ]);
+  const [allUserTasks, setAllUserTasks] = useState([
     {
       _id: "62ae9c508a6a011402317e82",
       user_id: "629bca3c45785085a2b31af0",
@@ -67,7 +61,11 @@ const CreateTaskPage = () => {
       updatedAt: "2022-06-19T03:49:49.594Z",
       __v: 0,
     },
-  ];
+  ]);
+
+  const hidePrereqList = () => {
+    setShowPrereqList(false);
+  };
 
   return (
     <div className={styles.bg}>
@@ -76,8 +74,8 @@ const CreateTaskPage = () => {
           <div>
             <div className={styles.preventClick} />
             <AddPrereqListModal
-              userTasks={t}
-              prereqTasks={prereq}
+              userTasks={allUserTasks}
+              prereqTasks={prereqs}
               onCancel={hidePrereqList}
               onConfirm={() => {}}
             />
@@ -110,7 +108,7 @@ const CreateTaskPage = () => {
           <PrereqField
             fieldName="Prerequisites"
             color={ThemeColors.Red}
-            tasks={prereq}
+            tasks={prereqs}
           />
           <div className={styles.buttonLayout}>
             <InteractiveText
