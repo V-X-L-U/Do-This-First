@@ -1,0 +1,15 @@
+.listView {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    overflow-y: auto;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .ListItem {
+    list-style-type: none;
+    height: 50px;
+    width: 100%;
+  }
+  
