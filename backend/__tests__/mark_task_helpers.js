@@ -113,6 +113,17 @@ const assertStriked = async (taskData) => {
   expect(taskToAssert.task_done).toEqual(true);
 };
 
+const assertTaskEdges = async (taskData, prereqs, dependents) => {
+  const taskToAssert = await getTaskById(taskData);
+  assertContainSameElements(taskToAssert.prereqs, prereqs);
+  assertContainSameElements(taskToAssert.dependents, dependents);
+};
+
+const assertContainSameElements = (l1, l2) => {
+  expect(l1).toEqual(expect.arrayContaining(l2));
+  expect(l2).toEqual(expect.arrayContaining(l1));
+};
+
 module.exports = {
   createTask,
   twoTaskSetup,
@@ -122,4 +133,5 @@ module.exports = {
   assertGrey,
   assertRed,
   assertStriked,
+  assertTaskEdges,
 };
