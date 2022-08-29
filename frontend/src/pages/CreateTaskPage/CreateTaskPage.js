@@ -78,6 +78,7 @@ const CreateTaskPage = () => {
               prereqTasks={prereqs}
               onCancel={hidePrereqList}
               onConfirm={() => {}}
+              onPrereqsChange={setPrereqs}
             />
           </div>
         </>

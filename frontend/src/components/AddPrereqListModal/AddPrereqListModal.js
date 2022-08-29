@@ -14,6 +14,7 @@ const AddPrereqListModal = ({
   prereqTasks,
   onCancel,
   onConfirm,
+  onPrereqsChange,
 }) => {
   return (
     <div className={styles.bg}>
@@ -23,7 +24,11 @@ const AddPrereqListModal = ({
       />
 
       <div className={styles.listViewBg}>
-        <PrereqListView userTasks={userTasks} prereqTasks={prereqTasks} />
+        <PrereqListView
+          userTasks={userTasks}
+          prereqTasks={prereqTasks}
+          onPrereqsChange={onPrereqsChange}
+        />
       </div>
 
       <div className={styles.buttonLayout}>
@@ -51,6 +56,7 @@ AddPrereqListModal.propTypes = {
   prereqTasks: PropTypes.arrayOf(PropTypes.object).isRequired,
   onCancel: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
+  onPrereqsChange: PropTypes.func.isRequired,
 };
 
 export default AddPrereqListModal;

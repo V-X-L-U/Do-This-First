@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { ThemeColors, TaskColors } from "../../ThemeColors";
 import AddListItem from "../AddListItem/AddListItem";
 
-const PrereqListView = ({ userTasks, prereqTasks }) => {
+const PrereqListView = ({ userTasks, prereqTasks, onPrereqsChange }) => {
   const convertTaskToInt = taskToConvert => {
     if (taskToConvert.task_done && taskToConvert.prereqs_done) {
       return 0;
@@ -43,6 +43,7 @@ const PrereqListView = ({ userTasks, prereqTasks }) => {
           taskStatusColor={taskColor}
           isChecked={containsPrereq()}
           prereqTasks={prereqTasks}
+          onPrereqsChange={onPrereqsChange}
         />
       </li>
     );
@@ -54,6 +55,7 @@ const PrereqListView = ({ userTasks, prereqTasks }) => {
 PrereqListView.propTypes = {
   userTasks: PropTypes.arrayOf(PropTypes.object).isRequired,
   prereqTasks: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onPrereqsChange: PropTypes.func.isRequired,
 };
 
 export default PrereqListView;
