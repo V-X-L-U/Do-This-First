@@ -80,4 +80,17 @@ describe("Task Delete Test Suite", () => {
     await assertRed(dep1);
     await assertTaskEdges(dep1, [], []);
   });
+
+  it("Delete root from three tasks", async () => {
+    const [root, dep1, dep2] = await threeTaskSetup(jwt);
+
+    const res1 =  await deleteCall(root);
+    expectStandardResponse(res1, 200, "Successfully deleted task", "");
+
+    await assertRed(dep1);
+    await assertGrey(dep2);
+
+    assertTaskEdges(dep1, [], [dep2._id]);
+    assertTaskEdges(dep2, [dep1._id], []);
+  });
 });

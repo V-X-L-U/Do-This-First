@@ -1,5 +1,6 @@
 const request = require("supertest");
 const { app } = require("../server");
+const { oidToString } = require("./test_helpers");
 const mongoose = require("mongoose");
 
 const Task = require("../models/taskModel");
@@ -115,13 +116,12 @@ const assertStriked = async (taskData) => {
 
 const assertTaskEdges = async (taskData, prereqs, dependents) => {
   const taskToAssert = await getTaskById(taskData);
-  assertContainSameElements(taskToAssert.prereqs, prereqs);
-  assertContainSameElements(taskToAssert.dependents, dependents);
+  assertContainSameElements(oidToString(taskToAssert.prereqs), prereqs);
+  assertContainSameElements(oidToString(taskToAssert.dependents), dependents);
 };
 
 const assertContainSameElements = (l1, l2) => {
-  expect(l1).toEqual(expect.arrayContaining(l2));
-  expect(l2).toEqual(expect.arrayContaining(l1));
+  expect(l1.sort()).toEqual(l2.sort());
 };
 
 module.exports = {
