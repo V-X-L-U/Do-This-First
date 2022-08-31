@@ -13,6 +13,7 @@ const {
   assertRed,
   assertStriked,
   assertTaskEdges,
+  assertDeleted,
 } = require("./mark_task_helpers");
 
 const {
@@ -67,6 +68,14 @@ describe("Task Delete Test Suite", () => {
     await Task.deleteMany({});
   });
 
+  const markDoneRoute = (taskId) => `/api/tasks/markDone/${taskId}`;
+  const markDoneCall = (taskData) => {
+    return request(app)
+      .put(markDoneRoute(taskData._id))
+      .set("cookie", jwt)
+      .send({});
+  };
+
   const deleteRoute = (taskId) => `/api/tasks/delete/${taskId}`;
   const deleteCall = (taskData) =>
     request(app).delete(deleteRoute(taskData._id)).set("cookie", jwt).send({});
@@ -76,6 +85,7 @@ describe("Task Delete Test Suite", () => {
 
     const res1 = await deleteCall(root);
     expectStandardResponse(res1, 200, "Successfully deleted task", "");
+    await assertDeleted(root);
 
     await assertRed(dep1);
     await assertTaskEdges(dep1, [], []);
@@ -86,11 +96,40 @@ describe("Task Delete Test Suite", () => {
 
     const res1 =  await deleteCall(root);
     expectStandardResponse(res1, 200, "Successfully deleted task", "");
+    await assertDeleted(root);
 
     await assertRed(dep1);
     await assertGrey(dep2);
 
-    assertTaskEdges(dep1, [], [dep2._id]);
-    assertTaskEdges(dep2, [dep1._id], []);
+    await assertTaskEdges(dep1, [], [dep2._id]);
+    await assertTaskEdges(dep2, [dep1._id], []);
+  });
+
+  it("Multiple delete", async () => {
+    const [root, dep1, dep2] = await threeTaskSetup(jwt);
+
+    const res1 = await markDoneCall(root);
+    expectStandardResponse(res1, 200, "Successfully marked task done", "");
+
+    const res2 = await markDoneCall(dep1);
+    expectStandardResponse(res2, 200, "Successfully marked task done", "");
+
+    const res3 = await deleteCall(root);
+    expectStandardResponse(res3, 200, "Successfully deleted task", "");
+    await assertDeleted(root);
+
+    await assertStriked(dep1);
+    await assertRed(dep2);
+
+    await assertTaskEdges(dep1, [], [dep2._id]);
+    await assertTaskEdges(dep2, [dep1._id], []);
+
+    const res4 = await deleteCall(dep1);
+    expectStandardResponse(res4, 200, "Successfully deleted task", "");
+    await assertDeleted(dep1);
+
+    await assertRed(dep2);
+
+    await assertTaskEdges(dep2, [], []);
   });
 });

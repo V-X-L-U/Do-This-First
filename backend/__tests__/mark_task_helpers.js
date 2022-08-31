@@ -124,6 +124,11 @@ const assertContainSameElements = (l1, l2) => {
   expect(l1.sort()).toEqual(l2.sort());
 };
 
+const assertDeleted = async (taskData) => {
+  const task = await getTaskById(taskData);
+  expect(task).toBe(null);
+};
+
 module.exports = {
   createTask,
   twoTaskSetup,
@@ -134,4 +139,5 @@ module.exports = {
   assertRed,
   assertStriked,
   assertTaskEdges,
+  assertDeleted,
 };
