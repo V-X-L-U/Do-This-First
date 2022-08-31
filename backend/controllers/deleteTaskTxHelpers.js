@@ -1,6 +1,11 @@
 const Task = require("../models/taskModel");
 const TxError = require("./txError");
-const { produce500TxErr } = require("../utils");
+const { produce500TxErr, checkValidObjectIds } = require("../utils");
+
+const produceNoTaskDeletedErr = (txRes) => {
+  txRes.status = 400;
+  txRes.body = { message: "No task was deleted", server_err: "" };
+};
 
 // Return <True> iff. the transaction should abort as no task was deletd.
 const deleteTaskDoc = async (session, txRes, taskId, userId) => {
@@ -11,8 +16,7 @@ const deleteTaskDoc = async (session, txRes, taskId, userId) => {
     }).session(session);
 
     if (deleteRes.deletedCount === 0) {
-      txRes.status = 400;
-      txRes.body = { message: "No task was deleted", server_err: "" };
+      produceNoTaskDeletedErr(txRes);
 
       return true;
     }
@@ -28,14 +32,19 @@ const deleteTaskDoc = async (session, txRes, taskId, userId) => {
 // If task was not found, return null.
 const getDependentsList = async (session, txRes, taskId, userId) => {
   try {
+    if (!checkValidObjectIds([taskId])) {
+      produceNoTaskDeletedErr(txRes);
+      txRes.body.server_err = "Invalid ObjectId";
+      return null;
+    }
+
     const retrieveRes = await Task.findOne({
       _id: taskId,
       user_id: userId,
     }).session(session);
 
     if (!retrieveRes) {
-      txRes.status = 400;
-      txRes.body = { message: "No task was deleted", server_err: "" };
+      produceNoTaskDeletedErr(txRes);
 
       return null;
     }

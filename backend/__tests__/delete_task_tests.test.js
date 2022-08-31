@@ -94,7 +94,7 @@ describe("Task Delete Test Suite", () => {
   it("Delete root from three tasks", async () => {
     const [root, dep1, dep2] = await threeTaskSetup(jwt);
 
-    const res1 =  await deleteCall(root);
+    const res1 = await deleteCall(root);
     expectStandardResponse(res1, 200, "Successfully deleted task", "");
     await assertDeleted(root);
 
@@ -142,5 +142,17 @@ describe("Task Delete Test Suite", () => {
 
     const res2 = await deleteCall(root);
     expectStandardResponse(res2, 400, "No task was deleted", "");
+  });
+
+  it("Attempt to delete task with invalidId", async () => {
+    const invalidIdTask = { _id: "alsdkjf" };
+
+    const res1 = await deleteCall(invalidIdTask);
+    expectStandardResponse(
+      res1,
+      400,
+      "No task was deleted",
+      "Invalid ObjectId"
+    );
   });
 });
