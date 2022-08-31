@@ -132,4 +132,15 @@ describe("Task Delete Test Suite", () => {
 
     await assertTaskEdges(dep2, [], []);
   });
+
+  it("Attempt to double-delete a task", async () => {
+    const [root, dep1] = await twoTaskSetup(jwt);
+
+    const res1 = await deleteCall(root);
+    expectStandardResponse(res1, 200, "Successfully deleted task", "");
+    await assertDeleted(root);
+
+    const res2 = await deleteCall(root);
+    expectStandardResponse(res2, 400, "No task was deleted", "");
+  });
 });
