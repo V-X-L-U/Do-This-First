@@ -4,14 +4,17 @@ const {
   disconnectDependentEdges,
   taskDeleteUpdateDirects,
 } = require("./deleteTaskTxHelpers");
+const {produce500TxErr} = require("../utils");
 const asyncHandler = require("express-async-handler");
 const Task = require("../models/taskModel");
+const mongoose = require("mongoose");
+const TxError = require("./txError");
 
 // Run a transaction to delete the task specified by <taskId> and <userId>.
 const deleteTaskTx = (txRes, taskId, userId) => {
   return mongoose.connection.transaction(async (session) => {
     // Retrieve dependents list
-    const dependentsList = getDependentsList(session, txRes, taskId, userId);
+    const dependentsList = await getDependentsList(session, txRes, taskId, userId);
     if (dependentsList === null) throw new TxError("Task not found");
 
     // Delete the task document
@@ -37,6 +40,9 @@ const deleteTaskTx = (txRes, taskId, userId) => {
 
     txRes.status = 200;
     txRes.body = { message: "Successfully deleted task", server_err: "" };
+  }).catch(err => {
+    if (err.name !== "TxError")
+      produce500TxErr(txRes, "Error deleting task", "tx", err);
   });
 };
 

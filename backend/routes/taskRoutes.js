@@ -2,7 +2,7 @@ const express = require("express");
 const { markTaskDone } = require("../controllers/markTaskController");
 const { createTask, getAllTasks } = require("../controllers/taskController");
 const { authenticateUser } = require("../middlewares/authenticateUser");
-const { deleteTask } = require("../middlewares/deleteTaskController");
+const { deleteTask } = require("../controllers/deleteTaskController");
 
 const router = express.Router();
 

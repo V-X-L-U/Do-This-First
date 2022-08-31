@@ -1,4 +1,5 @@
 const Task = require("../models/taskModel");
+const TxError = require("./txError");
 const { produce500TxErr } = require("../utils");
 
 // Return <True> iff. the transaction should abort as no task was deletd.
@@ -8,15 +9,15 @@ const deleteTaskDoc = async (session, txRes, taskId, userId) => {
       _id: taskId,
       user_id: userId,
     }).session(session);
+
+    if (deleteRes.deletedCount === 0) {
+      txRes.status = 400;
+      txRes.body = { message: "No task was deleted", server_err: "" };
+
+      return true;
+    }
   } catch (err) {
     produce500TxErr(txRes, "Error deleting task", "delete task doc", err);
-    return true;
-  }
-
-  if (deleteRes.deletedCount === 0) {
-    txRes.status = 400;
-    txRes.body = { message: "No task was deleted", server_err: "" };
-
     return true;
   }
 
@@ -31,19 +32,19 @@ const getDependentsList = async (session, txRes, taskId, userId) => {
       _id: taskId,
       user_id: userId,
     }).session(session);
+
+    if (!retrieveRes) {
+      txRes.status = 400;
+      txRes.body = { message: "No task was deleted", server_err: "" };
+
+      return null;
+    }
+
+    return retrieveRes.dependents;
   } catch (err) {
     produce500TxErr(txRes, "Error deleting task", "get deps", err);
     return null;
   }
-
-  if (!retrieveRes) {
-    txRes.status = 400;
-    txRes.body = { message: "No task was deleted", server_err: "" };
-
-    return null;
-  }
-
-  return retrieveRes.dependents;
 };
 
 // Remove the task id of the deleted task from the prerequisite list of every
