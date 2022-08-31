@@ -12,6 +12,7 @@ const {
   assertGrey,
   assertRed,
   assertStriked,
+  assertTaskEdges,
 } = require("./mark_task_helpers");
 
 const {
