@@ -1,7 +1,7 @@
 import { logoutUserHandler } from "./PageHeaderLogic";
 import { useNavigate } from "react-router-dom";
 import { FiMenu } from "react-icons/fi";
-import { BsChevronLeft } from "react-icons/bs";
+import { MdClose } from "react-icons/md";
 import { useState } from "react";
 import styles from "./PageHeader.module.css";
 import PropTypes from "prop-types";
@@ -23,7 +23,7 @@ const Sidebar = ({ onClose }) => {
 
   return (
     <div className={styles.navDropdown}>
-      <NavButton isShowingDropdown={true} onClick={onClose} />
+      <CloseSidebarButton onClick={onClose} />
       <div className={styles.menuItemContainer}>
         <SidebarItem label={"TODO"} action={() => navigate("/tasks")} />
         <SidebarItem label={"Create Task"} action={() => navigate("/create")} />
@@ -33,14 +33,18 @@ const Sidebar = ({ onClose }) => {
   );
 };
 
-const NavButton = ({ isShowingDropdown, onClick }) => {
+const CloseSidebarButton = ({ onClick }) => {
   return (
-    <button className={styles.navButton} onClick={onClick}>
-      {!isShowingDropdown ? (
-        <FiMenu className={styles.hamburgerIcon} />
-      ) : (
-        <BsChevronLeft className={styles.closeIcon} />
-      )}
+    <button className={styles.closeSidebarBtn} onClick={onClick}>
+      <MdClose className={styles.closeIcon} />
+    </button>
+  );
+};
+
+const HamburgerNavButton = ({ onClick }) => {
+  return (
+    <button className={styles.hamburgerNavBtn} onClick={onClick}>
+      <FiMenu className={styles.hamburgerIcon} />
     </button>
   );
 };
@@ -55,10 +59,7 @@ const PageHeader = ({ pageTitle, bgColor, trailingComp, showNav }) => {
       }}
     >
       {showNav ? (
-        <NavButton
-          isShowingDropdown={false}
-          onClick={() => setShowNavDropdown(true)}
-        />
+        <HamburgerNavButton onClick={() => setShowNavDropdown(true)} />
       ) : (
         <></>
       )}
@@ -82,8 +83,11 @@ Sidebar.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-NavButton.propTypes = {
-  isShowingDropdown: PropTypes.bool.isRequired,
+CloseSidebarButton.propTypes = {
+  onClick: PropTypes.func.isRequired,
+};
+
+HamburgerNavButton.propTypes = {
   onClick: PropTypes.func.isRequired,
 };
 
