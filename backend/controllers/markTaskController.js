@@ -72,7 +72,6 @@ const markTaskDone = asyncHandler(async (req, res) => {
     });
 
   res.status(txRes.status).json(txRes.body);
-  await session.endSession();
 });
 
 module.exports = { markTaskDone };
