@@ -76,8 +76,7 @@ const CreateTaskPage = () => {
             <AddPrereqListModal
               userTasks={allUserTasks}
               prereqTasks={prereqs}
-              onCancel={hidePrereqList}
-              onConfirm={() => {}}
+              onClose={hidePrereqList}
               onPrereqsChange={setPrereqs}
             />
           </div>

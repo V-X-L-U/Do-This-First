@@ -12,8 +12,7 @@ import PrereqListView from "../PrereqListView/PrereqListView";
 const AddPrereqListModal = ({
   userTasks,
   prereqTasks,
-  onCancel,
-  onConfirm,
+  onClose,
   onPrereqsChange,
 }) => {
   return (
@@ -33,15 +32,8 @@ const AddPrereqListModal = ({
 
       <div className={styles.buttonLayout}>
         <ModalButton
-          onClick={onCancel}
-          label="Cancel"
-          isEmphasized={true}
-          bgColor={ThemeColors.White}
-          color={ThemeColors.Red}
-        />
-        <ModalButton
-          onClick={onConfirm}
-          label="Confirm"
+          onClick={onClose}
+          label="Close"
           isEmphasized={true}
           bgColor={ThemeColors.White}
           color={ThemeColors.Red}
@@ -54,8 +46,7 @@ const AddPrereqListModal = ({
 AddPrereqListModal.propTypes = {
   userTasks: PropTypes.arrayOf(PropTypes.object).isRequired,
   prereqTasks: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onCancel: PropTypes.func.isRequired,
-  onConfirm: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
   onPrereqsChange: PropTypes.func.isRequired,
 };
 

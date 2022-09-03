@@ -28,7 +28,7 @@ const TaskListPage = () => {
         showNav={true}
         pageTitle="TODO"
         bgColor={ThemeColors.Red}
-        trailingComp={<AddTaskButton />}
+        trailingComp={<AddTaskButton onAdd={() => {}} />}
       />
     </div>
   );
