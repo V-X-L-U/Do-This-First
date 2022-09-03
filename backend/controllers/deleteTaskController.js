@@ -39,8 +39,6 @@ const deleteTaskTx = (txRes, taskId, userId) => {
       )
         throw new TxError("Failed to disconnect edges");
 
-      // Update dependent
-      //   - Update `prereqs_done` if not `prereqs_done`
       if (await taskDeleteUpdateDirects(session, txRes, dependentsList, userId))
         throw new TxError("Failed to update direct dependents");
 

@@ -7,7 +7,7 @@ const produceNoTaskDeletedErr = (txRes) => {
   txRes.body = { message: "No task was deleted", server_err: "" };
 };
 
-// Return <True> iff. the transaction should abort as no task was deletd.
+// Return <True> iff. the transaction should abort as no task was deleted.
 const deleteTaskDoc = async (session, txRes, taskId, userId) => {
   try {
     const deleteRes = await Task.deleteOne({
@@ -91,6 +91,7 @@ const taskDeleteUpdateDirects = async (session, txRes, depsIdList, userId) => {
     }).session(session);
 
     const updateDepPromises = depTasks.map(async (taskDoc) => {
+      // See proof of correctness.
       if (taskDoc.prereqs_done) return;
 
       const prereqDocs = await Task.find({
