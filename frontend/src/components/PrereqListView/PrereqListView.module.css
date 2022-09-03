@@ -1,14 +1,17 @@
-.listView {
+.prereqListView {
   display: flex;
-  justify-content: flex-start;
+  justify-content: start;
   flex-direction: column;
   overflow-y: auto;
-  width: 100%;
+  width: 95%;
   height: 100%;
 }
 
 .listItem {
   list-style-type: none;
   height: 50px;
+  padding-left: 5px;
+  padding-top: 5px;
   width: 100%;
+  box-sizing: border-box;
 }

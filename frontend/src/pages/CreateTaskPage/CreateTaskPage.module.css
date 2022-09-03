@@ -31,3 +31,14 @@
   overflow-y: auto;
   overflow-x: hidden;
 }
+
+.preventClick {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: white;
+  opacity: 0.5;
+  z-index: 5;
+}
