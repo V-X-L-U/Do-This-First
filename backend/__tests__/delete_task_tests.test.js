@@ -155,4 +155,26 @@ describe("Task Delete Test Suite", () => {
       "Invalid ObjectId"
     );
   });
+
+  it("Delete failed with non-existent task", async () => {
+    const randomObjectId = "507f191e810c19729de860ea";
+
+    const res1 = await request(app)
+      .delete(deleteRoute(randomObjectId))
+      .set("cookie", jwt)
+      .send({});
+
+    expectStandardResponse(res1, 400, "No task was deleted", "");
+  });
+
+  it("Delete failed with task that user doesn't own", async () => {
+    const [notOwned, _] = await twoTaskSetup(otherJwt); // doesn't belong to main test user
+
+    const res1 = await request(app)
+      .delete(deleteRoute(notOwned._id))
+      .set("cookie", jwt)
+      .send({});
+
+    expectStandardResponse(res1, 400, "No task was deleted", "");
+  });
 });
