@@ -39,10 +39,11 @@ const PrereqListView = ({ userTasks, prereqTasks, onPrereqsChange }) => {
     return (
       <li key={ix} className={styles.listItem}>
         <AddListItem
-          taskName={task.name}
+          taskData={task}
           taskStatusColor={taskColor}
           isChecked={containsPrereq()}
           prereqTasks={prereqTasks}
+          userTasks={userTasks}
           onPrereqsChange={onPrereqsChange}
         />
       </li>

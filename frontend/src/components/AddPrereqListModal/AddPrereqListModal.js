@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import styles from "./AddPrereqListModal.module.css";
 import ListView from "../ListView/ListView";
-import PrereqListItem from "../PrereqListItem/PrereqListItem";
 import PageHeader from "../PageHeader/PageHeader";
 import ModalButton from "../ModalButton/ModalButton";
 import { ThemeColors } from "../../ThemeColors";

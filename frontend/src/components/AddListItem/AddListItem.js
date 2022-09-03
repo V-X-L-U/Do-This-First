@@ -4,19 +4,23 @@ import styles from "./AddListItem.module.css";
 import { TaskColors } from "../../ThemeColors";
 
 const AddListItem = ({
-  taskName,
+  taskData,
   taskStatusColor,
   isChecked,
   prereqTasks,
+  userTasks,
   onPrereqsChange,
 }) => {
-  const onChange = event => {
+  const findTaskById = taskId => userTasks.find(task => task._id === taskId);
+
+  const onClick = event => {
     const prereqTasks_ = [...prereqTasks];
 
+    const clickedTask = findTaskById(event.target.value);
     if (event.target.checked) {
-      prereqTasks_.push(event.target.value);
+      prereqTasks_.push(clickedTask);
     } else {
-      prereqTasks_.splice(prereqTasks_.indexOf(event.target.value), 1);
+      prereqTasks_.splice(prereqTasks_.indexOf(clickedTask), 1);
     }
 
     onPrereqsChange(prereqTasks_);
@@ -25,10 +29,10 @@ const AddListItem = ({
   return (
     <div className={styles.addListItem}>
       <input
-        value={taskName}
+        value={taskData._id}
         type="checkbox"
         defaultChecked={isChecked}
-        onChange={onChange}
+        onClick={onClick}
       />
       <div
         style={{
@@ -37,17 +41,18 @@ const AddListItem = ({
             taskStatusColor === TaskColors.Finished ? "line-through" : "none",
         }}
       >
-        {taskName}
+        {taskData.name}
       </div>
     </div>
   );
 };
 
 AddListItem.propTypes = {
-  taskName: PropTypes.string.isRequired,
+  taskData: PropTypes.object.isRequired,
   taskStatusColor: PropTypes.string.isRequired,
   isChecked: PropTypes.bool.isRequired,
   prereqTasks: PropTypes.arrayOf(PropTypes.object).isRequired,
+  userTasks: PropTypes.arrayOf(PropTypes.object).isRequired,
   onPrereqsChange: PropTypes.func.isRequired,
 };
 
