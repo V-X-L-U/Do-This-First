@@ -75,7 +75,7 @@ const LoginPage = () => {
             fieldName="Email"
             color={ThemeColors.Red}
             hidden={false}
-            multiline={true}
+            multiline={false}
             onChange={e => {
               setUpdatedFormData("email", e);
               setErrorMessage("");
@@ -85,6 +85,7 @@ const LoginPage = () => {
             fieldName="Password"
             color={ThemeColors.Red}
             hidden={true}
+            multiline={false}
             onChange={e => {
               setUpdatedFormData("password", e);
               setErrorMessage("");
